@@ -3,7 +3,7 @@ const router = express.Router();
 
 const pool = require('../db');
 
-/* PARA ABRIR LAS PÁGINAS */
+/* to open windows */
 router.get('/loginU', (req, res) => {
     res.render('login/loginU');
 });
@@ -20,7 +20,11 @@ router.get('/signupV', (req, res) => {
     res.render('login/signupV');
 });
 
-/* obtener datos de formulario */
+router.get('/recoverC', (req, res) => {
+    res.render('login/recoverC');
+});
+
+/* get form */
 router.post('/signupC', (req, res) => {
 
 })

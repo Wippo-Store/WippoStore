@@ -1,8 +1,14 @@
-<!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="#">
-            <img src="img/logo.png" width="80" height="70" alt="">
+        <a class="navbar-brand" href="/users/principalC">
+            <div class="row">
+                <div class="col align-self-center col-lg-5">
+                    <img src="/images/logo1.png" width="95" height="70" alt="">
+                </div>
+                <div class="col align-self-center">
+                    <p class="fw-bold fs-4">WIPPO</p>
+                </div>
+            </div>
         </a>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mx-auto">
@@ -10,8 +16,8 @@
                     <form class="d-flex form-inline">
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">
-                    <i width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" ></i>
-                </span>
+          <i fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" ></i>
+      </span>
                             <input class="form-control mr-sm-2" type="search" placeholder="Buscar producto" aria-label="Search" aria-describedby="basic-addon1">
                         </div>
 
@@ -19,19 +25,17 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Categorías
-            </a>
+    Categorías
+  </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Calzado</a>
-                        <a class="dropdown-item" href="#">Electrónicos</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Juguetes</a>
+                        <a class="dropdown-item" href="/products/category">Ropa</a>
+                        <a class="dropdown-item" href="/products/category">Electrónicos</a>
                     </div>
                 </li>
                 <li>
                 </li>
             </ul>
-            <p class="pt-4 fw-bold">Hola, Username</p>
+            <p class="pt-4 fw-bold">Hola, *nombre*</p>
             <button class="btn "><i class="bi bi-cart-plus size" ></i></button>
             <div class="widget dropdown d-inline-block ">
                 <a href="#" class="text-dark icontext mr-4 dropdown-toggle nav-link " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,8 +43,7 @@
                 </a>
                 <!-- iconbox // -->
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Mi perfil</a>
-                    <a class="dropdown-item" href="#">Settings</a>
+                    <a class="dropdown-item" href="/users/profileC">Mi perfil</a>
                     <a class="dropdown-item" href="#">Cerrar Sesión</a>
                 </div>
 
@@ -48,4 +51,3 @@
         </div>
     </div>
 </nav>
-<!-- NAVBAR -->

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet " href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>WippoStore</title>
+</head>
+
+<body>
+    <header class="sticky-top ">
+        <%- include("../layouts/header1") %>
+    </header>
+
+    <!--Section: Products-->
+    <div class="d-flex justify-content-center p-5">
+        <section class="text-center mb-4 ">
+            <!--Grid row to electronic-->
+            <div class="row wow fadeIn">
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4 ">
+                    <!--Card-->
+                    <div class="card h-100 products ">
+                        <div class=" h-100  ">
+                            <img src="/images/cel1.jpg" class="card-img-top p-2" alt="">
+                        </div>
+                        <!--Card content-->
+                        <div class="card-body text-center">
+                            <!--Category & Title-->
+                            <a href="" class="navbar-brand mb-0 h1 ">
+                                <h5 class="text-dark">SAMSUNG Galaxy A51</h5>
+                                <strong class="text-dark">$250</strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Grid row-->
+
+            <!--Grid row to clothes-->
+            <div class="row wow fadeIn">
+                <!--Grid column-->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <!--Card-->
+                    <div class="card products h-100">
+                        <!--Card image-->
+                        <div class="view overlay h-100">
+                            <img src="/images/tshirt1.jpg" class="card-img-top" alt="">
+                        </div>
+                        <!--Card content-->
+                        <div class="card-body text-center">
+                            <a href="" class="navbar-brand mb-0 h1 ">
+                                <h5 class="text-dark">Playera Develop</h5>
+                                <strong class="text-dark">$250</strong>
+                            </a>
+                        </div>
+                        <!--Card content-->
+                    </div>
+                    <!--Card-->
+                </div>
+                <!--Grid column-->
+            </div>
+            <!--Grid row-->
+
+        </section>
+    </div>
+    <!--Section: Products -->
+
+    <footer>
+        <%- include("../layouts/footer") %>
+    </footer>
+</body>
+
+</html>
