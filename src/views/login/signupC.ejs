@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet " href="css/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="/javascripts/animations.js" crossorigin="anonymous"></script>
+    <title>RegistrarseComprador</title>
+</head>
+
+<body>
+    <div class="m-4 mx-auto border-light" style="width: 60%;">
+        <div class="card">
+            <article class="card-body">
+                <header class="mb-2">
+                    <div class="d-flex justify-content-center"><img src="/images/logo1.png " width="140" height="100" alt=""></div>
+                    <div class="d-flex justify-content-center">
+                        <h4 class="card-title mb-4">Registro Comprador</h4>
+                    </div>
+                </header>
+                <form method="POST" class=" needs-validation" novalidate>
+                    <!--Nombre completo-->
+                    <div class="row g-3">
+                        <div class="col-md-4 form-group">
+                            <label>Nombre</label>
+                            <input type="text" class="form-control" name="name">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <label>Apellido Paterno</label>
+                            <input type="text" class="form-control" name="lnamep">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <label>Apellido Materno</label>
+                            <input type="text" class="form-control" name="lnamem">
+                        </div>
+                        <!-- form-group end.// -->
+                    </div>
+                    <!-- Correo -->
+                    <div class="form-group form-row">
+                        <label class="col-md-3 col-form-label">Email</label>
+                        <div class="col">
+                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="email">
+                        </div>
+                    </div>
+                    <!-- Direccion -->
+                    <div class="row g-3">
+                        <div class="col-md-4 form-group">
+                            <label>Direccion</label>
+                            <input type="text" class="form-control" placeholder="Calle" name="street">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <label></label>
+                            <input type="number" min="0" class="form-control" placeholder="No. Ext" name="noext">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <label></label>
+                            <input type="number" min="0" class="form-control" placeholder="No. Int" name="noint">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input type="text" class="form-control" placeholder="Colonia" name="col">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input type="text" class="form-control" placeholder="Municipio/Alcaldía" name="munalc">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input type="text" class="form-control" placeholder="Estado" name="state">
+                        </div>
+                        <!-- form-group end.// -->
+                    </div>
+                    <!--Contraseña-->
+                    <div class="row g-3">
+                        <div class="col-md-6 form-group">
+                            <label>Contraseña</label>
+                            <input type="password" class="form-control" placeholder="" name="pass">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-6 form-group">
+                            <label>Confirmar contraseña</label>
+                            <input type="password" class="form-control" placeholder="" name="passr">
+                        </div>
+                        <!-- form-group end.// -->
+                    </div>
+
+                    <div class="form-group form-row">
+                        <div class="col-sm-9 ">
+                            <label class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked> 
+                    Estoy de acuerdo con los <a href="#" target="_blank">términos y condiciones</a>
+                    </label>
+
+                        </div>
+                    </div>
+                    <div class="form-group p-3 d-flex justify-content-end">
+                        <button class="btn btn-outline-dark" name="btnR">Registrarse</button>
+                    </div>
+                    <!-- form-group// -->
+                </form>
+            </article>
+            <!-- card-body end .// -->
+            <div class="card-footer text-center">¿Tienes una cuenta? <a href="./loginU">Inicia sesión</a></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
