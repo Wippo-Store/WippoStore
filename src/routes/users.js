@@ -26,4 +26,12 @@ router.get('/addDirectionC', (req, res) => {
 router.get('/addCardC', (req, res) => {
     res.render('userC/addCardC');
 });
+/* GET users listing. */
+router.get('/principalV', (req, res) => {
+    res.render('userV/principal');
+});
+
+router.get('/profileV', (req, res) => {
+    res.render('userV/profile');
+});
 module.exports = router;

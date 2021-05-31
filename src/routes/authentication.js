@@ -8,6 +8,11 @@ router.get('/loginU', (req, res) => {
     res.render('login/loginU');
 });
 
+/* to open windows */
+router.get('/loginV', (req, res) => {
+    res.render('login/loginV');
+});
+
 router.get('/signOption', (req, res) => {
     res.render('login/signOption', { title: 'Registro ' });
 });

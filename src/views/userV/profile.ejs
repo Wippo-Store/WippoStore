@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet " href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>Mi perfil</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <header class="sticky-top ">
+        <!-- NAVBAR -->
+        <%- include("../layouts/header2") %>
+
+            <div class="container-fluid badge bg-dark">
+                <h1>Perfil</h1>
+            </div>
+    </header>
+
+
+    <div class="container pt-4 ">
+        <div class="row">
+            <div class="col-4">
+                <div class="container-fluid pt-3">
+                    <p class="h2">Mis datos</p>
+                    <hr>
+                    <dl class="row ">
+                        <p class="h3">Datos personales</p>
+                        <dt class="col-sm-3">Nombre</dt>
+                        <dd class="col-sm-9">*nombre completo*</dd>
+                        <dt class="col-sm-3">Tel.</dt>
+                        <dd class="col-sm-9">**</dd>
+                        <br><br>
+                        <p class="h3">Datos de cuenta</p>
+                        <dt class="col-sm-3">E-mail</dt>
+                        <dd class="col-sm-9">*correo*</dd>
+                    </dl>
+                    <div class="nav justify-content-end pt-1">
+                        <a class="btn btn-outline-dark text-end">Editar datos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container-fluid pt-3">
+                    <p class="h3">Direcciones</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="d-flex align-items-center">
+                                <div class="p-2 flex-grow-1 ">
+                                    <p class="text-break">*direccion*</p>
+                                </div>
+                                <div class="p-2 ">
+                                    <button type="button" class="btn btn-secondary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="nav justify-content-end pt-1">
+                        <a class="btn btn-outline-dark text-end">Agregar una dirección</a>
+                    </div>
+                </div>
+                <div class="container-fluid pt-3">
+                    <p class="h3">Tarjetas</p>
+                    <ul class="list-group">
+                        <li class="list-group-item ">
+                            <div class="d-flex align-items-center">
+                                <div class="p-2 flex-grow-1 ">
+                                    <p lh-1>Terminada en ** <br> *tipo* <br> *vencimiento*</p>
+                                </div>
+                                <div class="p-2 ">
+                                    <button type="button" class="btn btn-secondary">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"></path>
+                                            <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="nav justify-content-end pt-1">
+                        <a class="btn btn-outline-dark text-end">Agregar una dirección</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-auto">
+        <%- include("../layouts/footer") %>
+    </footer>
+
+</body>
+
+</html>

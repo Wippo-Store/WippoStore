@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet " href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>WippoStore Colaboradores</title>
+
+    <style>
+        .overflow {
+            height: 110px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="sticky-top ">
+        <%- include("../layouts/header1") %>
+    </header>
+
+    <!-- <main class="position-relative overflow-hidden p-3 p-md-5 m-md-3 text-center bg-light hero"> -->
+    <main class="position-relative overflow-hidden text-center bg-light hero">
+        <div class="col-md-6 p-lg-4 mx-auto my-3">
+            <h1 class="display-4 fw-bold text-white pb-5">Panel Principal</h1>
+        </div>
+    </main>
+
+    <div class="container pt-2">
+        <div class="row">
+            <!--Section: Sales-->
+            <div class="col">
+                <div class="m-1">
+                    <div class="h4">
+                        Ultimas Ventas
+                    </div>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#Folio</th>
+                                <th scope="col">Descripcion</th>
+                                <th scope="col">Monto</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Wipo18 x3</td>
+                                <td>$1200</th>
+                                <td>31/05/201</td>
+                                <td>
+                                    <button class="btn btn-dark btn-sm">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Wipo18 x3</td>
+                                <td>$2200</th>
+                                <td>31/05/201</td>
+                                <td>
+                                    <button class="btn btn-dark btn-sm">Ver</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Wipo18 x3</th>
+                                <td>$4200</td>
+                                <td>31/05/201</td>
+                                <td>
+                                    <button class="btn btn-dark btn-sm">Ver</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <!--Section: Products-->
+
+            <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                <div class="h4">
+                    Productos
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card text-left">
+                                <div class="card-header overflow">
+                                    <img class="overflow" src="/images/cel1.jpg" alt="">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Wippo 18</h5>
+                                    <p class="card-text">Celular con tatata</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card text-left">
+                                <div class="card-header overflow">
+                                    <img class="overflow" src="/images/cel1.jpg" alt="">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Wippo 18</h5>
+                                    <p class="card-text">Celular con tatata</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card text-left">
+                                <div class="card-header overflow">
+                                    <img class="overflow" src="/images/cel1.jpg" alt="">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">Wippo 18</h5>
+                                    <p class="card-text">Celular con tatata</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <%- include("../layouts/footer") %>
+    </footer>
+</body>
+
+</html>
