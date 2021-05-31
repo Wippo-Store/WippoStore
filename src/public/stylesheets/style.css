@@ -34,12 +34,12 @@ a {
 /* PRODUCT'S CARDS */
 
 .products {
-    border: 4px solid white;
+    border: 2px solid white;
     transition: border-color .3s ease-in-out;
 }
 
 .products:hover {
-    border: 6px solid black;
+    border: 2px solid black;
 }
 
 [class*=card-product] .img-wrap {
