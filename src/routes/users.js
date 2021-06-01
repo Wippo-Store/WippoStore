@@ -3,7 +3,7 @@ var router = express.Router();
 
 const pool = require('../db');
 
-/* GET users listing. */
+/* GET users listing. BUYER USER */
 router.get('/principalUU', (req, res) => { /*UNREGISTERED USER*/
     res.render('principalUU');
 });
@@ -27,5 +27,17 @@ router.get('/addCardC', (req, res) => {
 });
 router.get('/shoppingCartC', (req, res) => {
     res.render('userC/shoppingCartC');
+});
+
+
+
+
+/* GET users listing. SELLER USER*/
+router.get('/principalV', (req, res) => {
+    res.render('userV/principal');
+});
+
+router.get('/profileV', (req, res) => {
+    res.render('userV/profile');
 });
 module.exports = router;
