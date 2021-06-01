@@ -52,22 +52,16 @@
                             }
                         </style>
                         <div class="h5">
-                            <div class="form-check">
-                                <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios1"
-                                    value="option1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    <span class="text-muted h6">Casa</span><br />
-                                    Mar meditarraneo #48 Gustavo A. Madero., Ciudad de Mexico. CP 55400
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios2"
-                                    value="option2">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    <span class="text-muted h6">Oficina</span><br />
-                                    Mar meditarraneo #48 Gustavo A. Madero., Ciudad de Mexico. CP 55400
-                                </label>
-                            </div>
+                            <% addres_list.forEach(function(address) { %>
+                                <div class="form-check">
+                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios1"
+                                        value="option1" checked>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        <span class="text-muted h6"><%= address.name %></span><br />
+                                        <%= address.street %> #<%= address.number %>, <%= address.distrit %>. <%= address.city %>. CP <%= address.cp %>,
+                                    </label>
+                                </div>
+                              <% }); %>
                         </div>
                         <!-- col.// -->
                     </div>

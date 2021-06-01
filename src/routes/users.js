@@ -36,10 +36,17 @@ router.get('/shoppingDetails', (req, res) => {
     var tax = subtotal * iva;
     var total = subtotal + tax;
 
+    addess_list = [
+        { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
+        { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
+    ]
+
+
     res.render('userC/shoppingDetails', {
-        price: price,
+        price: subtotal,
         tax: tax,
-        total: total
+        total: total,
+        addres_list: addess_list
     });
 });
 
