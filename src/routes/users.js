@@ -59,10 +59,20 @@ router.get('/shoppingDetails', (req, res) => {
 
 /* GET users listing. SELLER USER*/
 router.get('/principalV', (req, res) => {
-    res.render('userV/principal');
+    user = {
+        name: "Roy"
+    };
+    res.render('userV/principal',{
+        user: user
+    });
 });
 
 router.get('/profileV', (req, res) => {
-    res.render('userV/profile');
+    user = {
+        name: "Roy"
+    };
+    res.render('userV/profile',{
+        user: user
+    });
 });
 module.exports = router;
