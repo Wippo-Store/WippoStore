@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const pool = require('../db');
+/*library passport*/
+const passport = require('passport');
 
 /* to open windows */
 router.get('/loginU', (req, res) => {
@@ -30,8 +31,13 @@ router.get('/recoverC', (req, res) => {
 });
 
 /* get form */
-router.post('/signupC', (req, res) => {
+router.post('/signupC', passport.authenticate('local.signupC', {
+    successRedirect: './loginU',
+    failureRedirect: './signupC'
+}));
 
-})
+router.get('/profile', (req, res) => {
+    res.send('this is your profile');
+});
 
 module.exports = router;

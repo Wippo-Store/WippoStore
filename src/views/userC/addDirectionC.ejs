@@ -28,19 +28,24 @@
                 <form method="POST" class=" needs-validation" novalidate>
                     <!-- Direccion -->
                     <div class="row g-3">
-                        <div class="col-md-6 form-group">
+                        <div class="col-md form-group">
                             <label>Direccion</label>
                             <input type="text" class="form-control" placeholder="Calle" name="street">
                         </div>
                         <!-- form-group end.// -->
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label></label>
                             <input type="number" min="0" class="form-control" placeholder="No. Ext" name="noext">
                         </div>
                         <!-- form-group end.// -->
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label></label>
                             <input type="number" min="0" class="form-control" placeholder="No. Int" name="noint">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-3 form-group">
+                            <label></label>
+                            <input type="text" maxlength="5" class="form-control" placeholder="CP" name="cp">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
@@ -58,7 +63,7 @@
                     </div>
 
                     <div class="form-group pt-5 d-flex justify-content-md-evenly">
-                        <a class="btn btn-outline-dark" href="/users/profileC" ">Cancelar</a>
+                        <a class="btn btn-outline-dark" href="/users/profileC">Cancelar</a>
                         <button class="btn btn-outline-dark " name="btnR ">Guardar</button>
                     </div>
                     <!-- form-group// -->
