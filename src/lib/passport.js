@@ -3,7 +3,30 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const pool = require('../db');
 
-/* SIGNUP USER BUYER */
+/* SIGNIN USER */
+passport.use('local.loginU', new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true
+}, async(req, username, password, done) => {
+    const rows = await pool.query('SELECT idUsuario,contraseña FROM usuario WHERE correo = ?', [username]);
+    console.log(rows);
+    console.log(rows[0].contraseña);
+    if (rows.length > 0) {
+        if (rows[0].contraseña === password) {
+            done(null, rows[0].idUsuario);
+        } else {
+            done(null, false);
+        }
+    } else {
+        console.log('usuario no existe');
+        return done(null, false);
+    }
+
+
+}));
+
+/* SIGNUP BUYER USER */
 passport.use('local.signupC', new LocalStrategy({
     usernameField: 'correo',
     passwordField: 'contraseña',
@@ -32,23 +55,29 @@ passport.use('local.signupC', new LocalStrategy({
             rfc,
             tipo
         };
-        const result = await pool.query('INSERT INTO usuario SET ?', [newUserC]);
-        /*console.log(result);*/
-        const idUsuario = result.insertId;
-        const newDirectionC = {
-            calle,
-            noext,
-            noint,
-            colonia,
-            cp,
-            mun_alc,
-            estado,
-            idUsuario
-        };
-        const result1 = await pool.query('INSERT INTO direccion SET ?', [newDirectionC]);
-        /*console.log(result1);*/
-        newUserC.id = result.insertId;
-        return done(null, newUserC);
+        const email = await pool.query('SELECT COUNT(*) AS n FROM USUARIO WHERE correo = ? ', [correo]);
+        console.log(email[0].n);
+        if (email[0].n > 0) {
+            console.log('usuario repetido');
+        } else {
+            const result = await pool.query('INSERT INTO usuario SET ?', [newUserC]);
+            /*console.log(result);*/
+            const idUsuario = result.insertId;
+            const newDirectionC = {
+                calle,
+                noext,
+                noint,
+                colonia,
+                cp,
+                mun_alc,
+                estado,
+                idUsuario
+            };
+            const result1 = await pool.query('INSERT INTO direccion SET ?', [newDirectionC]);
+            /*console.log(result1);*/
+            newUserC.id = result.insertId;
+            return done(null, newUserC);
+        }
     } else {
         console.log("error");
     }

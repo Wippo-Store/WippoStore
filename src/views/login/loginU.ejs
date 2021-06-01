@@ -26,10 +26,10 @@
                     <h4 class="card-title mb-4">Iniciar Sesión</h4>
                 </div>
 
-                <form>
+                <form action="/authentication/loginU" method="POST">
                     <div class="form-group p-3">
                         <label>Correo electrónico</label>
-                        <input name="" class="form-control" placeholder="ej. name@gmail.com" type="email">
+                        <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="username">
                     </div>
                     <!-- form-group// -->
                     <div class="form-group p-3">
@@ -37,7 +37,7 @@
                             <label>Contraseña</label>
                             <a class="card-link" href="./recoverC">¿Has olvidado la contraseña?</a>
                         </div>
-                        <input class="form-control" placeholder="*********" type="password">
+                        <input class="form-control" placeholder="*********" type="password" name="password">
                     </div>
                     <!-- form-group// -->
                     <div class="form-group p-3 d-flex justify-content-end">

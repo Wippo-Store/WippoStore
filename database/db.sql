@@ -7,7 +7,7 @@ CREATE TABLE usuario(
     nombre VARCHAR(15) NOT NULL,
     apaterno VARCHAR(15) NOT NULL,
     amaterno VARCHAR(15) NOT NULL,
-    correo VARCHAR(30) NOT NULL,
+    correo VARCHAR(30) NOT NULL UNIQUE,
     contraseña VARCHAR(30) NOT NULL,
     rfc VARCHAR(13),
     tipo TINYINT NOT NULL,
