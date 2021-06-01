@@ -27,23 +27,23 @@
                 <aside class="col-sm-6 border-right">
                     <article class="gallery-wrap">
                         <div class="img-big-wrap">
-                            <a href="#"><img src="" alt="foto principal"></a>
+                            <a href="#"><img src="<%=product.images[0]%>" class="img-fluid" alt="foto principal"></a>
                         </div>
                         <!-- img-big-wrap.// -->
-                        <div class="thumbs-wrap">
-                            <a href="#" class="item-thumb"> <img src="" alt="foto secundaria 1"></a>
-                            <a href="#" class="item-thumb"> <img src="" alt="foto secundaria 2"></a>
-                        </div>
+                        <!-- <div class="thumbs-wrap">
+                            <a href="#" class="item-thumb"> <img src="<%=product.images[1]%>" class="img-fluid" alt="foto secundaria 1"></a>
+                            <a href="#" class="item-thumb"> <img src="<%=product.images[2]%>" class="img-fluid" alt="foto secundaria 2"></a>
+                        </div> -->
                         <!-- thumbs-wrap.// -->
                     </article>
                     <!-- gallery-wrap .end// -->
                 </aside>
                 <main class="col-sm-6">
                     <article class="content-body">
-                        <h2 class="title">Sony WH1000XM4/B</h2>
+                        <h2 class="title"><%=product.name%></h2>
 
-                        <p>Audífonos inalámbricos con Noise Cancelling, Negro, Grande</p>
-                        <p class="fw-bold">Color: <span class="fw-normal">Negro</span></p>
+                        <p><%=product.description%></p>
+                        <p class="fw-bold">Color: <span class="fw-normal"><%=product.color%></span></p>
                         <p class="h5">Acerca de este artículo</p>
                         <ul class="list-normal cols-two">
                             <li>El procesador Noise Cancelling HD QN1, el sistema SoC de audio Bluetooth y el sensor de ruido dual te permiten escuchar sin distracciones </li>
@@ -53,7 +53,8 @@
                         </ul>
 
                         <div class="h3 mb-4">
-                            <var class="price h4">$6,500.00</var>
+                            <var class="price h4">$<%=product.price%> </var>
+                            <!-- <label class="text-muted h6"> IVA incluido</label> -->
                         </div>
                         <!-- price-wrap.// -->
 
@@ -66,8 +67,8 @@
                                 </div>
                                 <!-- form-group end.// -->
                                 <div class="col-md-12 form-group ">
-                                    <button class="btn btn-outline-dark">Comprar Ahora</button>
-                                    <button type="button" class="btn btn-outline-dark">
+                                    <button value="<%=product.id%>" class="btn btn-outline-dark">Comprar Ahora</button>
+                                    <button value="<%=product.id%>" type="button" class="btn btn-outline-dark">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
                                             <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"></path>
                                             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
