@@ -30,6 +30,9 @@ router.get('/shoppingCartC', (req, res) => {
 });
 
 
+router.get('/shoppingDetails', (req, res) => {
+    res.render('userC/shoppingDetails');
+});
 
 
 /* GET users listing. SELLER USER*/
