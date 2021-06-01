@@ -9,7 +9,6 @@ router.get('/loginU', (req, res) => {
     res.render('login/loginU');
 });
 
-/* to open windows */
 router.get('/loginV', (req, res) => {
     res.render('login/loginV');
 });
@@ -36,8 +35,11 @@ router.post('/signupC', passport.authenticate('local.signupC', {
     failureRedirect: './signupC'
 }));
 
-router.get('/profile', (req, res) => {
-    res.send('this is your profile');
+router.post('/loginU', (req, res, next) => {
+    passport.authenticate('local.loginU', {
+        successRedirect: '/users/principalC',
+        failureRedirect: './loginU'
+    })(req, res, next);
 });
 
 module.exports = router;
