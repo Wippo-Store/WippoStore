@@ -31,7 +31,29 @@ router.get('/shoppingCartC', (req, res) => {
 
 
 router.get('/shoppingDetails', (req, res) => {
-    res.render('userC/shoppingDetails');
+    var subtotal = 500;
+    const iva = 0.16;
+    var tax = subtotal * iva;
+    var total = subtotal + tax;
+
+    addess_list = [
+        { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
+        { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
+    ]
+
+    payments_list = [
+        { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
+        { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
+    ]
+
+
+    res.render('userC/shoppingDetails', {
+        price: subtotal,
+        tax: tax,
+        total: total,
+        addres_list: addess_list,
+        payments_list: payments_list
+    });
 });
 
 

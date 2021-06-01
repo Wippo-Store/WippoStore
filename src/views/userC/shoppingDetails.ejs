@@ -51,23 +51,17 @@
                                 background-color: #1f1f1f !important;
                             }
                         </style>
-                        <div class="h5">
-                            <div class="form-check">
-                                <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios1"
-                                    value="option1" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    <span class="text-muted h6">Casa</span><br />
-                                    Mar meditarraneo #48 Gustavo A. Madero., Ciudad de Mexico. CP 55400
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios2"
-                                    value="option2">
-                                <label class="form-check-label" for="exampleRadios2">
-                                    <span class="text-muted h6">Oficina</span><br />
-                                    Mar meditarraneo #48 Gustavo A. Madero., Ciudad de Mexico. CP 55400
-                                </label>
-                            </div>
+                        <div class="h6">
+                            <% addres_list.forEach(function(address) { %>
+                                <div class="form-check">
+                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios<%= address.id %>"
+                                        value="<%= address.id %>" checked>
+                                    <label class="form-check-label" for="exampleRadios<%= address.id %>">
+                                        <span class="text-muted"><%= address.name %></span>
+                                        <%= address.street %> #<%= address.number %>, <%= address.distrit %>. <%= address.city %>. CP <%= address.cp %>,
+                                    </label>
+                                </div>
+                              <% }); %>
                         </div>
                         <!-- col.// -->
                     </div>
@@ -84,20 +78,15 @@
                     <div class="row d-flex align-items-center">
                         <div class="col">
                             <span class="text-muted h4">Método de Pago <i class="bi bi-credit-card"></i></span>
-                            <div class="h5">
-                                <div class="form-check">
-                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
-                                        id="exampleRadios3" value="option1" checked>
-                                    <label class="form-check-label" for="exampleRadios3"> Visa XXXX-948
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
-                                        id="exampleRadios4" value="option2">
-                                    <label class="form-check-label" for="exampleRadios4">
-                                        Mastercard XXXX-949
-                                    </label>
-                                </div>
+                            <div class="h6">
+                                <% payments_list.forEach(function(payment) { %>
+                                    <div class="form-check">
+                                        <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
+                                            id="paymentRadios<%= payment.id %>" value="option1" checked>
+                                        <label class="form-check-label" for="paymentRadios<%= payment.id %>"><%= payment.name %> XXXX-<%= payment.last_numbers %>
+                                        </label>
+                                    </div>
+                                  <% }); %>
                             </div>
                             <!-- col.// -->
                         </div>
@@ -121,19 +110,19 @@
                         <div class="h5">
                             <dt>Subtotal:</dt>
                             <dd class="text-right">
-                                $ **1550.00 **
+                                $ <%=price%>
                             </dd>
                         </div>
                         <div class="h5">
                             <dt>IVA:</dt>
                             <dd class="text-right">
-                                $ **150.00 **
+                                $ <%=tax%>
                             </dd>
                         </div>
                         <div class="h4">
                             <dt>Total:</dt>
                             <dd class="text-right">
-                                $ **2000.00 **
+                                $ <%=total%>
                             </dd>
                         </div>
                     </dl>
