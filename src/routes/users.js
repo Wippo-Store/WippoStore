@@ -19,11 +19,13 @@ router.get('/profileC', (req, res) => {
 router.get('/editProfileC', (req, res) => {
     res.render('userC/editProfileC');
 });
-
 router.get('/addDirectionC', (req, res) => {
     res.render('userC/addDirectionC');
 });
 router.get('/addCardC', (req, res) => {
     res.render('userC/addCardC');
+});
+router.get('/shoppingCartC', (req, res) => {
+    res.render('userC/shoppingCartC');
 });
 module.exports = router;

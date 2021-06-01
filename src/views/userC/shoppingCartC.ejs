@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet " href="/stylesheets/style.css">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <title>WippoStore</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <header>
+        <%- include("../layouts/header1") %>
+    </header>
+
+    <div class="container p-5">
+        <h2>Carrito</h2>
+        <div class="row">
+            <main class="col-md-9">
+                <article class="card card-body mb-3">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-6">
+                            <figure class="itemside">
+                                <div class="aside"><img src="/images/cel1.jpg" alt="producto" class="border img-sm"></div>
+                                <figcaption class="info">
+                                    <span class="text-muted">Electrónica</span>
+                                    <a href="#" class="title navbar-brand">SAMSUNG Galaxy A51 </a>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <!-- col.// -->
+                        <div class="col">
+                            <div class="input-group input-spinner">
+                                <div class=".input-group-text">
+                                    <button class="btn" type="button" id="button-minus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
+                                          </svg>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control" value="1">
+                                <div class=".input-group-text">
+                                    <button class="btn " type="button" id="button-plus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                                          </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- input-group.// -->
+                        </div>
+                        <!-- col.// -->
+                        <div class="col">
+                            <div class="price h5"> $180.00 </div>
+                        </div>
+                        <div class="col flex-grow-0 text-end">
+                            <a href="#" class="btn size"><i class="bi bi-trash-fill"></i></a>
+                        </div>
+                    </div>
+                    <!-- row.// -->
+                </article>
+                <!-- card .// -->
+
+                <article class="card card-body mb-3">
+                    <div class="row d-flex align-items-center">
+                        <div class="col-md-6">
+                            <figure class="itemside">
+                                <div class="aside"><img src="/images/audifonos1.jpg" alt="producto" class="border img-sm"></div>
+                                <figcaption class="info">
+                                    <span class="text-muted">Electrónica</span>
+                                    <a href="#" class="title navbar-brand">Sony WH1000XM4/B </a>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <!-- col.// -->
+                        <div class="col">
+                            <div class="input-group input-spinner">
+                                <div class=".input-group-text">
+                                    <button class="btn" type="button" id="button-minus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/>
+                                          </svg>
+                                    </button>
+                                </div>
+                                <input type="text" class="form-control" value="1">
+                                <div class=".input-group-text">
+                                    <button class="btn " type="button" id="button-plus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z"/>
+                                          </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- input-group.// -->
+                        </div>
+                        <!-- col.// -->
+                        <div class="col">
+                            <div class="price h5"> $180.00 </div>
+                        </div>
+                        <div class="col flex-grow-0 text-end">
+                            <a href="#" class="btn size"><i class="bi bi-trash-fill"></i></a>
+                        </div>
+                    </div>
+                    <!-- row.// -->
+                </article>
+                <!-- card .// -->
+            </main>
+            <!-- col.// -->
+            <aside class="col-md-3 border-left">
+                <div class="card-body">
+                    <dl class="dlist-align">
+                        <dt>Subtotal:</dt>
+                        <dd class="text-right">$360.00</dd>
+                    </dl>
+                    <hr>
+                    <a href="#" class="btn btn-outline-dark">Proceder al pago</a>
+                </div>
+                <!-- card-body.// -->
+            </aside>
+            <!-- col.// -->
+        </div>
+    </div>
+
+    <footer class="mt-auto">
+        <%- include("../layouts/footer") %>
+    </footer>
+
+</body>
+
+</html>

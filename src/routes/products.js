@@ -8,4 +8,9 @@ router.get('/category', (req, res) => {
     res.render('product/category');
 });
 
+router.get('/pDetails', (req, res) => {
+    res.render('product/pDetails');
+});
+
+
 module.exports = router;

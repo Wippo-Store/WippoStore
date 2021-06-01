@@ -27,22 +27,22 @@
                         <h4 class="card-title mb-4">Registro Comprador</h4>
                     </div>
                 </header>
-                <form method="POST" class=" needs-validation" novalidate>
+                <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate>
                     <!--Nombre completo-->
                     <div class="row g-3">
                         <div class="col-md-4 form-group">
                             <label>Nombre</label>
-                            <input type="text" class="form-control" name="name">
+                            <input type="text" class="form-control" name="nombre" autofocus>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Paterno</label>
-                            <input type="text" class="form-control" name="lnamep">
+                            <input type="text" class="form-control" name="apaterno">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Materno</label>
-                            <input type="text" class="form-control" name="lnamem">
+                            <input type="text" class="form-control" name="amaterno">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -50,36 +50,41 @@
                     <div class="form-group form-row">
                         <label class="col-md-3 col-form-label">Email</label>
                         <div class="col">
-                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="email">
+                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="correo">
                         </div>
                     </div>
                     <!-- Direccion -->
                     <div class="row g-3">
-                        <div class="col-md-4 form-group">
+                        <div class="col-md form-group">
                             <label>Direccion</label>
-                            <input type="text" class="form-control" placeholder="Calle" name="street">
+                            <input type="text" class="form-control" placeholder="Calle" name="calle">
                         </div>
                         <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-2 form-group">
                             <label></label>
                             <input type="number" min="0" class="form-control" placeholder="No. Ext" name="noext">
                         </div>
                         <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-2 form-group">
                             <label></label>
                             <input type="number" min="0" class="form-control" placeholder="No. Int" name="noint">
                         </div>
                         <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Colonia" name="col">
+                        <div class="col-md-3 form-group">
+                            <label></label>
+                            <input type="text" maxlength="5" class="form-control" placeholder="CP" name="cp">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Municipio/Alcaldía" name="munalc">
+                            <input type="text" class="form-control" placeholder="Colonia" name="colonia">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Estado" name="state">
+                            <input type="text" class="form-control" placeholder="Municipio/Alcaldía" name="mun_alc">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input type="text" class="form-control" placeholder="Estado" name="estado">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -87,7 +92,7 @@
                     <div class="row g-3">
                         <div class="col-md-6 form-group">
                             <label>Contraseña</label>
-                            <input type="password" class="form-control" placeholder="" name="pass">
+                            <input type="password" class="form-control" placeholder="" name="contraseña">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-6 form-group">
