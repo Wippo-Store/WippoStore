@@ -31,7 +31,16 @@ router.get('/shoppingCartC', (req, res) => {
 
 
 router.get('/shoppingDetails', (req, res) => {
-    res.render('userC/shoppingDetails');
+    var subtotal = 500;
+    const iva = 0.16;
+    var tax = subtotal * iva;
+    var total = subtotal + tax;
+
+    res.render('userC/shoppingDetails', {
+        price: price,
+        tax: tax,
+        total: total
+    });
 });
 
 
