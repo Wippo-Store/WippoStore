@@ -16,43 +16,44 @@
 </head>
 
 <body>
-    <div class="m-5 mx-auto border-light" style="width: 40%;">
-        <div class="container card">
-            <div class="card-body">
-                <div class="d-flex justify-content-center">
-                    <a href="/users/principalUU"><img src="/images/logo1.png " width="160" height="120" alt=""></a>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <h4 class="card-title mb-4">Iniciar Sesión</h4>
-                </div>
+    <%- locals.flash %>
+        <div class="m-5 mx-auto border-light" style="width: 40%;">
+            <div class="container card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <a href="/users/principalUU"><img src="/images/logo1.png " width="160" height="120" alt=""></a>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <h4 class="card-title mb-4">Iniciar Sesión</h4>
+                    </div>
 
-                <form action="/authentication/loginU" method="POST">
-                    <div class="form-group p-3">
-                        <label>Correo electrónico</label>
-                        <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="username">
-                    </div>
-                    <!-- form-group// -->
-                    <div class="form-group p-3">
-                        <div class="d-flex justify-content-between">
-                            <label>Contraseña</label>
-                            <a class="card-link" href="./recoverC">¿Has olvidado la contraseña?</a>
+                    <form action="/authentication/loginU" method="POST">
+                        <div class="form-group p-3">
+                            <label>Correo electrónico</label>
+                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="username">
                         </div>
-                        <input class="form-control" placeholder="*********" type="password" name="password">
-                    </div>
-                    <!-- form-group// -->
-                    <div class="form-group p-3 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-outline-dark">Iniciar sesión</button>
-                    </div>
-                    <!-- form-group// -->
-                </form>
+                        <!-- form-group// -->
+                        <div class="form-group p-3">
+                            <div class="d-flex justify-content-between">
+                                <label>Contraseña</label>
+                                <a class="card-link" href="./recoverC">¿Has olvidado la contraseña?</a>
+                            </div>
+                            <input class="form-control" placeholder="*********" type="password" name="password">
+                        </div>
+                        <!-- form-group// -->
+                        <div class="form-group p-3 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-outline-dark">Iniciar sesión</button>
+                        </div>
+                        <!-- form-group// -->
+                    </form>
+                </div>
+                <!-- card-body.// -->
+                <div class="card-footer text-center">¿No tienes una cuenta? <a href="./signOption">Registrate</a></div>
             </div>
-            <!-- card-body.// -->
-            <div class="card-footer text-center">¿No tienes una cuenta? <a href="./signOption">Registrate</a></div>
+            <div class="d-flex justify-content-center">
+                <p class="mt-4 mb-3 text-muted">© Wippo 2021</p>
+            </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <p class="mt-4 mb-3 text-muted">© Wippo 2021</p>
-        </div>
-    </div>
 
 </body>
 

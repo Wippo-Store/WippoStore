@@ -30,7 +30,7 @@ create table if not exists Producto(
     Caracteristica_3 varchar (40),
     Caracteristica_4 varchar (40),
     Caracteristica_5 varchar (40),
-    ID_Usuario varchar(30),
+    ID_Usuario int(11) not null,
     Primary Key (ID_Producto, ID_Usuario),
     constraint Referencia_Producto_Usuario Foreign Key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Precio_Negativo check (Precio>0),
@@ -38,11 +38,11 @@ create table if not exists Producto(
 )ENGINE=INNODB;
 
 create table if not exists Orden(
-	ID_Orden varchar(30) not null,
+	ID_Orden int(11) not null AUTO_INCREMENT,
     Fecha date not null,
     Estatus varchar(20) not null,
     Monto_Total int not null,
-    ID_Usuario varchar(30) not null,
+    ID_Usuario int(11) not null,
     primary key(ID_Orden),
     constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Monto_Negaivo check (Monto_Total>0),
@@ -50,22 +50,22 @@ create table if not exists Orden(
 );
 
 create table if not exists Solicitar_Devolucion(
-	Producto_ID_Usuario varchar(30) not null,
-	Producto_ID_Producto varchar(30) not null,
-    Usuario_ID_Usuario varchar (30) not null,
+	Producto_ID_Usuario int(11) not null,
+	Producto_ID_Producto int(11) not null,
+    Usuario_ID_Usuario int(11) not null,
     Motivo varchar(50),
     Estatus	varchar(20) not null,
     Fecha_Solicitud date not null,
-    constraint Referencia_Solitar_Producto foreign key(Producto_ID_Usuario,Producto_ID_Producto) references  Producto(ID_Usuario,ID_Producto) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Referencia_Solictar_Usuario foreign key(Usuario_ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Solicitar_Producto foreign key(Producto_ID_Usuario,Producto_ID_Producto) references  Producto(ID_Usuario,ID_Producto) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Solicitar_Usuario foreign key(Usuario_ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     primary key (Producto_ID_Producto,Producto_ID_Usuario,Usuario_ID_Usuario),
     constraint Estatus_de_Devolucion check (Estatus = "Pendiente" or Estatus = "Devuelto" or Estatus = "Rechazado")
 )ENGINE=INNODB;
 
 create table if not exists Califica(
-	Usuario_ID_Usuario varchar(30) not null,
-    Producto_ID_Usuario varchar(30) not null,
-    Producto_ID_Producto varchar(30) not null,
+	Usuario_ID_Usuario int(11) not null,
+    Producto_ID_Usuario int(11) not null,
+    Producto_ID_Producto int(11) not null,
     Modelo varchar(30) not null,
     Calificacion int not null,
     Comentario varchar(70),
@@ -75,9 +75,9 @@ create table if not exists Califica(
 )engine=innodb;
 
 create table if not exists Contiene(
-	ID_Orden varchar(30) not null,
-    ID_Producto varchar(30) not null,
-    ID_Usuario varchar(30) not null,
+	ID_Orden int(11) not null,
+    ID_Producto int(11) not null,
+    ID_Usuario int(11) not null,
     Cantidad int not null,
     constraint Referencia_Contiene_Orden foreign key (ID_Orden) references Orden(ID_Orden) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Referencia_Contiene_Producto foreign key (ID_Producto,ID_Usuario) references Producto(ID_Producto,ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,

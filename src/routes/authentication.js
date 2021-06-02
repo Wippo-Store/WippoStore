@@ -38,7 +38,7 @@ router.post('/signupC', passport.authenticate('local.signupC', {
 
 router.post('/loginU', (req, res, next) => {
     passport.authenticate('local.loginU', {
-        successRedirect: '/users/principalC',
+        successRedirect: '../users/principalC',
         failureRedirect: './loginU',
         failureFlash: true
     })(req, res, next);
