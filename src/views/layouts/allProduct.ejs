@@ -1,0 +1,25 @@
+<!--Section: Products-->
+<section class="section-name py-1">
+    <div class="container">
+        <div class="row">
+            <% products.forEach(products => { %>
+                <div class="col-md-3 ">
+                    <div href="/products/pDetails/<%= products.ID_Producto %>" class="card card-product-grid mb-3 products pt-2">
+                        <a href="/products/pDetails/<%= products.ID_Producto %>" class="img-wrap"> <img src="/images/<%= products.imagen1 %>"> </a>
+                        <div class="card-body text-center">
+                            <!--Category & Title-->
+                            <a class="navbar-brand mb-0 h1" href="/products/pDetails/<%= products.ID_Producto %>">
+                                <h5 class="text-dark">
+                                    <%= products.Nombre %>
+                                </h5>
+                                <strong class="text-dark">$<%= products.Precio %></strong>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                    <!-- Product Card -->
+        </div>
+    </div>
+</section>
+<!--Section: Products -->

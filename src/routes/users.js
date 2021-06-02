@@ -8,8 +8,10 @@ router.get('/principalUU', (req, res) => { /*UNREGISTERED USER*/
     res.render('principalUU', { message: req.flash('message') });
 });
 
-router.get('/principalC', (req, res) => {
-    res.render('userC/principalC');
+router.get('/principalC', async(req, res) => {
+    const products = await pool.query('SELECT * FROM producto');
+    console.log(products);
+    res.render('userC/principalC', { products });
 });
 
 router.get('/profileC', (req, res) => {
