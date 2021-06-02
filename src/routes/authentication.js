@@ -32,13 +32,15 @@ router.get('/recoverC', (req, res) => {
 /* get form */
 router.post('/signupC', passport.authenticate('local.signupC', {
     successRedirect: './loginU',
-    failureRedirect: './signupC'
+    failureRedirect: './signupC',
+    failureFlash: true
 }));
 
 router.post('/loginU', (req, res, next) => {
     passport.authenticate('local.loginU', {
         successRedirect: '/users/principalC',
-        failureRedirect: './loginU'
+        failureRedirect: './loginU',
+        failureFlash: true
     })(req, res, next);
 });
 

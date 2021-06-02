@@ -13,47 +13,46 @@ passport.use('local.loginU', new LocalStrategy({
     console.log(rows);
     console.log(rows[0].contraseña);
     if (rows.length > 0) {
+        const user = rows[0];
         if (rows[0].contraseña === password) {
-            done(null, rows[0].idUsuario);
+
+            done(null, user, req.flash('success', 'Bienvenido ' + user.username));
         } else {
-            done(null, false);
+            done(null, false, req.flash('message', 'Contraseña incorrecta'));
         }
     } else {
-        console.log('usuario no existe');
-        return done(null, false);
+        return done(null, false, req.flash('message', 'El usuario no existe'));
     }
-
-
 }));
 
 /* SIGNUP BUYER USER */
 passport.use('local.signupC', new LocalStrategy({
-    usernameField: 'correo',
-    passwordField: 'contraseña',
+    usernameField: 'Correo_Electronico',
+    passwordField: 'Contraseña',
     passReqToCallback: true
-}, async(req, correo, contraseña, done) => {
-    const { nombre } = req.body;
-    const { apaterno } = req.body;
-    const { amaterno } = req.body;
-    const { calle } = req.body;
-    const { noext } = req.body;
-    const { noint } = req.body;
-    const { colonia } = req.body;
-    const { cp } = req.body;
-    const { mun_alc } = req.body;
-    const { estado } = req.body;
+}, async(req, Correo_Electronico, Contraseña, done) => {
+    const { Nombre } = req.body;
+    const { Apellido_Paterno } = req.body;
+    const { Apellido_Materno } = req.body;
+    const { Nombre_Calle } = req.body;
+    const { Num_ext } = req.body;
+    const { Nun_int } = req.body;
+    const { Colonia } = req.body;
+    const { CP } = req.body;
+    const { Municipio } = req.body;
+    const { Estado } = req.body;
     const { passr } = req.body;
-    const rfc = null;
-    const tipo = 0;
-    if (contraseña === passr) {
+    const RFC = null;
+    const Tipo_Usuario = 'C';
+    if (Contraseña === passr) {
         const newUserC = {
-            nombre,
-            apaterno,
-            amaterno,
-            correo,
-            contraseña,
-            rfc,
-            tipo
+            Nombre,
+            Apellido_Paterno,
+            Apellido_Materno,
+            Correo_Electronico,
+            Contraseña,
+            RFC,
+            Tipo_Usuario
         };
         const email = await pool.query('SELECT COUNT(*) AS n FROM USUARIO WHERE correo = ? ', [correo]);
         console.log(email[0].n);
@@ -64,16 +63,16 @@ passport.use('local.signupC', new LocalStrategy({
             /*console.log(result);*/
             const idUsuario = result.insertId;
             const newDirectionC = {
-                calle,
-                noext,
-                noint,
-                colonia,
-                cp,
-                mun_alc,
-                estado,
+                Nombre_Calle,
+                Num_ext,
+                Nun_int,
+                Colonia,
+                CP,
+                Municipio,
+                Estado,
                 idUsuario
             };
-            const result1 = await pool.query('INSERT INTO direccion SET ?', [newDirectionC]);
+            const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
             /*console.log(result1);*/
             newUserC.id = result.insertId;
             return done(null, newUserC);
@@ -81,7 +80,6 @@ passport.use('local.signupC', new LocalStrategy({
     } else {
         console.log("error");
     }
-
 }));
 
 passport.serializeUser((user, done) => {
@@ -89,6 +87,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async(id, done) => {
-    const rows = await pool.query('SELECT * FROM usuario WHERE idUsuario = ?', [id]);
+    const rows = await pool.query('SELECT * FROM Usuario WHERE ID_Usuario = ?', [id]);
     done(null, rows[0]);
 });
