@@ -5,7 +5,7 @@ const pool = require('../db');
 
 /* GET users listing. BUYER USER */
 router.get('/principalUU', (req, res) => { /*UNREGISTERED USER*/
-    res.render('principalUU');
+    res.render('principalUU', { message: req.flash('message') });
 });
 
 router.get('/principalC', (req, res) => {
