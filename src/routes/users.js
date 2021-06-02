@@ -17,7 +17,26 @@ router.get('/principalC', async(req, res) => {
 });
 
 router.get('/profileC', (req, res) => {
-    res.render('userC/profileC', { nombre: req.session.username });
+    address_list = [
+        { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
+        { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
+    ]
+
+    payments_list = [
+        { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
+        { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
+    ]
+
+    user = {
+        name: "Roy",
+        mail: "roy@gmail.com",
+    }
+    res.render('userC/profileC', {
+        user: user,
+        address_list: address_list,
+        payments_list: payments_list,
+        nombre: req.session.username
+    });
 });
 
 router.get('/editProfileC', (req, res) => {
@@ -63,10 +82,20 @@ router.get('/shoppingDetails', (req, res) => {
 
 /* GET users listing. SELLER USER*/
 router.get('/principalV', (req, res) => {
-    res.render('userV/principal');
+    user = {
+        name: "Roy"
+    };
+    res.render('userV/principal', {
+        user: user
+    });
 });
 
 router.get('/profileV', (req, res) => {
-    res.render('userV/profile');
+    user = {
+        name: "Roy"
+    };
+    res.render('userV/profile', {
+        user: user
+    });
 });
 module.exports = router;
