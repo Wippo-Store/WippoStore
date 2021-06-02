@@ -3,25 +3,28 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const pool = require('../db');
 
-/* SIGNIN USER */
+/* LOGIN USER */
 passport.use('local.loginU', new LocalStrategy({
     usernameField: 'username',
     passwordField: 'password',
     passReqToCallback: true
 }, async(req, username, password, done) => {
-    const rows = await pool.query('SELECT idUsuario,contraseña FROM usuario WHERE correo = ?', [username]);
-    console.log(rows);
-    console.log(rows[0].contraseña);
+    const rows = await pool.query('SELECT ID_Usuario,Contraseña FROM Usuario WHERE Correo_Electronico = ?', [username]);
     if (rows.length > 0) {
+        console.log(rows[0].Contraseña, password);
         const user = rows[0];
-        if (rows[0].contraseña === password) {
-
-            done(null, user, req.flash('success', 'Bienvenido ' + user.username));
+        console.log(user);
+        if (rows[0].Contraseña == password) {
+            rows.id = 1;
+            console.log('Acceso exitoso');
+            return done(null, rows);
         } else {
-            done(null, false, req.flash('message', 'Contraseña incorrecta'));
+            console.log('Contraseñas no coinciden');
+            return done(null, false);
         }
     } else {
-        return done(null, false, req.flash('message', 'El usuario no existe'));
+        console.log('Usuario no exite')
+        return done(null, false);
     }
 }));
 
@@ -36,7 +39,7 @@ passport.use('local.signupC', new LocalStrategy({
     const { Apellido_Materno } = req.body;
     const { Nombre_Calle } = req.body;
     const { Num_ext } = req.body;
-    const { Nun_int } = req.body;
+    const { Num_int } = req.body;
     const { Colonia } = req.body;
     const { CP } = req.body;
     const { Municipio } = req.body;
@@ -54,23 +57,25 @@ passport.use('local.signupC', new LocalStrategy({
             RFC,
             Tipo_Usuario
         };
-        const email = await pool.query('SELECT COUNT(*) AS n FROM USUARIO WHERE correo = ? ', [correo]);
+        const email = await pool.query('SELECT COUNT(*) AS n FROM Usuario WHERE Correo_Electronico = ? ', [Correo_Electronico]);
         console.log(email[0].n);
         if (email[0].n > 0) {
             console.log('usuario repetido');
+            email.id = 1;
+            return done(null, email);
         } else {
-            const result = await pool.query('INSERT INTO usuario SET ?', [newUserC]);
+            const result = await pool.query('INSERT INTO Usuario SET ?', [newUserC]);
             /*console.log(result);*/
-            const idUsuario = result.insertId;
+            const ID_Usuario = result.insertId;
             const newDirectionC = {
                 Nombre_Calle,
                 Num_ext,
-                Nun_int,
+                Num_int,
                 Colonia,
                 CP,
                 Municipio,
                 Estado,
-                idUsuario
+                ID_Usuario
             };
             const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
             /*console.log(result1);*/
@@ -78,7 +83,12 @@ passport.use('local.signupC', new LocalStrategy({
             return done(null, newUserC);
         }
     } else {
-        console.log("error");
+        var user = {
+            Nombre,
+            passr
+        };
+        user.id = 1;
+        return done(null, user);
     }
 }));
 
