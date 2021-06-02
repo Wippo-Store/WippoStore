@@ -4,22 +4,24 @@ var router = express.Router();
 const pool = require('../db');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', (req, res) => { /*UNREGISTERED USER*/
-    res.render('principalUU', { message: req.flash('message') });
+router.get('/principalUU', async(req, res) => { /*UNREGISTERED USER*/
+    const products = await pool.query('SELECT * FROM producto');
+    console.log(products);
+    res.render('principalUU', { message: req.flash('message'), products });
 });
 
 router.get('/principalC', async(req, res) => {
     const products = await pool.query('SELECT * FROM producto');
     console.log(products);
-    res.render('userC/principalC', { products });
+    res.render('userC/principalC', { products, nombre: req.session.username });
 });
 
 router.get('/profileC', (req, res) => {
-    res.render('userC/profileC');
+    res.render('userC/profileC', { nombre: req.session.username });
 });
 
 router.get('/editProfileC', (req, res) => {
-    res.render('userC/editProfileC');
+    res.render('userC/editProfileC', { nombre: req.session.username });
 });
 router.get('/addDirectionC', (req, res) => {
     res.render('userC/addDirectionC');
@@ -28,7 +30,7 @@ router.get('/addCardC', (req, res) => {
     res.render('userC/addCardC');
 });
 router.get('/shoppingCartC', (req, res) => {
-    res.render('userC/shoppingCartC');
+    res.render('userC/shoppingCartC', { nombre: req.session.username });
 });
 
 

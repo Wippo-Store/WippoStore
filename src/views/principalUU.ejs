@@ -32,30 +32,12 @@
     </main>
 
     <!--Section: Products-->
-    <section class="section-name py-1">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 ">
-                    <div href="#" class="card card-product-grid mb-3 products pt-2">
-                        <a href="#" class="img-wrap"> <img src="/images/cel1.jpg"> </a>
-                        <div class="card-body text-center">
-                            <!--Category & Title-->
-                            <a href="" class="navbar-brand mb-0 h1 ">
-                                <h5 class="text-dark">SAMSUNG Galaxy A51</h5>
-                                <strong class="text-dark">$6,500.00</strong>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Product Card -->
-            </div>
-        </div>
-    </section>
-    <!--Section: Products -->
+    <%- include("./layouts/allProduct") %>
+        <!--Section: Products -->
 
-    <footer>
-        <%- include("./layouts/footer") %>
-    </footer>
+        <footer>
+            <%- include("./layouts/footer") %>
+        </footer>
 </body>
 
 </html>

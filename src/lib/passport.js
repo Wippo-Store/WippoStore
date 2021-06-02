@@ -9,7 +9,7 @@ passport.use('local.loginU', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async(req, username, password, done) => {
-    const rows = await pool.query('SELECT ID_Usuario,Contraseña FROM Usuario WHERE Correo_Electronico = ?', [username]);
+    const rows = await pool.query('SELECT ID_Usuario,Contraseña,Nombre FROM Usuario WHERE Correo_Electronico = ?', [username]);
     if (rows.length > 0) {
         console.log(rows[0].Contraseña, password);
         const user = rows[0];
@@ -17,6 +17,7 @@ passport.use('local.loginU', new LocalStrategy({
         if (rows[0].Contraseña == password) {
             rows.id = 1;
             console.log('Acceso exitoso');
+            req.session.username = rows[0].Nombre;
             return done(null, rows);
         } else {
             console.log('Contraseñas no coinciden');
