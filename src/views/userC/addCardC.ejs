@@ -30,16 +30,16 @@
                     <div class="row g-3">
                         <div class="col-md-12 form-group">
                             <label>Introduce la información de la tarjeta</label>
-                            <input type="text" class="form-control" placeholder="Nombre en la tarjera" name="street">
+                            <input required type="text" class="form-control" placeholder="Nombre en la tarjeta*" name="street">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-12 form-group">
-                            <input type="number" min="0" class="form-control" placeholder="Número de tarjeta" name="noext">
+                            <input required type="number" min="0" class="form-control" placeholder="Número de tarjeta" name="noext">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label for="">Fecha de vencimiento</label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select required class="form-select" aria-label="Default select example">
                                 <option selected>01</option>
                                 <option value="02">02</option>
                                 <option value="03">03</option>
@@ -57,7 +57,7 @@
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label for=""></label>
-                            <select class="form-select" aria-label="Default select example">
+                            <select required class="form-select" aria-label="Default select example">
                                 <option value="2021" selected>2021</option>
                                 <option value="2022">2022</option>
                                 <option value="2023">2023</option>
@@ -75,7 +75,7 @@
                         <!-- form-group end.// -->
                         <div class="col-md-3 form-group">
                             <label>CVV</label>
-                            <input type="number" class="form-control" placeholder="CVV" name="street">
+                            <input required type="number" class="form-control" placeholder="CVV" name="street">
                         </div>
                         <!-- form-group end.// -->
                     </div>

@@ -4,14 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet " href="css/style.css">
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
     <script src="../public/emailCorrect.js"></script>
     <title>Registro Comprador</title>
 </head>
@@ -22,28 +29,30 @@
             <article class="card-body">
                 <header class="mb-2">
                     <div class="d-flex justify-content-center">
-                        <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100" alt=""></a>
+                        <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100"
+                                alt=""></a>
                     </div>
                     <div class="d-flex justify-content-center">
                         <h4 class="card-title mb-4">Registro Comprador</h4>
                     </div>
                 </header>
-                <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate>
+                <!-- <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate> -->
+                <form action="/authentication/signupC" method="POST" class=" needs-validation">
                     <!--Nombre completo-->
                     <div class="row g-3">
                         <div class="col-md-4 form-group">
                             <label>Nombre*</label>
-                            <input type="text" class="form-control" name="Nombre" autofocus>
+                            <input required type="text" class="form-control" name="Nombre" autofocus>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Paterno*</label>
-                            <input type="text" class="form-control" name="Apellido_Paterno">
+                            <input required type="text" class="form-control" name="Apellido_Paterno">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Materno*</label>
-                            <input type="text" class="form-control" name="Apellido_Materno">
+                            <input required type="text" class="form-control" name="Apellido_Materno">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -51,7 +60,8 @@
                     <div class="form-group form-row">
                         <label class="col-md-3 col-form-label">Email*</label>
                         <div class="col">
-                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="Correo_Electronico" id="email">
+                            <input required type="email" class="form-control" placeholder="Ej. john@gmail.com"
+                                name="Correo_Electronico" id="email">
                             <span id="emailOK"></span>
                         </div>
                     </div>
@@ -59,34 +69,37 @@
                     <div class="row g-3">
                         <div class="col-md form-group">
                             <label>Direccion</label>
-                            <input type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
+                            <input required type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-2 form-group">
                             <label></label>
-                            <input type="number" min="0" class="form-control" placeholder="No. Ext" name="Num_ext">
+                            <input required type="number" min="0" class="form-control" placeholder="No. Ext"
+                                name="Num_ext">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-2 form-group">
                             <label></label>
-                            <input type="number" min="0" class="form-control" placeholder="No. Int" name="Num_int">
+                            <input required type="number" min="0" class="form-control" placeholder="No. Int"
+                                name="Num_int">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-3 form-group">
                             <label></label>
-                            <input type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
+                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Colonia" name="Colonia">
+                            <input required type="text" class="form-control" placeholder="Colonia" name="Colonia">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio">
+                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía"
+                                name="Municipio">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Estado" name="Estado">
+                            <input required type="text" class="form-control" placeholder="Estado" name="Estado">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -94,12 +107,12 @@
                     <div class="row g-3">
                         <div class="col-md-6 form-group">
                             <label>Contraseña*</label>
-                            <input type="password" class="form-control" placeholder="" name="Contraseña">
+                            <input required type="password" class="form-control" placeholder="" name="Contraseña">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-6 form-group">
                             <label>Confirmar contraseña*</label>
-                            <input type="password" class="form-control" placeholder="" name="passr">
+                            <input required type="password" class="form-control" placeholder="" name="passr">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -107,9 +120,9 @@
                     <div class="form-group form-row">
                         <div class="col-sm-9 ">
                             <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked> 
-                    Estoy de acuerdo con los <a href="#" target="_blank">términos y condiciones</a>
-                    </label>
+                                <input required type="checkbox" class="custom-control-input" id="customCheck1" checked>
+                                Estoy de acuerdo con los <a href="#" target="_blank">términos y condiciones</a>
+                            </label>
 
                         </div>
                     </div>
