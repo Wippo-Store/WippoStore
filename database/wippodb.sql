@@ -90,7 +90,7 @@ create table if not exists Tarjeta_Registrada(
     No_Tarjeta varchar(16) not null,
     Mes char(2) not null,
     Año char(2)  not null,
-    ID_Usuario varchar(30) not null,
+    ID_Usuario int(11) not null,
     primary key (No_Tarjeta),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
 )engine=innodb;
