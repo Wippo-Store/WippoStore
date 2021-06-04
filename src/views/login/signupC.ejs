@@ -2,18 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet " href="css/style.css">
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="../public/emailCorrect.js"></script>
-    <title>Registro Comprador</title>
+    <%- include("../layouts/head") %>
 </head>
 
 <body>
@@ -49,7 +38,7 @@
                     </div>
                     <!-- Correo -->
                     <div class="form-group form-row">
-                        <label class="col-md-3 col-form-label">Email*</label>
+                        <label class="col-md-3 col-form-label">Correo electrónico*</label>
                         <div class="col">
                             <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="Correo_Electronico" id="email">
                             <span id="emailOK"></span>
@@ -94,7 +83,7 @@
                     <div class="row g-3">
                         <div class="col-md-6 form-group">
                             <label>Contraseña*</label>
-                            <input type="password" class="form-control" placeholder="" name="Contraseña">
+                            <input type="password" class="form-control" placeholder="" name="Contraseña" data-bs-toggle="tooltip" data-bs-placement="top" title="Como mínimo 6 caracteres, al menos una letra, un número o un símbolo">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-6 form-group">
@@ -107,7 +96,7 @@
                     <div class="form-group form-row">
                         <div class="col-sm-9 ">
                             <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1" checked> 
+                    <input type="checkbox" class="custom-control-input" id="customCheck1" required> 
                     Estoy de acuerdo con los <a href="#" target="_blank">términos y condiciones</a>
                     </label>
 

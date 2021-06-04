@@ -3,33 +3,39 @@ const router = express.Router();
 
 /*library passport*/
 const passport = require('passport');
+const { isNotLoggedIn } = require('../lib/helpers');
 
 /* to open windows */
-router.get('/loginU', (req, res) => {
-    res.render('login/loginU');
+router.get('/loginU', isNotLoggedIn, (req, res) => {
+    res.render('login/loginU', { titulo: 'InicioSesion' });
 });
 
-router.get('/loginV', (req, res) => {
-    res.render('login/loginV');
+router.get('/loginV', isNotLoggedIn, (req, res) => {
+    res.render('login/loginV', { titulo: 'InicioSesionVendedor' });
 });
 
-router.get('/signOption', (req, res) => {
-    res.render('login/signOption', { title: 'Registro ' });
+router.get('/logout', (req, res) => {
+    req.logOut();
+    res.redirect('/');
 });
 
-router.get('/signupC', (req, res) => {
-    res.render('login/signupC');
+router.get('/signOption', isNotLoggedIn, (req, res) => {
+    res.render('login/signOption', { titulo: 'Registro Usuario' });
 });
 
-router.get('/signupV', (req, res) => {
-    res.render('login/signupV');
+router.get('/signupC', isNotLoggedIn, (req, res) => {
+    res.render('login/signupC', { titulo: 'Registro UsuarioComprador' });
 });
 
-router.get('/recoverC', (req, res) => {
-    res.render('login/recoverC');
+router.get('/signupV', isNotLoggedIn, (req, res) => {
+    res.render('login/signupV', { titulo: 'Registro UsuarioVendedor' });
 });
 
-/* get form */
+router.get('/recoverC', isNotLoggedIn, (req, res) => {
+    res.render('login/recoverC', { titulo: 'Recuperar Contraseña' });
+});
+
+/* GET FORM */
 router.post('/signupC', passport.authenticate('local.signupC', {
     successRedirect: './loginU',
     failureRedirect: './signupC',

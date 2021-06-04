@@ -1,7 +1,3 @@
-body {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
 a {
     color: #00B7FF;
 }
@@ -200,4 +196,19 @@ a {
 .price {
     font-weight: 600;
     color: #212529;
+}
+
+
+/* SHOPPING DETAILS*/
+
+.wippo-radio {
+    color: #fff;
+    border-color: #1f1f1f !important;
+    background-color: #ffff !important;
+}
+
+.wippo-radio:checked {
+    color: #fff;
+    border-color: #1f1f1f !important;
+    background-color: #1f1f1f !important;
 }

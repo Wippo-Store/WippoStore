@@ -2,53 +2,37 @@ var express = require('express');
 var router = express.Router();
 
 const pool = require('../db');
+const { isLoggedIn } = require('../lib/helpers');
+const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', async(req, res) => { /*UNREGISTERED USER*/
+router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
     const products = await pool.query('SELECT * FROM producto');
-    console.log(products);
-    res.render('principalUU', { message: req.flash('message'), products });
+    res.render('principalUU', { titulo: 'WippoStore', products });
 });
 
-router.get('/principalC', async(req, res) => {
+router.get('/principalC', isLoggedIn, async(req, res) => {
     const products = await pool.query('SELECT * FROM producto');
-    console.log(products);
-    res.render('userC/principalC', { products, nombre: req.session.username });
+    res.render('userC/principalC', { products, nombre: req.session.username, titulo: 'WippoStore' });
 });
 
-router.get('/profileC', (req, res) => {
-    address_list = [
-        { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
-        { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
-    ]
-
-    payments_list = [
-        { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
-        { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
-    ]
-
-    user = {
-        name: "Roy",
-        mail: "roy@gmail.com",
-    }
+router.get('/profileC', isLoggedIn, (req, res) => {
     res.render('userC/profileC', {
-        user: user,
-        address_list: address_list,
-        payments_list: payments_list,
-        nombre: req.session.username
+        nombre: req.session.username,
+        titulo: 'Mi perfil - WippoStore'
     });
 });
 
-router.get('/editProfileC', (req, res) => {
+router.get('/editProfileC', isLoggedIn, (req, res) => {
     res.render('userC/editProfileC', { nombre: req.session.username });
 });
-router.get('/addDirectionC', (req, res) => {
-    res.render('userC/addDirectionC');
+router.get('/addDirectionC', isLoggedIn, (req, res) => {
+    res.render('userC/addDirectionC', { titulo: 'Agregar Dirección' });
 });
-router.get('/addCardC', (req, res) => {
-    res.render('userC/addCardC');
+router.get('/addCardC', isLoggedIn, (req, res) => {
+    res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });
 });
-router.get('/shoppingCartC', (req, res) => {
+router.get('/shoppingCartC', isLoggedIn, (req, res) => {
     res.render('userC/shoppingCartC', { nombre: req.session.username });
 });
 
@@ -75,7 +59,9 @@ router.get('/shoppingDetails', (req, res) => {
         tax: tax,
         total: total,
         addres_list: addess_list,
-        payments_list: payments_list
+        payments_list: payments_list,
+        nombre: req.session.username,
+        titulo: 'Carrito - WippoStore'
     });
 });
 
