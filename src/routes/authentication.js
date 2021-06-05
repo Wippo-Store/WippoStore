@@ -36,8 +36,8 @@ router.get('/recoverC', isNotLoggedIn, (req, res) => {
 });
 
 /* GET FORM */
-router.post('/signupC', passport.authenticate('local.signupC', {
-    successRedirect: './loginU',
+router.post('/signupC', passport.authenticate('local.signupC', { // signupC debe hacer passaporte?
+    successRedirect: '/',
     failureRedirect: './signupC',
     failureFlash: true
 }));
