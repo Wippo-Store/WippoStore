@@ -21,21 +21,22 @@ require('./lib/passport');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
 app.use(session({
     secret: 'secret',
     resave: false,
     saveUninitialized: false,
     store: new mysqlStore(database)
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+//app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'lib')));
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -45,10 +46,11 @@ app.use('/products', productsRouter);
 //Messages
 app.use((req, res, next) => {
     app.locals.success = req.flash('success');
-    app.locals.message = req.flash('message');
+    app.locals.message_er = req.flash('message_er');
     app.locals.user = req.user;
     next();
 });
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

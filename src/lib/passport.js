@@ -9,22 +9,22 @@ passport.use('local.loginU', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async(req, username, password, done) => {
-    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre FROM Usuario WHERE Correo_Electronico = ?', [username]);
+    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre,Correo_Electronico FROM Usuario WHERE Correo_Electronico = ?', [username]);
     if (rows.length > 0) {
         if (rows[0].Contraseña == password) {
             const user = rows[0];
             console.log('Acceso exitoso');
-            req.session.username = user.Nombre;
+            req.session.user = user;
             console.log(user);
-            return done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
+            done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
 
         } else {
             console.log('Contraseñas no coinciden');
-            return done(null, false, req.flash('message', 'Contraseña incorrecta'));
+            done(null, false, req.flash('message_er', 'Contraseña incorrecta'));
         }
     } else {
-        console.log('Usuario no exite')
-        return done(null, false, req.flash('message', 'El usuario no existe'));
+        console.log('Usuario no exite');
+        return done(null, false, req.flash('message_er', 'El usuario no existe'));
     }
 }));
 

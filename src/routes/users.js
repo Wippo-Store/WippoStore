@@ -13,12 +13,18 @@ router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED US
 
 router.get('/principalC', isLoggedIn, async(req, res) => {
     const products = await pool.query('SELECT * FROM producto');
-    res.render('userC/principalC', { products, nombre: req.session.username, titulo: 'WippoStore' });
+    res.render('userC/principalC', {
+        products,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 
 router.get('/profileC', isLoggedIn, (req, res) => {
     res.render('userC/profileC', {
-        nombre: req.session.username,
+        user: req.session.user,
         titulo: 'Mi perfil - WippoStore'
     });
 });

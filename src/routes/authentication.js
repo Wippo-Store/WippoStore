@@ -7,7 +7,7 @@ const { isNotLoggedIn } = require('../lib/helpers');
 
 /* to open windows */
 router.get('/loginU', isNotLoggedIn, (req, res) => {
-    res.render('login/loginU', { titulo: 'InicioSesion' });
+    res.render('login/loginU', { titulo: 'InicioSesion', message_er: req.flash('message_er'), success: req.flash('success') });
 });
 
 router.get('/loginV', isNotLoggedIn, (req, res) => {

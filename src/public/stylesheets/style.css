@@ -212,3 +212,10 @@ a {
     border-color: #1f1f1f !important;
     background-color: #1f1f1f !important;
 }
+
+.alert-fixed {
+    position: fixed;
+    top: 2rem;
+    z-index: 9999;
+    border-radius: 5px;
+}

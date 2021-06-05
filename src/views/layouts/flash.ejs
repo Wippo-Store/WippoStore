@@ -1,14 +1,19 @@
-<% if(this.success) { %>
-    <div class="container p-4">
-        <div class="row">
-            <div class="col-md-4 mx-auto">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <%= success %>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-            </div>
+<% if(message_er.length > 0) { %>
+    <div class="d-flex justify-content-end pe-4">
+        <div class="alert alert-danger alert-dismissible fade show alert-fixed" role="alert">
+            <%= message_er %>
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     <% } %>
+
+        <% if(success.length > 0) { %>
+
+            <div class="d-flex justify-content-end pe-4">
+                <div class="alert alert-success alert-dismissible fade show alert-fixed" role="alert">
+                    <%= success %>
+                        <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+
+            <% } %>
