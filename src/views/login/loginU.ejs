@@ -19,16 +19,16 @@
 
                     <form action="/authentication/loginU" method="POST">
                         <div class="form-group p-3">
-                            <label>Correo electrónico</label>
-                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="username">
+                            <label>Correo electrónico*</label>
+                            <input required type="email" class="form-control" placeholder="Ej. john@gmail.com" name="username">
                         </div>
                         <!-- form-group// -->
                         <div class="form-group p-3">
                             <div class="d-flex justify-content-between">
-                                <label>Contraseña</label>
+                                <label>Contraseña*</label>
                                 <a class="card-link" href="./recoverC">¿Has olvidado la contraseña?</a>
                             </div>
-                            <input class="form-control" placeholder="*********" type="password" name="password">
+                            <input required class="form-control" placeholder="*********" type="password" name="password">
                         </div>
                         <!-- form-group// -->
                         <div class="form-group p-3 d-flex justify-content-end">

@@ -11,28 +11,30 @@
             <article class="card-body">
                 <header class="mb-2">
                     <div class="d-flex justify-content-center">
-                        <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100" alt=""></a>
+                        <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100"
+                                alt=""></a>
                     </div>
                     <div class="d-flex justify-content-center">
                         <h4 class="card-title mb-4">Registro Comprador</h4>
                     </div>
                 </header>
-                <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate>
+                <!-- <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate> -->
+                <form action="/authentication/signupC" method="POST" class=" needs-validation">
                     <!--Nombre completo-->
                     <div class="row g-3">
                         <div class="col-md-4 form-group">
                             <label>Nombre*</label>
-                            <input type="text" class="form-control" name="Nombre" autofocus>
+                            <input required type="text" class="form-control" name="Nombre" autofocus>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Paterno*</label>
-                            <input type="text" class="form-control" name="Apellido_Paterno">
+                            <input required type="text" class="form-control" name="Apellido_Paterno">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label>Apellido Materno*</label>
-                            <input type="text" class="form-control" name="Apellido_Materno">
+                            <input required type="text" class="form-control" name="Apellido_Materno">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -40,7 +42,8 @@
                     <div class="form-group form-row">
                         <label class="col-md-3 col-form-label">Correo electrónico*</label>
                         <div class="col">
-                            <input type="email" class="form-control" placeholder="Ej. john@gmail.com" name="Correo_Electronico" id="email">
+                            <input required type="email" class="form-control" placeholder="Ej. john@gmail.com"
+                                name="Correo_Electronico" id="email">
                             <span id="emailOK"></span>
                         </div>
                     </div>
@@ -48,34 +51,37 @@
                     <div class="row g-3">
                         <div class="col-md form-group">
                             <label>Direccion</label>
-                            <input type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
+                            <input required type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-2 form-group">
                             <label></label>
-                            <input type="number" min="0" class="form-control" placeholder="No. Ext" name="Num_ext">
+                            <input required type="number" min="0" class="form-control" placeholder="No. Ext"
+                                name="Num_ext">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-2 form-group">
                             <label></label>
-                            <input type="number" min="0" class="form-control" placeholder="No. Int" name="Num_int">
+                            <input required type="number" min="0" class="form-control" placeholder="No. Int"
+                                name="Num_int">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-3 form-group">
                             <label></label>
-                            <input type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
+                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Colonia" name="Colonia">
+                            <input required type="text" class="form-control" placeholder="Colonia" name="Colonia">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio">
+                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía"
+                                name="Municipio">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input type="text" class="form-control" placeholder="Estado" name="Estado">
+                            <input required type="text" class="form-control" placeholder="Estado" name="Estado">
                         </div>
                         <!-- form-group end.// -->
                     </div>
@@ -88,7 +94,7 @@
                         <!-- form-group end.// -->
                         <div class="col-md-6 form-group">
                             <label>Confirmar contraseña*</label>
-                            <input type="password" class="form-control" placeholder="" name="passr">
+                            <input required type="password" class="form-control" placeholder="" name="passr">
                         </div>
                         <!-- form-group end.// -->
                     </div>
