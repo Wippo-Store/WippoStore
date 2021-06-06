@@ -11,10 +11,18 @@ create table if not exists Usuario(
     Apellido_Materno varchar(15) not null, 
     Telefono varchar(17),
     Tipo_Usuario varchar(1) not null,
+    Estatus varchar(20) not null,
     RFC varchar(12),
     primary key(ID_Usuario),
     constraint Tipos_de_Usuario check (Tipo_Usuario = 'A' or Tipo_Usuario 
-    = 'C' or Tipo_Usuario = 'V')
+    = 'C' or Tipo_Usuario = 'V'),
+    constraint Estado_usuario check (Estatus="Activo" or Estatus="PorValidarEmail")
+)ENGINE=INNODB;
+
+CREATE TABLE if not exists TokensCorreo(
+    ID_Usuario INT(11) NOT NULL,
+    token VARCHAR(40) NOT NULL,
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 )ENGINE=INNODB;
 
 create table if not exists Producto(
