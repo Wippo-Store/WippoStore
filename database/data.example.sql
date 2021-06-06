@@ -1,7 +1,7 @@
 
 INSERT INTO `usuario` (`ID_Usuario`, `Correo_Electronico`, `Contraseña`, `Nombre`, `Apellido_Paterno`, `Apellido_Materno`, `Telefono`, `Tipo_Usuario`, `RFC`) VALUES
 (1, 'chavo0022009@gmail.com', '123', 'Roy', 'Rubio', 'Haro', NULL, 'C', NULL),
-(2, 'laura@gmail.com', '123', 'Laura', 'Martínez', 'Sánchez', NULL, 'V', 'MASL900101S1'),
+(2, 'laura@gmail.com', '123', 'Laura', 'Martínez', 'Sánchez', NULL, 'V', 'MASL900101S1');
 
 
 

@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const pool = require('../db');
 
 /*library passport*/
 const passport = require('passport');
 const { isNotLoggedIn } = require('../lib/helpers');
+const mails = require('../lib/mail/mails');
 
 /* to open windows */
 router.get('/loginU', isNotLoggedIn, (req, res) => {
@@ -34,6 +36,24 @@ router.get('/signupV', isNotLoggedIn, (req, res) => {
 router.get('/recoverC', isNotLoggedIn, (req, res) => {
     res.render('login/recoverC', { titulo: 'Recuperar Contraseña' });
 });
+
+router.get('/send', (req, res) => {
+    token = 'wippo_token_' + Math.random().toString(36).substr(2, 9);
+    Host = req.get('Host');
+    link = "http://" + req.get('Host') + "/verify?id=wippo-" + token;
+    console.log("Sending email:")
+    // mails.sendValidation(link, "rodrigo.rubio.haro.digital@gmail.com");
+
+    // const { ID_Usuario } = req.body;
+    const ID_Usuario = 2;
+    pool.query("CALL `addToken`(?, ?);", [token, ID_Usuario], (err, res) => {
+        if (err) throw err;
+        console.log('Last insert ID:', res.insertId);
+        console.log("result:");
+    });
+
+    res.redirect("/");
+})
 
 /* GET FORM */
 router.post('/signupC', passport.authenticate('local.signupC', { // signupC debe hacer passaporte?
