@@ -34,8 +34,23 @@ BEGIN
     REPLACE INTO TokensCorreo(ID_Usuario, token, fecha) VALUES(ID_Usuario, token, now());
 END &&  
 DELIMITER ;  
-
 -- Example: call addToken("1234", 1);
+
+drop PROCEDURE if exists validateToken;
+DELIMITER &&  
+CREATE PROCEDURE validateToken (in user_token VARCHAR(40), in ID_Usuario_r int)  
+BEGIN
+    DECLARE tk Varchar(40);
+    SELECT `token` INTO tk FROM `TokensCorreo` WHERE ID_Usuario = ID_Usuario_r limit 1;
+    if(tk = user_token) then
+        DELETE FROM `TokensCorreo` WHERE ID_Usuario = ID_Usuario_r;
+        UPDATE Usuario  SET  Estatus = 'Activo'  WHERE ID_Usuario = ID_Usuario_r;
+    end if;
+END &&  
+DELIMITER ;  
+
+-- Example: call validateToken("1234", 1);
+
 
 create table if not exists Producto(
 	ID_Producto int(11) not null AUTO_INCREMENT,
