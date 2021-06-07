@@ -33,9 +33,18 @@ router.get('/profileC', isLoggedIn, async (req, res) => {
         return accum;
     }, {});
 
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
     let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
     res.render('userC/profileC', {
         show_adress,
+        show_card,
         address_list,
         user: req.session.user,
         payments_list: payments_list,
