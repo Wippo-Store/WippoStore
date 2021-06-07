@@ -22,6 +22,30 @@ router.get('/principalC', isLoggedIn, async (req, res) => {
     });
 });
 
+
+router.post('/addAddress', isLoggedIn, async (req, res) => {
+    const ID_Usuario = req.session.user.id
+    const Nombre_Calle = req.body.street;
+    const Num_ext = req.body.noext;
+    const Num_int = req.body.noint;
+    const Colonia = req.body.col;
+    const Municipio = req.body.munalc;
+    const Estado = req.body.state;
+    const CP = req.body.cp;
+
+    const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
+        ID_Usuario,
+        Nombre_Calle,
+        Num_ext,
+        Num_int,
+        Colonia,
+        Municipio,
+        Estado,
+        CP
+    ]);
+    res.redirect("./profileC");
+});
+
 router.get('/profileC', isLoggedIn, async (req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
