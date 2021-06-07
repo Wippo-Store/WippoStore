@@ -51,7 +51,8 @@
             <div class="col">
                 <div class="container-fluid pt-3">
                     <p class="h3">Direcciones</p>
-                    <ul class="list-group">
+                    <% if (show_adress) { %>
+                        <ul class="list-group">
                         <% address_list.forEach(address=> { %>
                             <li class="list-group-item">
                                 <div class="d-flex align-items-center">
@@ -78,8 +79,14 @@
                                     </div>
                                 </div>
                             </li>
-                            <% }); %>
+                        <% }); %>
                     </ul>
+                    <%} else { %>
+                        <p> No has registrado ninguna dirección </p>
+                    <% } %>
+                    <div class="nav justify-content-end pt-1">
+                        <a class="btn btn-outline-dark text-end" href="./addCardC">Agregar una tarjeta</a>
+                    </div>
                 </div>
                 <div class="container-fluid pt-3">
                     <p class="h3">Tarjetas</p>

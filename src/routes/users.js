@@ -6,12 +6,12 @@ const { isLoggedIn } = require('../lib/helpers');
 const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
+router.get('/principalUU', isNotLoggedIn, async (req, res) => { /*UNREGISTERED USER*/
     const products = await pool.query('SELECT * FROM producto');
     res.render('principalUU', { titulo: 'WippoStore', products });
 });
 
-router.get('/principalC', isLoggedIn, async(req, res) => {
+router.get('/principalC', isLoggedIn, async (req, res) => {
     const products = await pool.query('SELECT * FROM producto');
     res.render('userC/principalC', {
         products,
@@ -25,8 +25,17 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
 router.get('/profileC', isLoggedIn, async (req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
-    console.log(payments_list)
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let show_adress = Object.values(address) != 0;
     res.render('userC/profileC', {
+        show_adress,
         address_list,
         user: req.session.user,
         payments_list: payments_list,
