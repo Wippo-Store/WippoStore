@@ -22,9 +22,14 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
     });
 });
 
-router.get('/profileC', isLoggedIn, (req, res) => {
+router.get('/profileC', isLoggedIn, async (req, res) => {
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+    console.log(payments_list)
     res.render('userC/profileC', {
+        address_list,
         user: req.session.user,
+        payments_list: payments_list,
         titulo: 'Mi perfil - WippoStore'
     });
 });
@@ -49,7 +54,7 @@ router.get('/shoppingDetails', (req, res) => {
     var tax = subtotal * iva;
     var total = subtotal + tax;
 
-    addess_list = [
+    address_list = [
         { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
         { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
     ]

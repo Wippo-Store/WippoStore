@@ -52,18 +52,19 @@
                 <div class="container-fluid pt-3">
                     <p class="h3">Direcciones</p>
                     <ul class="list-group">
-                        <li class="list-group-item">
-                            <div class="d-flex align-items-center">
-                                <div class="p-2 flex-grow-1 ">
-                                    <p class="text-break">
-                                        <span class="text-muted">
-                                              
+                        <% address_list.forEach(address=> { %>
+                            <li class="list-group-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 flex-grow-1 ">
+                                        <p class="text-break">
+                                            <span class="text-muted">
+                                                Casa
                                             </span>
-
-                                    </p>
-                                </div>
-                                <div class="p-2 ">
-                                    <button type="button" class="btn btn-secondary">
+                                            <%= address.Nombre_Calle %> #<%= address.Num_ext %> int <%= address.Num_int %>, <%= address.Colonia %>. <%= address.Estado %>. CP <%= address.CP %>,
+                                        </p>
+                                    </div>
+                                    <div class="p-2 ">
+                                        <button type="button" class="btn btn-secondary">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path
@@ -74,28 +75,23 @@
                                                 </path>
                                             </svg>
                                         </button>
+                                    </div>
                                 </div>
-
-                            </div>
-                        </li>
-
-
+                            </li>
+                            <% }); %>
                     </ul>
-                    <div class="nav justify-content-end pt-1">
-                        <a class="btn btn-outline-dark text-end" href="./addDirectionC">Agregar una dirección</a>
-                    </div>
                 </div>
                 <div class="container-fluid pt-3">
                     <p class="h3">Tarjetas</p>
                     <ul class="list-group">
-
-                        <li class="list-group-item ">
-                            <div class="d-flex align-items-center">
-                                <div class="p-2 flex-grow-1 ">
-
-                                </div>
-                                <div class="p-2 ">
-                                    <button type="button" class="btn btn-secondary">
+                        <% payments_list.forEach(payment=> { %>
+                            <li class="list-group-item ">
+                                <div class="d-flex align-items-center">
+                                    <div class="p-2 flex-grow-1 ">
+                                        <%= payment.name %> XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
+                                    </div>
+                                    <div class="p-2 ">
+                                        <button type="button" class="btn btn-secondary">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                 <path
@@ -106,10 +102,10 @@
                                                 </path>
                                             </svg>
                                         </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-
+                            </li>
+                            <% }); %>
                     </ul>
                     <div class="nav justify-content-end pt-1">
                         <a class="btn btn-outline-dark text-end" href="./addCardC">Agregar una tarjeta</a>
