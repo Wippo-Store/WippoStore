@@ -22,12 +22,59 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
     });
 });
 
-router.get('/profileC', isLoggedIn, (req, res) => {
+
+router.post('/addAddress', isLoggedIn, async(req, res) => {
+    const ID_Usuario = req.session.user.id
+    const Nombre_Calle = req.body.street;
+    const Num_ext = req.body.noext;
+    const Num_int = req.body.noint;
+    const Colonia = req.body.col;
+    const Municipio = req.body.munalc;
+    const Estado = req.body.state;
+    const CP = req.body.cp;
+
+    const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
+        ID_Usuario,
+        Nombre_Calle,
+        Num_ext,
+        Num_int,
+        Colonia,
+        Municipio,
+        Estado,
+        CP
+    ]);
+    res.redirect("./profileC");
+});
+
+router.get('/profileC', isLoggedIn, async(req, res) => {
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
     res.render('userC/profileC', {
         titulo: 'Mi perfil - WippoStore',
         user: req.session.user,
         message_er: req.flash('message_er'),
-        success: req.flash('success')
+        success: req.flash('success'),
+        show_adress,
+        show_card,
+        address_list,
+        payments_list: payments_list,
     });
 });
 
@@ -51,7 +98,7 @@ router.get('/shoppingDetails', (req, res) => {
     var tax = subtotal * iva;
     var total = subtotal + tax;
 
-    addess_list = [
+    address_list = [
         { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
         { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
     ]
