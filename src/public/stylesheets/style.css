@@ -219,3 +219,31 @@ a {
     z-index: 9999;
     border-radius: 5px;
 }
+
+
+/* FORM ERROR */
+
+.error {
+    width: 100%;
+    font-size: 80%;
+    color: white;
+    background-color: #900;
+    border-radius: 0 0 5px 5px;
+    box-sizing: border-box;
+}
+
+.error.active {
+    padding: 0.3em;
+}
+
+
+/* INVALID INPUT */
+
+input.invalid {
+    border-color: #900;
+    background-color: rgb(248, 222, 222);
+}
+
+input:focus.invalid {
+    outline: none;
+}

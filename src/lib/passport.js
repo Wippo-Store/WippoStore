@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const validData = require('./validation');
 
 const pool = require('../db');
 
@@ -34,6 +35,7 @@ passport.use('local.signupC', new LocalStrategy({
     passwordField: 'Contraseña',
     passReqToCallback: true
 }, async(req, Correo_Electronico, Contraseña, done) => {
+    //console.log(req.body);
     const { Nombre } = req.body;
     const { Apellido_Paterno } = req.body;
     const { Apellido_Materno } = req.body;
@@ -47,49 +49,41 @@ passport.use('local.signupC', new LocalStrategy({
     const { passr } = req.body;
     const RFC = null;
     const Tipo_Usuario = 'C';
-    if (Contraseña === passr) {
-        const newUserC = {
-            Nombre,
-            Apellido_Paterno,
-            Apellido_Materno,
-            Correo_Electronico,
-            Contraseña,
-            RFC,
-            Tipo_Usuario
-        };
-        const email = await pool.query('SELECT COUNT(*) AS n FROM Usuario WHERE Correo_Electronico = ? ', [Correo_Electronico]);
-        console.log(email[0].n);
-        if (email[0].n > 0) {
-            console.log('usuario repetido');
-            email.id = 1;
-            return done(null, email);
-        } else {
-            const result = await pool.query('INSERT INTO Usuario SET ?', [newUserC]);
-            /*console.log(result);*/
-            const ID_Usuario = result.insertId;
-            const newDirectionC = {
-                Nombre_Calle,
-                Num_ext,
-                Num_int,
-                Colonia,
-                CP,
-                Municipio,
-                Estado,
-                ID_Usuario
-            };
-            const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
-            /*console.log(result1);*/
-            newUserC.id = result.insertId;
-            return done(null, newUserC);
-        }
+
+    const newUserC = {
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Correo_Electronico,
+        Contraseña,
+        RFC,
+        Tipo_Usuario
+    };
+    const email = await pool.query('SELECT COUNT(*) AS n, ID_Usuario as id FROM Usuario WHERE Correo_Electronico = ? ', [Correo_Electronico]);
+    console.log(email[0].n);
+    if (email[0].n > 0) {
+        console.log("usuario ya existente");
+        done(null, false, req.flash('message_er', 'Usuario ya existente'));
     } else {
-        var user = {
-            Nombre,
-            passr
+        const result = await pool.query('INSERT INTO Usuario SET ?', [newUserC]);
+        /*console.log(result);*/
+        const ID_Usuario = result.insertId;
+        const newDirectionC = {
+            Nombre_Calle,
+            Num_ext,
+            Num_int,
+            Colonia,
+            CP,
+            Municipio,
+            Estado,
+            ID_Usuario
         };
-        user.id = 1;
-        return done(null, user);
+        const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
+        /*console.log(result1);*/
+        newUserC.id = result.insertId;
+        return done(null, newUserC, req.flash('success', 'Registro éxitoso'));
     }
+
 }));
 
 passport.serializeUser((user, done) => {

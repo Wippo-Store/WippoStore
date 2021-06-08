@@ -9,7 +9,11 @@ const mails = require('../lib/mail/mails');
 
 /* to open windows */
 router.get('/loginU', isNotLoggedIn, (req, res) => {
-    res.render('login/loginU', { titulo: 'InicioSesion', message_er: req.flash('message_er'), success: req.flash('success') });
+    res.render('login/loginU', {
+        titulo: 'InicioSesion',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 
 router.get('/loginV', isNotLoggedIn, (req, res) => {
@@ -26,7 +30,11 @@ router.get('/signOption', isNotLoggedIn, (req, res) => {
 });
 
 router.get('/signupC', isNotLoggedIn, (req, res) => {
-    res.render('login/signupC', { titulo: 'Registro UsuarioComprador' });
+    res.render('login/signupC', {
+        titulo: 'Registro UsuarioComprador',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 
 router.get('/signupV', isNotLoggedIn, (req, res) => {
@@ -54,7 +62,7 @@ router.get('/send', (req, res) => {
     res.redirect("/");
 })
 
-router.post('/verify', function (req, res) {
+router.post('/verify', function(req, res) {
     Host = "localhost:3000";
     console.log(req.protocol + ":/" + req.get('Host'));
     const { token } = req.query;
@@ -75,18 +83,19 @@ router.post('/verify', function (req, res) {
                 res.send("<h1>Email is been Successfully verified");
             }
         });
-    }
-    else
+    } else
         res.end(`<h1>Request is from unknown source: ${req.protocol}://${req.get('Host')} == http://${Host}}`);
 
 });
 
 /* GET FORM */
-router.post('/signupC', passport.authenticate('local.signupC', { // signupC debe hacer passaporte?
-    successRedirect: '/',
-    failureRedirect: './signupC',
-    failureFlash: true
-}));
+router.post('/signupC', (req, res, next) => {
+    passport.authenticate('local.signupC', { // signupC debe hacer passport
+        successRedirect: '/',
+        failureRedirect: './signupC',
+        failureFlash: true
+    })(req, res, next);
+});
 
 router.post('/loginU', (req, res, next) => {
     passport.authenticate('local.loginU', {

@@ -3,121 +3,122 @@
 
 <head>
     <%- include("../layouts/head") %>
+
 </head>
 
 <body>
-    <div class="m-4 mx-auto border-light" style="width: 60%;">
-        <div class="card">
-            <article class="card-body">
-                <header class="mb-2">
-                    <div class="d-flex justify-content-center">
-                        <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100"
-                                alt=""></a>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <h4 class="card-title mb-4">Registro Comprador</h4>
-                    </div>
-                </header>
-                <!-- <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate> -->
-                <form action="/authentication/signupC" method="POST" class=" needs-validation">
-                    <!--Nombre completo-->
-                    <div class="row g-3">
-                        <div class="col-md-4 form-group">
-                            <label>Nombre*</label>
-                            <input required type="text" class="form-control" name="Nombre" autofocus>
+    <%- include("../layouts/flash") %>
+        <div class="m-4 mx-auto border-light" style="width: 60%;">
+            <div class="card">
+                <article class="card-body">
+                    <header class="mb-2">
+                        <div class="d-flex justify-content-center">
+                            <a href="/authentication/signOption"><img src="/images/logo1.png " width="140" height="100" alt=""></a>
                         </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <label>Apellido Paterno*</label>
-                            <input required type="text" class="form-control" name="Apellido_Paterno">
+                        <div class="d-flex justify-content-center">
+                            <h4 class="card-title mb-4">Registro Comprador</h4>
                         </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <label>Apellido Materno*</label>
-                            <input required type="text" class="form-control" name="Apellido_Materno">
-                        </div>
-                        <!-- form-group end.// -->
-                    </div>
-                    <!-- Correo -->
-                    <div class="form-group form-row">
-                        <label class="col-md-3 col-form-label">Correo electrónico*</label>
-                        <div class="col">
-                            <input required type="email" class="form-control" placeholder="Ej. john@gmail.com"
-                                name="Correo_Electronico" id="email">
-                            <span id="emailOK"></span>
-                        </div>
-                    </div>
-                    <!-- Direccion -->
-                    <div class="row g-3">
-                        <div class="col-md form-group">
-                            <label>Direccion</label>
-                            <input required type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-2 form-group">
-                            <label></label>
-                            <input required type="number" min="0" class="form-control" placeholder="No. Ext"
-                                name="Num_ext">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-2 form-group">
-                            <label></label>
-                            <input required type="number" min="0" class="form-control" placeholder="No. Int"
-                                name="Num_int">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-3 form-group">
-                            <label></label>
-                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <input required type="text" class="form-control" placeholder="Colonia" name="Colonia">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía"
-                                name="Municipio">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-4 form-group">
-                            <input required type="text" class="form-control" placeholder="Estado" name="Estado">
-                        </div>
-                        <!-- form-group end.// -->
-                    </div>
-                    <!--Contraseña-->
-                    <div class="row g-3">
-                        <div class="col-md-6 form-group">
-                            <label>Contraseña*</label>
-                            <input type="password" class="form-control" placeholder="" name="Contraseña" data-bs-toggle="tooltip" data-bs-placement="top" title="Como mínimo 6 caracteres, al menos una letra, un número o un símbolo">
-                        </div>
-                        <!-- form-group end.// -->
-                        <div class="col-md-6 form-group">
-                            <label>Confirmar contraseña*</label>
-                            <input required type="password" class="form-control" placeholder="" name="passr">
-                        </div>
-                        <!-- form-group end.// -->
-                    </div>
+                    </header>
+                    <!-- <form action="/authentication/signupC" method="POST" class=" needs-validation" novalidate> -->
+                    <form action="/authentication/signupC" method="POST">
+                        <!--Nombre completo-->
+                        <div class="row g-3">
+                            <div class="col-md-4 form-group">
+                                <label>Nombre*</label>
+                                <input required type="text" class="form-control" name="Nombre" autofocus>
 
-                    <div class="form-group form-row">
-                        <div class="col-sm-9 ">
-                            <label class="custom-control custom-checkbox">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <label>Apellido Paterno*</label>
+                                <input required type="text" class="form-control" name="Apellido_Paterno">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <label>Apellido Materno*</label>
+                                <input required type="text" class="form-control" name="Apellido_Materno">
+                            </div>
+                            <!-- form-group end.// -->
+                        </div>
+                        <!-- Correo -->
+                        <div class="form-group form-row">
+                            <label class="col-md-3 col-form-label" for="mail">Correo electrónico*</label>
+                            <div class="col">
+                                <input required type="text" class="form-control mail" placeholder="Ej. john@gmail.com" id="mail" name="mail">
+                                <span class="errorE" aria-live="polite"></span>
+                            </div>
+                        </div>
+                        <!-- Direccion -->
+                        <div class="row g-3">
+                            <div class="col-md form-group">
+                                <label>Direccion</label>
+                                <input required type="text" class="form-control" placeholder="Calle" name="Nombre_Calle">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-2 form-group">
+                                <label></label>
+                                <input required type="number" min="0" class="form-control" placeholder="No. Ext" name="Num_ext">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-2 form-group">
+                                <label></label>
+                                <input required type="number" min="0" class="form-control" placeholder="No. Int" name="Num_int">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-3 form-group">
+                                <label></label>
+                                <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <input required type="text" class="form-control" placeholder="Colonia" name="Colonia">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio">
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <input required type="text" class="form-control" placeholder="Estado" name="Estado">
+                            </div>
+                            <!-- form-group end.// -->
+                        </div>
+                        <!--Contraseña-->
+                        <div class="row g-3">
+                            <div class="col-md-6 form-group">
+                                <label for="pass">Contraseña*</label>
+                                <input type="password" class="form-control" placeholder="" name="Contraseña" id="pass" data-bs-toggle="tooltip" data-bs-placement="top" title="Como mínimo 6 caracteres, al menos una letra, un número o un símbolo">
+                                <span class="errorP" aria-live="polite"></span>
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-6 form-group">
+                                <label for="passr">Confirmar contraseña*</label>
+                                <input required type="password" class="form-control" placeholder="" id="passr" name="passr">
+                                <span class="errorPr" aria-live="polite"></span>
+                            </div>
+                            <!-- form-group end.// -->
+                        </div>
+
+                        <div class="form-group form-row">
+                            <div class="col-sm-9 ">
+                                <label class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="customCheck1" required> 
                     Estoy de acuerdo con los <a href="#" target="_blank">términos y condiciones</a>
                     </label>
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group p-3 d-flex justify-content-end">
-                        <button class="btn btn-outline-dark" name="btnR">Registrarse</button>
-                    </div>
-                    <!-- form-group// -->
-                </form>
-            </article>
-            <!-- card-body end .// -->
-            <div class="card-footer text-center">¿Tienes una cuenta? <a href="./loginU">Inicia sesión</a></div>
+                        <div class="form-group p-3 d-flex justify-content-end">
+                            <input type="submit" class="btn btn-outline-dark" name="btnR" id="btn" value="Registrarse">
+                        </div>
+                        <!-- form-group// -->
+                    </form>
+                    <script src="/javascripts/validation.js"></script>
+                </article>
+                <!-- card-body end .// -->
+                <div class="card-footer text-center">¿Tienes una cuenta? <a href="./loginU">Inicia sesión</a></div>
+            </div>
         </div>
-    </div>
 
 </body>
 

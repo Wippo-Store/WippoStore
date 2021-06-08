@@ -24,8 +24,10 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
 
 router.get('/profileC', isLoggedIn, (req, res) => {
     res.render('userC/profileC', {
+        titulo: 'Mi perfil - WippoStore',
         user: req.session.user,
-        titulo: 'Mi perfil - WippoStore'
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
     });
 });
 
