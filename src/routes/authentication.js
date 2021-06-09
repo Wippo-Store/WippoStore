@@ -21,7 +21,8 @@ router.get('/loginV', isNotLoggedIn, (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.logOut();
+    req.logout();
+    req.session.destroy();
     res.redirect('/');
 });
 
