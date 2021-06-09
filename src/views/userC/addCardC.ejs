@@ -15,7 +15,7 @@
                         <h4 class="card-title mb-4">Agregar Tarjeta</h4>
                     </div>
                 </header>
-                <form method="POST" class=" needs-validation" novalidate>
+                <form method="POST" action="/users/addPayment" class=" needs-validation" novalidate>
                     <!-- Direccion -->
                     <div class="row g-3">
                         <div class="col-md-12 form-group">
@@ -24,12 +24,12 @@
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-12 form-group">
-                            <input required type="number" min="0" class="form-control" placeholder="Número de tarjeta" name="noext">
+                            <input required type="number" min="0" class="form-control" placeholder="Número de tarjeta" name="No_Tarjeta">
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label for="">Fecha de vencimiento</label>
-                            <select required class="form-select" aria-label="Default select example">
+                            <select name="Mes" required class="form-select" aria-label="Default select example">
                                 <option selected>01</option>
                                 <option value="02">02</option>
                                 <option value="03">03</option>
@@ -47,7 +47,7 @@
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
                             <label for=""></label>
-                            <select required class="form-select" aria-label="Default select example">
+                            <select name="Año" required class="form-select" aria-label="Default select example">
                                 <option value="2021" selected>2021</option>
                                 <option value="2022">2022</option>
                                 <option value="2023">2023</option>
