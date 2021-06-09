@@ -35,21 +35,25 @@
                 <li>
                 </li>
             </ul>
-            <p class="pt-4 fw-bold">Hola,
-                <%= user.Nombre %>
-            </p>
-            <button class="btn "><i class="bi bi-cart-plus size" ></i></button>
-            <div class="widget dropdown d-inline-block ">
-                <a href="#" class="text-dark icontext dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="bi bi-person size align-middle"></i>
-                </a>
-                <!-- iconbox // -->
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/users/profileC">Mi perfil</a>
-                    <a class="dropdown-item" href="/authentication/logout">Cerrar Sesión</a>
-                </div>
+            <%if (!user) {%>
+                <a class="nav-link text-dark fs-5" aria-current="page" href="/authentication/loginU">Iniciar Sesión</a>
+                <%} else {%>
+                    <p class="pt-4 fw-bold">Hola,
+                        <%= user.Nombre %>
+                    </p>
+                    <button class="btn "><i class="bi bi-cart-plus size" ></i></button>
+                    <div class="widget dropdown d-inline-block ">
+                        <a href="#" class="text-dark icontext dropdown-toggle nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-person size align-middle"></i>
+                        </a>
+                        <!-- iconbox // -->
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/users/profileC">Mi perfil</a>
+                            <a class="dropdown-item" href="/authentication/logout">Cerrar Sesión</a>
+                        </div>
+                        <%}%>
 
-            </div>
+                    </div>
         </div>
     </div>
 </nav>
