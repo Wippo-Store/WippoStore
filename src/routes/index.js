@@ -3,9 +3,7 @@ var router = express.Router();
 
 const { isNotLoggedIn } = require('../lib/helpers');
 /* GET home page. */
-router.get('/', isNotLoggedIn, function(req, res, next) {
-    req.flash("msg", "Error Occured");
-    res.locals.messages = req.flash();
+router.get('/', function(req, res, next) {
     res.render('index', { titulo: 'WIPPOSTORE' });
 });
 

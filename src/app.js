@@ -28,13 +28,13 @@ app.use(session({
     saveUninitialized: false,
     store: new mysqlStore(database)
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(flash());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-//app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 

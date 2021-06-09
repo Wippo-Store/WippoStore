@@ -81,7 +81,8 @@ passport.use('local.signupC', new LocalStrategy({
         const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
         /*console.log(result1);*/
         newUserC.id = result.insertId;
-        return done(null, newUserC, req.flash('success', 'Registro éxitoso'));
+        console.log('registro exitoso')
+        return done(null, newUserC, req.flash('success', 'Registro exitoso'));
     }
 
 }));

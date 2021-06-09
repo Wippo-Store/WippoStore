@@ -89,13 +89,11 @@ router.post('/verify', function(req, res) {
 });
 
 /* GET FORM */
-router.post('/signupC', (req, res, next) => {
-    passport.authenticate('local.signupC', { // signupC debe hacer passport
-        successRedirect: '/',
-        failureRedirect: './signupC',
-        failureFlash: true
-    })(req, res, next);
-});
+router.post('/signupC', passport.authenticate('local.signupC', { // signupC debe hacer passport
+    successRedirect: '/authentication/loginU',
+    failureRedirect: './signupC',
+    failureFlash: true
+}));
 
 router.post('/loginU', (req, res, next) => {
     passport.authenticate('local.loginU', {
