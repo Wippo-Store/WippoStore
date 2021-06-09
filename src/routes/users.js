@@ -46,7 +46,22 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
     res.redirect("./profileC");
 });
 
-router.get('/profileC', isLoggedIn, async(req, res) => {
+router.post('/addPayment', isLoggedIn, async (req, res) => {
+    const No_Tarjeta = req.body.No_Tarjeta;
+    const Mes = req.body.Mes;
+    const Año = req.body.Año;
+    const ID_Usuario = req.session.user.id;
+
+    const result = await pool.query("insert into `tarjeta_registrada` (`No_Tarjeta`,`Mes`,`Año`,`ID_Usuario`) values(?,?,?,?);", [
+        No_Tarjeta,
+        Mes,
+        Año,
+        ID_Usuario
+    ]);
+    res.redirect("./profileC");
+});
+
+router.get('/profileC', isLoggedIn, async (req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
