@@ -75,6 +75,25 @@ create table if not exists Producto(
     constraint Cantidad_Negatvo check (Cantidad>0)
 )ENGINE=INNODB;
 
+create table if not exists Carrito(
+	ID_Carrito int(11) not null AUTO_INCREMENT,
+    ID_Usuario int(11) not null,
+    Monto_Total int not null,
+    primary key(ID_Carrito),
+    constraint Referencia_Carrito_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Carrito_Monto_Negativo check (Monto_Total>0)
+)ENGINE=INNODB;
+
+create table if not exists CarritoContiene(
+	ID_Carrito int(11) not null,
+    ID_Producto int(11) not null,
+    Cantidad int not null,
+    constraint Referencia_Carrito_Contiene_Carrito foreign key (ID_Carrito) references Carrito(ID_Carrito) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Carrito_Contiene_Producto foreign key (ID_Producto) references Producto(ID_Producto) ON DELETE CASCADE ON UPDATE CASCADE,
+    primary key (ID_Producto,ID_Carrito),
+    constraint Carrito_Contenido_Negativo check (Cantidad>0)
+)engine=innodb; 
+
 create table if not exists Orden(
 	ID_Orden int(11) not null AUTO_INCREMENT,
     Fecha date not null,
