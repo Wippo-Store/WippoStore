@@ -21,7 +21,8 @@ router.get('/loginV', isNotLoggedIn, (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.logOut();
+    req.logout();
+    req.session.destroy();
     res.redirect('/');
 });
 
@@ -35,6 +36,7 @@ router.get('/signupC', isNotLoggedIn, (req, res) => {
         message_er: req.flash('message_er'),
         success: req.flash('success')
     });
+
 });
 
 router.get('/signupV', isNotLoggedIn, (req, res) => {
@@ -88,21 +90,67 @@ router.post('/verify', function(req, res) {
 
 });
 
-/* GET FORM */
-router.post('/signupC', (req, res, next) => {
-    passport.authenticate('local.signupC', { // signupC debe hacer passport
-        successRedirect: '/',
-        failureRedirect: './signupC',
-        failureFlash: true
-    })(req, res, next);
-});
-
 router.post('/loginU', (req, res, next) => {
     passport.authenticate('local.loginU', {
         successRedirect: '../users/principalC',
         failureRedirect: './loginU',
         failureFlash: true
     })(req, res, next);
+});
+
+router.post('/signupC', isNotLoggedIn, async(req, res) => {
+    const { Correo_Electronico } = req.body;
+    const { Contraseña } = req.body;
+    const { Nombre } = req.body;
+    const { Apellido_Paterno } = req.body;
+    const { Apellido_Materno } = req.body;
+    const { Nombre_Calle } = req.body;
+    const { Num_ext } = req.body;
+    const { Num_int } = req.body;
+    const { Colonia } = req.body;
+    const { CP } = req.body;
+    const { Municipio } = req.body;
+    const { Estado } = req.body;
+    const RFC = null;
+    const Tipo_Usuario = 'C';
+
+    const newUserC = {
+        Nombre,
+        Apellido_Paterno,
+        Apellido_Materno,
+        Correo_Electronico,
+        Contraseña,
+        RFC,
+        Tipo_Usuario
+    };
+
+    /*Verificamos que no se repita el correo */
+    const email = await pool.query('SELECT COUNT(*) AS n FROM Usuario WHERE Correo_Electronico = ? ', [Correo_Electronico]);
+    console.log(email[0].n);
+    if (email[0].n > 0) {
+        console.log("usuario ya existente");
+        req.flash('message_er', 'Usuario ya existente');
+        res.redirect('./signupC');
+    } else {
+        const result = await pool.query('INSERT INTO Usuario SET ?', [newUserC]);
+        /*console.log(result);*/
+        const ID_Usuario = result.insertId;
+        const newDirectionC = {
+            Nombre_Calle,
+            Num_ext,
+            Num_int,
+            Colonia,
+            CP,
+            Municipio,
+            Estado,
+            ID_Usuario
+        };
+        const result1 = await pool.query('INSERT INTO Direccion SET ?', [newDirectionC]);
+        /*console.log(result1);*/
+        console.log('registro exitoso');
+        req.flash('success', 'Registro exitoso');
+        res.redirect('./loginU');
+    }
 });
 
 module.exports = router;

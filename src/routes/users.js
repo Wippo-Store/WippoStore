@@ -7,12 +7,30 @@ const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
 router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
-    const products = await pool.query('SELECT * FROM producto');
-    res.render('principalUU', { titulo: 'WippoStore', products });
+    var Buscar = req.query.search;
+    var products;
+    const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
+    if (req.query.search == '' || Buscar == undefined) {
+        products = await pool.query('SELECT * FROM producto');
+        console.log("Vacio");
+    } else {
+        products = await pool.query(query_busqueda);
+        console.log("Buscar" + Buscar);
+    }
+    res.render('principalUU', { titulo: 'WippoStore', user: req.params.user, products });
 });
 
 router.get('/principalC', isLoggedIn, async(req, res) => {
-    const products = await pool.query('SELECT * FROM producto');
+    var Buscar = req.query.search;
+    var products;
+    const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
+    if (req.query.search == '' || Buscar == undefined) {
+        products = await pool.query('SELECT * FROM producto');
+        console.log("Vacio");
+    } else {
+        products = await pool.query(query_busqueda);
+        console.log("Buscar" + Buscar);
+    }
     res.render('userC/principalC', {
         products,
         user: req.session.user,
@@ -46,7 +64,7 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
     res.redirect("./profileC");
 });
 
-router.post('/addPayment', isLoggedIn, async (req, res) => {
+router.post('/addPayment', isLoggedIn, async(req, res) => {
     const No_Tarjeta = req.body.No_Tarjeta;
     const Mes = req.body.Mes;
     const Año = req.body.Año;
@@ -61,7 +79,7 @@ router.post('/addPayment', isLoggedIn, async (req, res) => {
     res.redirect("./profileC");
 });
 
-router.get('/profileC', isLoggedIn, async (req, res) => {
+router.get('/profileC', isLoggedIn, async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
