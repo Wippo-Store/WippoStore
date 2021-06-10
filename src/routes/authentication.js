@@ -61,7 +61,7 @@ router.get('/send', (req, res) => {
             console.log("token addded");
         }
     });
-    res.redirect("/");
+    res.redirect("./loginU");
 })
 
 router.get('/verify', function (req, res) {
@@ -84,7 +84,7 @@ router.get('/verify', function (req, res) {
                 console.log("email is verified");
                 // res.send("<h1>Email is been Successfully verified");
                 req.flash('sucess', 'El correo ha sido verificado exitosamente');
-                res.redirect('/')
+                res.redirect('./loginU');
             }
         });
     } else
