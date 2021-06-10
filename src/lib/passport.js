@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const validData = require('./validation');
+
 
 const pool = require('../db');
 
