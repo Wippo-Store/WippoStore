@@ -84,6 +84,18 @@ create table if not exists Carrito(
     constraint Carrito_Monto_Negativo check (Monto_Total>0)
 )ENGINE=INNODB;
 
+drop PROCEDURE if exists addToCart;
+DELIMITER &&  
+CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+BEGIN
+    DECLARE ìdCarrito int;
+    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    if(ìdCarrito IS NOT NULL) then
+        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
+    end if;
+END &&  
+DELIMITER ;  
+
 create table if not exists CarritoContiene(
 	ID_Carrito int(11) not null,
     ID_Producto int(11) not null,

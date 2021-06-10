@@ -152,6 +152,8 @@ router.post('/signupC', isNotLoggedIn, async(req, res) => {
         console.log('registro exitoso');
         req.flash('success', 'Registro exitoso');
 
+        const result2 = await pool.query("INSERT INTO `carrito` (`ID_Carrito`, `ID_Usuario`, `Monto_Total`) VALUES (NULL, ?, '1')", ID_Usuario);
+
         const query = querystring.stringify({
             'Correo_Electronico': Correo_Electronico,
             'ID_Usuario': ID_Usuario
