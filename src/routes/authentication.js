@@ -83,13 +83,12 @@ router.get('/verify', function (req, res) {
             } else {
                 console.log("email is verified");
                 // res.send("<h1>Email is been Successfully verified");
-                req.flash('sucess', 'El correo ha sido verificado exitosamente');
+                req.flash('success', 'El correo ha sido verificado exitosamente');
                 res.redirect('./loginU');
             }
         });
     } else
         res.end(`<h1>Request is from unknown source: ${req.protocol}://${req.get('Host')} == http://${Host}}`);
-
 });
 
 router.post('/loginU', (req, res, next) => {

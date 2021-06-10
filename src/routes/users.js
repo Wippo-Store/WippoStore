@@ -6,7 +6,7 @@ const { isLoggedIn } = require('../lib/helpers');
 const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
+router.get('/principalUU', isNotLoggedIn, async (req, res) => { /*UNREGISTERED USER*/
     var Buscar = req.query.search;
     var products;
     const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
@@ -20,7 +20,7 @@ router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED US
     res.render('principalUU', { titulo: 'WippoStore', user: req.params.user, products });
 });
 
-router.get('/principalC', isLoggedIn, async(req, res) => {
+router.get('/principalC', isLoggedIn, async (req, res) => {
     var Buscar = req.query.search;
     var products;
     const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
@@ -41,7 +41,7 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
 });
 
 
-router.post('/addAddress', isLoggedIn, async(req, res) => {
+router.post('/addAddress', isLoggedIn, async (req, res) => {
     const ID_Usuario = req.session.user.id
     const Nombre_Calle = req.body.street;
     const Num_ext = req.body.noext;
@@ -64,7 +64,7 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
     res.redirect("./profileC");
 });
 
-router.post('/addPayment', isLoggedIn, async(req, res) => {
+router.post('/addPayment', isLoggedIn, async (req, res) => {
     const No_Tarjeta = req.body.No_Tarjeta;
     const Mes = req.body.Mes;
     const Año = req.body.Año;
@@ -79,7 +79,7 @@ router.post('/addPayment', isLoggedIn, async(req, res) => {
     res.redirect("./profileC");
 });
 
-router.get('/profileC', isLoggedIn, async(req, res) => {
+router.get('/profileC', isLoggedIn, async (req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
@@ -120,8 +120,13 @@ router.get('/addDirectionC', isLoggedIn, (req, res) => {
 router.get('/addCardC', isLoggedIn, (req, res) => {
     res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });
 });
-router.get('/shoppingCartC', isLoggedIn, (req, res) => {
-    res.render('userC/shoppingCartC', { nombre: req.session.username });
+router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
+    var ID_Usuario = req.session.user.id;
+    // console.log("CALL `getCart`(" + ID_Usuario + ");")
+    const carrito = await pool.query("CALL `getCart`(?);", ID_Usuario);
+    // console.log(carrito);
+    user = req.session.user;
+    res.render('userC/shoppingCartC', { carrito: carrito[0], user });
 });
 
 

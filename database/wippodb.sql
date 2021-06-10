@@ -96,6 +96,28 @@ BEGIN
 END &&  
 DELIMITER ;  
 
+drop PROCEDURE if exists getCart;
+DELIMITER &&  
+CREATE PROCEDURE getCart (in ID_Usuario_r int)  
+BEGIN
+    SELECT carrito.ID_Carrito, carrito.ID_Usuario, carritocontiene.ID_Producto, carritocontiene.Cantidad, producto.Nombre, producto.Categoria, producto.Precio, producto.imagen1 
+    FROM `carrito` INNER JOIN carritocontiene on carrito.ID_Carrito = carritocontiene.ID_Carrito INNER JOIN producto ON producto.ID_Producto = carritocontiene.ID_Producto where carrito.ID_Usuario = ID_Usuario_r;
+END &&  
+DELIMITER ;
+
+drop PROCEDURE if exists removeFromCart;
+DELIMITER &&  
+CREATE PROCEDURE removeFromCart (in ID_Usuario_r int, in ID_Producto int)  
+BEGIN
+    DECLARE idCarrito int;
+        SELECT `ID_Carrito` INTO idCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+        if(idCarrito IS NOT NULL) then
+            DELETE FROM `carritocontiene` WHERE `carritocontiene`.`ID_Carrito` = idCarrito AND `carritocontiene`.`ID_Producto` = ID_Producto;
+    end if;
+
+END &&  
+DELIMITER ;
+
 create table if not exists CarritoContiene(
 	ID_Carrito int(11) not null,
     ID_Producto int(11) not null,
