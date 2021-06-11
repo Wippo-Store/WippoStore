@@ -1,0 +1,36 @@
+<!-- REQUIRE: carrito object -->
+
+<main class="col-md-9">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#id</th>
+                <th scope="col">Nombre Producto</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Subtotal por Producto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%let i=0;let sum=0; carrito.forEach(products=> { i++; %>
+                <tr>
+                    <th scope="row">
+                        <%=i%>
+                    </th>
+                    <td>
+                        <%=products.Nombre %>
+                    </td>
+                    <td>
+                        $<%=products.Precio %>
+                    </td>
+                    <td>
+                        <%=products.Cantidad %>
+                    </td>
+                    <td>
+                        $<%=products.Precio*products.Cantidad %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+</main>

@@ -31,71 +31,30 @@
     <div class="container p-5">
         <h2>Carrito</h2>
         <div class="row">
-            <main class="col-md-9">
-                <% carrito.forEach(products=> { %>
-                    <article class="card card-body mb-3">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-md-6">
-                                <figure class="itemside">
-                                    <div class="aside"><img src="/images/<%=products.imagen1%>" alt="producto" class="border img-sm">
-                                    </div>
-                                    <figcaption class="info">
-                                        <span class="text-muted"><%=products.Categoria%></span>
-                                        <a href="#" class="title navbar-brand"><%=products.Nombre%></a>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- col.// -->
-                            <div class="col-md-6">
-                                <div class="input-group input-spinner">
-                                    <div class=".input-group-text">
-                                        <button class="btn" type="button" id="button-minus">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                                <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <input type="text" class="form-control" value="<%=products.Cantidad%>">
-                                    <div class=".input-group-text">
-                                        <button class="btn " type="button" id="button-plus">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <!-- input-group.// -->
-                            </div>
-                            <!-- col.// -->
-                            <div class="col">
-                                <div class="price h5">$<%=products.Precio%> </div>
-                            </div>
-                            <div class="col flex-grow-0 text-end">
-                                <a href="#" class="btn size"><i class="bi bi-trash-fill"></i></a>
-                            </div>
-                        </div>
-                        <!-- row.// -->
-                    </article>
-                    <!-- card .// -->
-                    <!-- row.// -->
-                <% }); %>
-            </main>
-            <!-- col.// -->
-            <aside class="col-md-3 border-left">
-                <div class="card-body">
-                    <dl class="dlist-align">
-                        <dt>Subtotal:</dt>
-                        <dd class="text-right">$360.00</dd>
-                    </dl>
-                    <hr>
-                    <a href="#" class="btn btn-outline-dark">Proceder al pago</a>
-                </div>
-                <!-- card-body.// -->
-            </aside>
-            <!-- col.// -->
+            <%- include("../layouts/cart.ejs") %>
+                <!-- col.// -->
+                <aside class="col-md-3 border-left">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Subtotal:</dt>
+                            <dd class="text-right">
+                                $ <%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                            </dd>
+                            <dt>IVA:</dt>
+                            <dd class="text-right">
+                                $<%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, ",");%>
+                            </dd>
+                            <dt class=" h5">Total a Pagar:</dt>
+                            <dd class="text-right h5">
+                                 $ <%=total.toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>
+                            </dd>
+                        </dl>
+                        <hr>
+                        <a href="./shoppingDetails" class="btn btn-outline-dark">Proceder al pago</a>
+                    </div>
+                    <!-- card-body.// -->
+                </aside>
+                <!-- col.// -->
         </div>
     </div>
 

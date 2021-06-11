@@ -2,16 +2,17 @@ var express = require('express');
 var router = express.Router();
 
 const pool = require('../db');
+const { getTax } = require('../lib/globals');
 const { isLoggedIn } = require('../lib/helpers');
 const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
+router.get('/principalUU', isNotLoggedIn, async (req, res) => { /*UNREGISTERED USER*/
     const products = await pool.query('SELECT * FROM producto');
     res.render('principalUU', { titulo: 'WippoStore', user: req.params.user, products });
 });
 
-router.get('/principalC', isLoggedIn, async(req, res) => {
+router.get('/principalC', isLoggedIn, async (req, res) => {
     const products = await pool.query('SELECT * FROM producto');
     res.render('userC/principalC', {
         products,
@@ -107,16 +108,31 @@ router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
     // console.log("CALL `getCart`(" + ID_Usuario + ");")
     const carrito = await pool.query("CALL `getCart`(?);", ID_Usuario);
     // console.log(carrito);
+    var total = 0;
+    const iva = getTax();
+    carrito[0].forEach(producto => {
+        total += producto.Precio * producto.Cantidad;
+    });
+
+    var subtotal = total / (iva + 1);
+    var tax = total - subtotal;
     user = req.session.user;
-    res.render('userC/shoppingCartC', { carrito: carrito[0], user });
+    res.render('userC/shoppingCartC', { carrito: carrito[0], user, total, subtotal, tax });
 });
 
 
-router.get('/shoppingDetails', (req, res) => {
-    var subtotal = 500;
-    const iva = 0.16;
-    var tax = subtotal * iva;
-    var total = subtotal + tax;
+router.get('/shoppingDetails', async (req, res) => {
+    // var ID_Usuario = req.session.user.id;
+    const carrito = await pool.query("CALL `getCart`(?);", req.session.user.id);
+    // console.log(carrito);
+    var total = 0;
+    const iva = getTax();
+    carrito[0].forEach(producto => {
+        total += producto.Precio * producto.Cantidad;
+    });
+
+    var subtotal = total / (iva + 1);
+    var tax = total - subtotal;
 
     address_list = [
         { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
@@ -130,11 +146,14 @@ router.get('/shoppingDetails', (req, res) => {
 
 
     res.render('userC/shoppingDetails', {
+        subtotal,
+        total,
+        tax,
+        carrito : carrito[0],
         price: subtotal,
-        tax: tax,
-        total: total,
-        addres_list: addess_list,
+        addres_list: address_list,
         payments_list: payments_list,
+        user: req.session.user,
         nombre: req.session.username,
         titulo: 'Carrito - WippoStore'
     });
