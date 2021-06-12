@@ -94,8 +94,38 @@ router.get('/profileC', isLoggedIn, async (req, res) => {
     });
 });
 
-router.get('/editProfileC', isLoggedIn, (req, res) => {
-    res.render('userC/editProfileC', { nombre: req.session.username });
+router.get('/editProfileC', isLoggedIn, async (req, res) => {
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
+
+    res.render('userC/editProfileC', {
+        nombre: req.session.username, 
+        message_er: req.flash('message_er'),
+        success: req.flash('success'),
+        user: req.session.user,
+        titulo: 'Mi perfil - WippoStore',
+        payments_list,
+        show_adress,
+        show_card,
+        address_list,
+    });
 });
 router.get('/addDirectionC', isLoggedIn, (req, res) => {
     res.render('userC/addDirectionC', { titulo: 'Agregar Dirección' });
@@ -117,7 +147,11 @@ router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
     var subtotal = total / (iva + 1);
     var tax = total - subtotal;
     user = req.session.user;
-    res.render('userC/shoppingCartC', { carrito: carrito[0], user, total, subtotal, tax });
+    res.render('userC/shoppingCartC', {
+        carrito: carrito[0], user, total, subtotal, tax,
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 
 
@@ -149,7 +183,7 @@ router.get('/shoppingDetails', async (req, res) => {
         subtotal,
         total,
         tax,
-        carrito : carrito[0],
+        carrito: carrito[0],
         price: subtotal,
         addres_list: address_list,
         payments_list: payments_list,

@@ -39,8 +39,12 @@ router.post('/addtoCart', isLoggedIn, async (req, res) => {
         ID_Producto,
         ID_Usuario,
         Cantidad
-    ]);
-    console.log('Agredado al carrito');
+    ]).catch(error => {
+        console.log("Articulo ya existe en carrito")
+        req.flash("message_er", "Articulo ya existe en carrito");
+    });
+    console.log('Agregado al carrito');
+    req.flash("success", "Articulo agregado al carrito");
     res.redirect("/users/shoppingCartC");
 });
 
