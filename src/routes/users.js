@@ -116,7 +116,7 @@ router.get('/editProfileC', isLoggedIn, async (req, res) => {
     let show_card = Object.values(payments) != 0;
 
     res.render('userC/editProfileC', {
-        nombre: req.session.username, 
+        nombre: req.session.username,
         message_er: req.flash('message_er'),
         success: req.flash('success'),
         user: req.session.user,
@@ -156,6 +156,25 @@ router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
 
 
 router.get('/shoppingDetails', async (req, res) => {
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
     // var ID_Usuario = req.session.user.id;
     const carrito = await pool.query("CALL `getCart`(?);", req.session.user.id);
     // console.log(carrito);
@@ -168,25 +187,27 @@ router.get('/shoppingDetails', async (req, res) => {
     var subtotal = total / (iva + 1);
     var tax = total - subtotal;
 
-    address_list = [
-        { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
-        { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
-    ]
+    // address_list = [
+    //     { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
+    //     { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
+    // ]
 
-    payments_list = [
-        { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
-        { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
-    ]
+    // payments_list = [
+    //     { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
+    //     { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
+    // ]
 
 
     res.render('userC/shoppingDetails', {
         subtotal,
         total,
         tax,
+        address_list,
+        payments_list,
+        show_adress,
+        show_card,
         carrito: carrito[0],
         price: subtotal,
-        addres_list: address_list,
-        payments_list: payments_list,
         user: req.session.user,
         nombre: req.session.username,
         titulo: 'Carrito - WippoStore'

@@ -44,16 +44,16 @@
                     <div class="row d-flex align-items-center">
                         <span class="text-muted h4">Dirección</span>
                         <div class="h6">
-                            <% addres_list.forEach(function(address) { %>
+                            <% address_list.forEach(function(address) { %>
                                 <div class="form-check">
                                     <input class="form-check-input wippo-radio" type="radio" name="exampleRadios"
-                                        id="exampleRadios<%= address.id %>" value="<%= address.id %>" checked>
-                                    <label class="form-check-label" for="exampleRadios<%= address.id %>">
+                                        id="exampleRadios<%= address.ID_Direccion %>" value="<%= address.id %>" checked>
+                                    <label class="form-check-label" for="exampleRadios<%= address.ID_Direccion %>">
                                         <span class="text-muted">
-                                            <%= address.name %>
+                                            Dirección
                                         </span>
-                                        <%= address.street %> #<%= address.number %>, <%= address.distrit %>. <%=
-                                                        address.city %>. CP <%= address.cp %>,
+                                        <%= address.Nombre_Calle %> #<%= address.Num_ext %> int <%= address.Num_int %>, <%= address.Colonia %>. <%=
+                                                        address.Municipio %>, <%= address.Estado %>. CP <%= address.cp %>.
                                     </label>
                                 </div>
                                 <% }); %>
@@ -77,9 +77,9 @@
                                 <% payments_list.forEach(function(payment) { %>
                                     <div class="form-check">
                                         <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
-                                            id="paymentRadios<%= payment.id %>" value="option1" checked>
-                                        <label class="form-check-label" for="paymentRadios<%= payment.id %>">
-                                            <%= payment.name %> XXXX-<%= payment.last_numbers %>
+                                            id="paymentRadios<%= payment.ID_Tarjeta %>" value="option1" checked>
+                                        <label class="form-check-label" for="paymentRadios<%= payment.ID_Tarjeta %>">
+                                            XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
                                         </label>
                                     </div>
                                     <% }); %>
