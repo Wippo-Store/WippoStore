@@ -24,28 +24,60 @@
                 <!-- col.// -->
                 <div class="col-md-6">
                     <div class="col-6 text-center">
-                        <div class="input-group input-spinner">
-                            <div class=".input-group-text">
-                                <button class="btn" type="button" id="button-minus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
-                                        <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z" />
-                                    </svg>
-                                </button>
+
+                        <script>
+                            function reduce<%=products.ID_Producto%>(){
+                                reduceValue =(parseInt($('input[name="cantidad<%=products.ID_Producto%>"]').val()) - 1).toString();
+                                if(parseInt(reduceValue) > 0){
+                                    $('input[name="cantidad<%=products.ID_Producto%>"]').val(reduceValue)
+                                    update<%=products.ID_Producto%>()
+                                } else {
+                                    alert('Haz click en el boton para eliminar')
+                                }
+                                // alert($('input[name="cantidad<%=products.ID_Producto%>"]').val() - 1)
+                            }
+
+                            function increase<%=products.ID_Producto%>(){
+                                increaseValue =(parseInt($('input[name="cantidad<%=products.ID_Producto%>"]').val()) + 1).toString();
+                                // alert(increaseValue)
+                                $('input[name="cantidad<%=products.ID_Producto%>"]').val(increaseValue)
+                                update<%=products.ID_Producto%>()
+                            }
+
+                            function update<%=products.ID_Producto%>() {
+                                // alert( $('input[name="cantidad"]').val())
+                                x = $('input[name="cantidad<%=products.ID_Producto%>"]').val()
+                                newValue = '$' + (x * <%=products.Precio%>).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," )
+                                $('input[name="<%=products.ID_Producto%>"]').val(newValue)
+                            }
+                        </script>
+                        <form action="">
+                            <div class="input-group input-spinner">
+                                <div class=".input-group-text">
+                                    <button onclick="reduce<%=products.ID_Producto%>()" class="btn" type="button" id="button-minus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
+                                            fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <input onkeypress="update<%=products.ID_Producto%>()" onchange="update<%=products.ID_Producto%>()" name="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
+                                    value="<%=products.Cantidad%>">
+                                <div class=".input-group-text">
+                                    <button onclick="increase<%=products.ID_Producto%>()" class="btn " type="button" id="button-plus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
+                                            fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                            <input type="text" class="form-control" value="<%=products.Cantidad%>">
-                            <div class=".input-group-text">
-                                <button class="btn " type="button" id="button-plus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
-                                        <path
-                                            d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                        <br>
-                        $ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>
+                            <br>
+                            <button type="submit" class="btn btn-sm">confirmar cambios</button>
+                        </form>
+                        <input name="<%=products.ID_Producto%>" type="text" class="form-control-plaintext text-center" readonly value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
+
                     </div>
 
                     <!-- input-group.// -->
