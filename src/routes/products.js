@@ -30,6 +30,22 @@ router.get('/pDetails/:id', async(req, res) => {
     res.render('product/pDetails', { products, user: req.session.user, titulo: 'WippoStore' });
 });
 
+router.post('/updateCart', isLoggedIn, async(req, res) => {
+    const ID_Usuario = req.session.user.id;
+    const ID_Producto = req.body.ID_Producto;
+    const Cantidad = req.body.cantidad;
+    console.log("CALL `updateCart`(" + ID_Producto +", " + ID_Usuario +", " + Cantidad +");")
+    const result = await pool.query("CALL `updateCart`(?, ?, ?);", [
+        ID_Producto,
+        ID_Usuario,
+        Cantidad
+    ]).catch(error => {
+        console.log("Articulo ya existe en carrito")
+        req.flash("message_er", "Articulo ya existe en carrito");
+    });
+    res.redirect("/users/shoppingCartC");
+})
+
 router.post('/addtoCart', isLoggedIn, async (req, res) => {
     const ID_Usuario = req.session.user.id;
     const ID_Producto = req.body.ID_Producto;

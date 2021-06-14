@@ -27,31 +27,31 @@
 
                         <script>
                             function reduce<%=products.ID_Producto%>(){
-                                reduceValue =(parseInt($('input[name="cantidad<%=products.ID_Producto%>"]').val()) - 1).toString();
+                                reduceValue =(parseInt($('#cantidad<%=products.ID_Producto%>').val()) - 1).toString();
                                 if(parseInt(reduceValue) > 0){
-                                    $('input[name="cantidad<%=products.ID_Producto%>"]').val(reduceValue)
+                                    $('#cantidad<%=products.ID_Producto%>').val(reduceValue)
                                     update<%=products.ID_Producto%>()
                                 } else {
                                     alert('Haz click en el boton para eliminar')
                                 }
-                                // alert($('input[name="cantidad<%=products.ID_Producto%>"]').val() - 1)
+                                // alert(reduceValue)
                             }
 
                             function increase<%=products.ID_Producto%>(){
-                                increaseValue =(parseInt($('input[name="cantidad<%=products.ID_Producto%>"]').val()) + 1).toString();
+                                increaseValue =(parseInt($('#cantidad<%=products.ID_Producto%>').val()) + 1).toString();
                                 // alert(increaseValue)
-                                $('input[name="cantidad<%=products.ID_Producto%>"]').val(increaseValue)
+                                $('#cantidad<%=products.ID_Producto%>').val(increaseValue)
                                 update<%=products.ID_Producto%>()
                             }
 
                             function update<%=products.ID_Producto%>() {
                                 // alert( $('input[name="cantidad"]').val())
-                                x = $('input[name="cantidad<%=products.ID_Producto%>"]').val()
+                                x = $('#cantidad<%=products.ID_Producto%>').val()
                                 newValue = '$' + (x * <%=products.Precio%>).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," )
-                                $('input[name="<%=products.ID_Producto%>"]').val(newValue)
+                                $('#<%=products.ID_Producto%>').val(newValue)
                             }
                         </script>
-                        <form action="">
+                        <form action="/products/updateCart" method="POST">
                             <div class="input-group input-spinner">
                                 <div class=".input-group-text">
                                     <button onclick="reduce<%=products.ID_Producto%>()" class="btn" type="button" id="button-minus">
@@ -61,7 +61,7 @@
                                         </svg>
                                     </button>
                                 </div>
-                                <input onkeypress="update<%=products.ID_Producto%>()" onchange="update<%=products.ID_Producto%>()" name="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
+                                <input onkeypress="update<%=products.ID_Producto%>()" onchange="update<%=products.ID_Producto%>()" name="cantidad" id="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
                                     value="<%=products.Cantidad%>">
                                 <div class=".input-group-text">
                                     <button onclick="increase<%=products.ID_Producto%>()" class="btn " type="button" id="button-plus">
@@ -74,9 +74,9 @@
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" class="btn btn-sm">confirmar cambios</button>
+                            <button type="submit" name="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-sm">confirmar cambios</button>
                         </form>
-                        <input name="<%=products.ID_Producto%>" type="text" class="form-control-plaintext text-center" readonly value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
+                        <input id="<%=products.ID_Producto%>" name="<%=products.ID_Producto%>" type="text" class="form-control-plaintext text-center" readonly value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
 
                     </div>
 

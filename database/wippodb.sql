@@ -95,6 +95,21 @@ BEGIN
 END &&  
 DELIMITER ;
 
+drop PROCEDURE if exists updateCart;
+DELIMITER &&  
+CREATE PROCEDURE updateCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+BEGIN
+    DECLARE ìdCarrito int;
+    DECLARE Total int;
+    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    if(ìdCarrito IS NOT NULL) then
+        REPLACE INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
+        SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
+        call updateCartTotal(Total, ìdCarrito);
+    end if;
+END &&  
+DELIMITER ;  
+
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
 CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
