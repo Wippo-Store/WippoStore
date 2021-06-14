@@ -50,13 +50,13 @@ router.post('/addAddress', isLoggedIn, async (req, res) => {
 router.post('/addPayment', isLoggedIn, async (req, res) => {
     const No_Tarjeta = req.body.No_Tarjeta;
     const Mes = req.body.Mes;
-    const Año = req.body.Año;
+    const Year = req.body.Year;
     const ID_Usuario = req.session.user.id;
 
-    const result = await pool.query("insert into `tarjeta_registrada` (`No_Tarjeta`,`Mes`,`Año`,`ID_Usuario`) values(?,?,?,?);", [
+    const result = await pool.query("insert into `tarjeta_registrada` (`No_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?);", [
         No_Tarjeta,
         Mes,
-        Año,
+        Year,
         ID_Usuario
     ]);
     res.redirect("./profileC");

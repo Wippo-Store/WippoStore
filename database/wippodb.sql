@@ -194,7 +194,7 @@ create table if not exists Tarjeta_Registrada(
 	ID_Tarjeta	varchar(30) not null,
     No_Tarjeta varchar(16) not null,
     Mes char(2) not null,
-    Año char(2)  not null,
+    Year char(2)  not null,
     ID_Usuario int(11) not null,
     primary key (No_Tarjeta),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
