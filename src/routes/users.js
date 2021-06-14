@@ -46,7 +46,7 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
     res.redirect("./profileC");
 });
 
-router.post('/addPayment', isLoggedIn, async (req, res) => {
+router.post('/addPayment', isLoggedIn, async(req, res) => {
     const No_Tarjeta = req.body.No_Tarjeta;
     const Mes = req.body.Mes;
     const Año = req.body.Año;
@@ -61,7 +61,7 @@ router.post('/addPayment', isLoggedIn, async (req, res) => {
     res.redirect("./profileC");
 });
 
-router.get('/profileC', isLoggedIn, async (req, res) => {
+router.get('/profileC', isLoggedIn, async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
@@ -128,7 +128,7 @@ router.get('/shoppingDetails', (req, res) => {
         price: subtotal,
         tax: tax,
         total: total,
-        addres_list: addess_list,
+        addres_list: address_list,
         payments_list: payments_list,
         nombre: req.session.username,
         titulo: 'Carrito - WippoStore'
