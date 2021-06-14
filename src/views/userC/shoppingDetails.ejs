@@ -16,6 +16,27 @@
     </header>
 
     <div class="container p-5">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Confirmar acción</h5>
+                        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Confirmar que desea realizar el pago de  $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                        Por los productos en el carrito.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-success">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <h3>Detalles del Pedido</h3>
         <div class="row">
             <main class="col-md-9">
@@ -23,12 +44,16 @@
                     <div class="row d-flex align-items-center">
                         <span class="text-muted h4">Dirección</span>
                         <div class="h6">
-                            <% addres_list.forEach(function(address) { %>
+                            <% address_list.forEach(function(address) { %>
                                 <div class="form-check">
-                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios" id="exampleRadios<%= address.id %>" value="<%= address.id %>" checked>
-                                    <label class="form-check-label" for="exampleRadios<%= address.id %>">
-                                        <span class="text-muted"><%= address.name %></span>
-                                        <%= address.street %> #<%= address.number %>, <%= address.distrit %>. <%= address.city %>. CP <%= address.cp %>,
+                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios"
+                                        id="exampleRadios<%= address.ID_Direccion %>" value="<%= address.id %>" checked>
+                                    <label class="form-check-label" for="exampleRadios<%= address.ID_Direccion %>">
+                                        <span class="text-muted">
+                                            Dirección
+                                        </span>
+                                        <%= address.Nombre_Calle %> #<%= address.Num_ext %> int <%= address.Num_int %>, <%= address.Colonia %>. <%=
+                                                        address.Municipio %>, <%= address.Estado %>. CP <%= address.cp %>.
                                     </label>
                                 </div>
                                 <% }); %>
@@ -51,8 +76,10 @@
                             <div class="h6">
                                 <% payments_list.forEach(function(payment) { %>
                                     <div class="form-check">
-                                        <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2" id="paymentRadios<%= payment.id %>" value="option1" checked>
-                                        <label class="form-check-label" for="paymentRadios<%= payment.id %>"><%= payment.name %> XXXX-<%= payment.last_numbers %>
+                                        <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
+                                            id="paymentRadios<%= payment.ID_Tarjeta %>" value="option1" checked>
+                                        <label class="form-check-label" for="paymentRadios<%= payment.ID_Tarjeta %>">
+                                            XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
                                         </label>
                                     </div>
                                     <% }); %>
@@ -79,30 +106,34 @@
                         <div class="h5">
                             <dt>Subtotal:</dt>
                             <dd class="text-right">
-                                $
-                                <%=price%>
+                                $<%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                             </dd>
                         </div>
                         <div class="h5">
                             <dt>IVA:</dt>
                             <dd class="text-right">
-                                $
-                                <%=tax%>
+                                $ <%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                             </dd>
                         </div>
                         <div class="h4">
                             <dt>Total:</dt>
                             <dd class="text-right">
-                                $
-                                <%=total%>
+                                $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                             </dd>
                         </div>
                     </dl>
                     <hr>
-                    <a href="#" class="btn btn-outline-dark">Proceder al pago</a>
+                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModalCenter">
+                        Proceder al Pago
+                    </button>
+                    <!-- <a href="#" class="btn btn-outline-dark">Proceder al pago</a> -->
                 </div>
                 <!-- card-body.// -->
             </aside>
+
+            <div class="row">
+                <%- include("../layouts/cart.sm.ejs") %>
+            </div>
             <!-- col.// -->
         </div>
     </div>

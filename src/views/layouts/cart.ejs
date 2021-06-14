@@ -1,0 +1,97 @@
+<!-- REQUIRE: carrito object -->
+
+<main class="col-md-9">
+    <%let sum=0; carrito.forEach(products=> { sum += (products.Precio * products.Cantidad) %>
+        <article class="card card-body mb-3">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-6">
+                    <figure class="itemside">
+                        <div class="aside"><img src="/images/<%=products.imagen1%>" alt="producto"
+                                class="border img-sm">
+                        </div>
+                        <figcaption class="info">
+                            <span class="text-muted">
+                                <%=products.Categoria%>
+                            </span>
+                            <a href="#" class="title navbar-brand">
+                                <%=products.Nombre%>
+                            </a>
+                            <div class="price h5">$<%=products.Precio%>
+                            </div>
+                        </figcaption>
+                    </figure>
+                </div>
+                <!-- col.// -->
+                <div class="col-md-6">
+                    <div class="col-6 text-center">
+
+                        <script>
+                            function reduce<%=products.ID_Producto%>(){
+                                reduceValue =(parseInt($('#cantidad<%=products.ID_Producto%>').val()) - 1).toString();
+                                if(parseInt(reduceValue) > 0){
+                                    $('#cantidad<%=products.ID_Producto%>').val(reduceValue)
+                                    update<%=products.ID_Producto%>()
+                                } else {
+                                    alert('Haz click en el boton para eliminar')
+                                }
+                                // alert(reduceValue)
+                            }
+
+                            function increase<%=products.ID_Producto%>(){
+                                increaseValue =(parseInt($('#cantidad<%=products.ID_Producto%>').val()) + 1).toString();
+                                // alert(increaseValue)
+                                $('#cantidad<%=products.ID_Producto%>').val(increaseValue)
+                                update<%=products.ID_Producto%>()
+                            }
+
+                            function update<%=products.ID_Producto%>() {
+                                // alert( $('input[name="cantidad"]').val())
+                                x = $('#cantidad<%=products.ID_Producto%>').val()
+                                newValue = '$' + (x * <%=products.Precio%>).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," )
+                                $('#<%=products.ID_Producto%>').val(newValue)
+                            }
+                        </script>
+                        <form action="/products/updateCart" method="POST">
+                            <div class="input-group input-spinner">
+                                <div class=".input-group-text">
+                                    <button onclick="reduce<%=products.ID_Producto%>()" class="btn" type="button" id="button-minus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
+                                            fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
+                                            <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                                <input onkeypress="update<%=products.ID_Producto%>()" onchange="update<%=products.ID_Producto%>()" name="cantidad" id="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
+                                    value="<%=products.Cantidad%>">
+                                <div class=".input-group-text">
+                                    <button onclick="increase<%=products.ID_Producto%>()" class="btn " type="button" id="button-plus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
+                                            fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 0a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2H9v6a1 1 0 1 1-2 0V9H1a1 1 0 0 1 0-2h6V1a1 1 0 0 1 1-1z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" name="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-sm">confirmar cambios</button>
+                        </form>
+                        <input id="<%=products.ID_Producto%>" name="<%=products.ID_Producto%>" type="text" class="form-control-plaintext text-center" readonly value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
+
+                    </div>
+
+                    <!-- input-group.// -->
+                    <div class="col flex-grow-0 text-end">
+                        <a href="#" class="btn size"><i class="bi bi-trash-fill"></i></a>
+                    </div>
+                </div>
+                <!-- col.// -->
+
+
+            </div>
+            <!-- row.// -->
+        </article>
+        <!-- card .// -->
+        <!-- row.// -->
+        <% }); %>
+</main>

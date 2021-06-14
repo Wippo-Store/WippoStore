@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../db');
-
+const querystring = require('querystring');
 /*library passport*/
 const passport = require('passport');
 const { isNotLoggedIn } = require('../lib/helpers');
@@ -50,10 +50,10 @@ router.get('/recoverC', isNotLoggedIn, (req, res) => {
 router.get('/send', (req, res) => {
     token = 'wippo_token_' + Math.random().toString(36).substr(2, 9);
     const { ID_Usuario } = req.query;
-    const { mail } = req.query;
+    const { Correo_Electronico } = req.query;
     link = "http://" + req.get('Host') + "/authentication/verify?token=" + token + "&ID_Usuario=" + ID_Usuario;
     console.log("Sending email:");
-    mails.sendValidation(link, mail);
+    mails.sendValidation(link, Correo_Electronico);
     pool.query("CALL `addToken`(?, ?);", [token, ID_Usuario], (err, res) => {
         if (err) throw err;
         else {
@@ -61,10 +61,10 @@ router.get('/send', (req, res) => {
             console.log("token addded");
         }
     });
-    res.redirect("/");
+    res.redirect("./loginU");
 })
 
-router.post('/verify', function(req, res) {
+router.get('/verify', function (req, res) {
     Host = "localhost:3000";
     console.log(req.protocol + ":/" + req.get('Host'));
     const { token } = req.query;
@@ -82,12 +82,13 @@ router.post('/verify', function(req, res) {
                 throw err;
             } else {
                 console.log("email is verified");
-                res.send("<h1>Email is been Successfully verified");
+                // res.send("<h1>Email is been Successfully verified");
+                req.flash('success', 'El correo ha sido verificado exitosamente');
+                res.redirect('./loginU');
             }
         });
     } else
         res.end(`<h1>Request is from unknown source: ${req.protocol}://${req.get('Host')} == http://${Host}}`);
-
 });
 
 router.post('/loginU', (req, res, next) => {
@@ -149,7 +150,14 @@ router.post('/signupC', isNotLoggedIn, async(req, res) => {
         /*console.log(result1);*/
         console.log('registro exitoso');
         req.flash('success', 'Registro exitoso');
-        res.redirect('./loginU');
+
+        const result2 = await pool.query("INSERT INTO `carrito` (`ID_Carrito`, `ID_Usuario`, `Monto_Total`) VALUES (NULL, ?, '1')", ID_Usuario);
+
+        const query = querystring.stringify({
+            'Correo_Electronico': Correo_Electronico,
+            'ID_Usuario': ID_Usuario
+        });
+        res.redirect('./send?' + query);
     }
 });
 

@@ -75,6 +75,88 @@ create table if not exists Producto(
     constraint Cantidad_Negatvo check (Cantidad>0)
 )ENGINE=INNODB;
 
+create table if not exists Carrito(
+	ID_Carrito int(11) not null AUTO_INCREMENT,
+    ID_Usuario int(11) not null,
+    Monto_Total int not null,
+    primary key(ID_Carrito),
+    constraint Referencia_Carrito_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Carrito_Monto_Negativo check (Monto_Total>0)
+)ENGINE=INNODB;
+
+
+drop PROCEDURE if exists updateCartTotal;
+DELIMITER &&  
+CREATE PROCEDURE updateCartTotal (in toADD int,in ID_Carrito int)  
+BEGIN
+    DECLARE total int;
+    SELECT carrito.Monto_Total INTO total FROM carrito WHERE carrito.ID_Carrito = ID_Carrito;
+    UPDATE `carrito` SET `Monto_Total` = (total + toADD) WHERE `carrito`.`ID_Carrito` = ID_Carrito;
+END &&  
+DELIMITER ;
+
+drop PROCEDURE if exists updateCart;
+DELIMITER &&  
+CREATE PROCEDURE updateCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+BEGIN
+    DECLARE ìdCarrito int;
+    DECLARE Total int;
+    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    if(ìdCarrito IS NOT NULL) then
+        REPLACE INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
+        SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
+        call updateCartTotal(Total, ìdCarrito);
+    end if;
+END &&  
+DELIMITER ;  
+
+drop PROCEDURE if exists addToCart;
+DELIMITER &&  
+CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+BEGIN
+    DECLARE ìdCarrito int;
+    DECLARE Total int;
+    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    if(ìdCarrito IS NOT NULL) then
+        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
+        SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
+        call updateCartTotal(Total, ìdCarrito);
+    end if;
+END &&  
+DELIMITER ;  
+
+drop PROCEDURE if exists getCart;
+DELIMITER &&  
+CREATE PROCEDURE getCart (in ID_Usuario_r int)  
+BEGIN
+    SELECT carrito.ID_Carrito, carrito.ID_Usuario, carritocontiene.ID_Producto, carritocontiene.Cantidad, producto.Nombre, producto.Categoria, producto.Precio, producto.imagen1 
+    FROM `carrito` INNER JOIN carritocontiene on carrito.ID_Carrito = carritocontiene.ID_Carrito INNER JOIN producto ON producto.ID_Producto = carritocontiene.ID_Producto where carrito.ID_Usuario = ID_Usuario_r;
+END &&  
+DELIMITER ;
+
+drop PROCEDURE if exists removeFromCart;
+DELIMITER &&  
+CREATE PROCEDURE removeFromCart (in ID_Usuario_r int, in ID_Producto int)  
+BEGIN
+    DECLARE idCarrito int;
+        SELECT `ID_Carrito` INTO idCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+        if(idCarrito IS NOT NULL) then
+            DELETE FROM `carritocontiene` WHERE `carritocontiene`.`ID_Carrito` = idCarrito AND `carritocontiene`.`ID_Producto` = ID_Producto;
+    end if;
+
+END &&  
+DELIMITER ;
+
+create table if not exists CarritoContiene(
+	ID_Carrito int(11) not null,
+    ID_Producto int(11) not null,
+    Cantidad int not null,
+    constraint Referencia_Carrito_Contiene_Carrito foreign key (ID_Carrito) references Carrito(ID_Carrito) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Carrito_Contiene_Producto foreign key (ID_Producto) references Producto(ID_Producto) ON DELETE CASCADE ON UPDATE CASCADE,
+    primary key (ID_Producto,ID_Carrito),
+    constraint Carrito_Contenido_Negativo check (Cantidad>0)
+)engine=innodb; 
+
 create table if not exists Orden(
 	ID_Orden int(11) not null AUTO_INCREMENT,
     Fecha date not null,
@@ -127,7 +209,7 @@ create table if not exists Tarjeta_Registrada(
 	ID_Tarjeta	varchar(30) not null,
     No_Tarjeta varchar(16) not null,
     Mes char(2) not null,
-    Año char(2)  not null,
+    Year char(2)  not null,
     ID_Usuario int(11) not null,
     primary key (No_Tarjeta),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
