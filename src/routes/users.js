@@ -7,12 +7,12 @@ const { isLoggedIn } = require('../lib/helpers');
 const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
-router.get('/principalUU', isNotLoggedIn, async (req, res) => { /*UNREGISTERED USER*/
+router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
     const products = await pool.query('SELECT * FROM producto');
     res.render('principalUU', { titulo: 'WippoStore', user: req.params.user, products });
 });
 
-router.get('/principalC', isLoggedIn, async (req, res) => {
+router.get('/principalC', isLoggedIn, async(req, res) => {
     const products = await pool.query('SELECT * FROM producto');
     res.render('userC/principalC', {
         products,
@@ -23,8 +23,34 @@ router.get('/principalC', isLoggedIn, async (req, res) => {
     });
 });
 
+router.get('/Historial_Pedidos', isLoggedIn, async(req, res) => {
+    console.log(req.session.user.id);
+    const pedidos = await pool.query('SELECT * FROM orden where ID_Usuario = ?', req.session.user.id);
+    console.log(pedidos.length);
+    res.render('userC/Historial', {
+        pedidos,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
 
-router.post('/addAddress', isLoggedIn, async (req, res) => {
+router.get('/Historial_Pedidos/Detalle', isLoggedIn, async(req, res) => {
+    console.log(req.query.transaccion);
+    const Detalle_Orden = await pool.query('SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor FROM contiene, producto,usuario where contiene.ID_Orden = ? and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario', req.query.transaccion);
+    console.log(Detalle_Orden);
+    res.render('userC/Historial_Detalle', {
+        Detalle_Orden,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
+
+
+router.post('/addAddress', isLoggedIn, async(req, res) => {
     const ID_Usuario = req.session.user.id
     const Nombre_Calle = req.body.street;
     const Num_ext = req.body.noext;
@@ -47,7 +73,7 @@ router.post('/addAddress', isLoggedIn, async (req, res) => {
     res.redirect("./profileC");
 });
 
-router.post('/addPayment', isLoggedIn, async (req, res) => {
+router.post('/addPayment', isLoggedIn, async(req, res) => {
     const No_Tarjeta = req.body.No_Tarjeta;
     const Mes = req.body.Mes;
     const Year = req.body.Year;
@@ -62,7 +88,7 @@ router.post('/addPayment', isLoggedIn, async (req, res) => {
     res.redirect("./profileC");
 });
 
-router.get('/profileC', isLoggedIn, async (req, res) => {
+router.get('/profileC', isLoggedIn, async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
@@ -94,7 +120,7 @@ router.get('/profileC', isLoggedIn, async (req, res) => {
     });
 });
 
-router.get('/editProfileC', isLoggedIn, async (req, res) => {
+router.get('/editProfileC', isLoggedIn, async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
@@ -133,8 +159,12 @@ router.get('/addDirectionC', isLoggedIn, (req, res) => {
 router.get('/addCardC', isLoggedIn, (req, res) => {
     res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });
 });
+<<<<<<< Updated upstream
 
 router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
+=======
+router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
+>>>>>>> Stashed changes
     var ID_Usuario = req.session.user.id;
     // console.log("CALL `getCart`(" + ID_Usuario + ");")
     const carrito = await pool.query("CALL `getCart`(?);", ID_Usuario);
@@ -149,14 +179,18 @@ router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
     var tax = total - subtotal;
     user = req.session.user;
     res.render('userC/shoppingCartC', {
-        carrito: carrito[0], user, total, subtotal, tax,
+        carrito: carrito[0],
+        user,
+        total,
+        subtotal,
+        tax,
         message_er: req.flash('message_er'),
         success: req.flash('success')
     });
 });
 
 
-router.get('/shoppingDetails', async (req, res) => {
+router.get('/shoppingDetails', async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
