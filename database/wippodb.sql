@@ -110,6 +110,55 @@ BEGIN
 END &&  
 DELIMITER ;  
 
+drop PROCEDURE if exists countCart;
+DELIMITER &&  
+CREATE PROCEDURE countCart (in ID_Carrito_r int, out lenCarrito int)  
+BEGIN
+    SELECT COUNT(ID_Producto) into lenCarrito FROM carritocontiene WHERE ID_Carrito = ID_Carrito_r;
+END &&  
+DELIMITER ;  
+
+drop PROCEDURE if exists purchaseCart;
+DELIMITER &&  
+CREATE PROCEDURE purchaseCart (in ID_Usuario_r int, in ID_Direccion int, in ID_Pago int)  
+BEGIN
+    DECLARE ìdCarrito int;
+    DECLARE idVendedor int;
+    DECLARE idProducto int;
+    DECLARE Total int;
+    DECLARE counter INT DEFAULT 1;
+    DECLARE lngth INT;
+    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    if(ìdCarrito IS NOT NULL) then
+        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', '1', ID_Usuario_r, ID_Direccion);        
+        SET @idOrden = LAST_INSERT_ID();
+        if(@idOrden IS NOT NULL) then
+            call countCart(ìdCarrito, lngth);
+
+            WHILE counter <= lngth DO
+                select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = ìdCarrito limit 1;
+                CALL `getVendedor`(idProducto, idVendedor); 
+
+                START TRANSACTION; -- TRANSACTION NOT WORKING
+                    INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)
+                    SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor  
+                    FROM `carritocontiene` WHERE ID_Carrito = ìdCarrito;
+                    DELETE FROM `CarritoContiene` WHERE ID_Carrito=ìdCarrito;
+                    
+                COMMIT;
+                SET counter = counter + 1;
+            END WHILE;
+
+        END IF;
+        
+
+    end if;
+END &&  
+DELIMITER ;  
+
+
+
+
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
 CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
@@ -159,15 +208,36 @@ create table if not exists CarritoContiene(
 
 create table if not exists Orden(
 	ID_Orden int(11) not null AUTO_INCREMENT,
-    Fecha date not null,
-    Estatus varchar(20) not null,
+    Fecha date not null DEFAULT now(),
+    Estatus varchar(20) not null DEFAULT "Pendiente",
     Monto_Total int not null,
     ID_Usuario int(11) not null,
+    ID_Direccion int(11) not null,
     primary key(ID_Orden),
     constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Monto_Negaivo check (Monto_Total>0),
     constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
 );
+
+create table if not exists Contiene(
+	ID_Orden int(11) not null,
+    ID_Producto int(11) not null,
+    ID_Usuario int(11) not null,
+    Cantidad int not null,
+    constraint Referencia_Contiene_Orden foreign key (ID_Orden) references Orden(ID_Orden) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Contiene_Producto foreign key (ID_Producto,ID_Usuario) references Producto(ID_Producto,ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    primary key (ID_Orden,ID_Producto,ID_Usuario),
+    constraint Contenido_Negativo check (Cantidad>0)
+)engine=innodb; 
+
+drop PROCEDURE if exists getVendedor;
+DELIMITER &&  
+CREATE PROCEDURE getVendedor (in ID_Producto_r int, out ID_Vendedor int)  
+BEGIN
+    SELECT ID_Usuario into ID_Vendedor FROM producto WHERE ID_Producto = ID_Producto_r;
+END &&  
+DELIMITER ;  
 
 create table if not exists Solicitar_Devolucion(
 	Producto_ID_Usuario int(11) not null,
@@ -194,16 +264,6 @@ create table if not exists Califica(
     primary key (Usuario_ID_Usuario,Producto_ID_Usuario,Producto_ID_Producto)
 )engine=innodb;
 
-create table if not exists Contiene(
-	ID_Orden int(11) not null,
-    ID_Producto int(11) not null,
-    ID_Usuario int(11) not null,
-    Cantidad int not null,
-    constraint Referencia_Contiene_Orden foreign key (ID_Orden) references Orden(ID_Orden) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Referencia_Contiene_Producto foreign key (ID_Producto,ID_Usuario) references Producto(ID_Producto,ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    primary key (ID_Orden,ID_Producto,ID_Usuario),
-    constraint Contenido_Negativo check (Cantidad>0)
-)engine=innodb; 
 
 create table if not exists Tarjeta_Registrada(
 	ID_Tarjeta	varchar(30) not null,
