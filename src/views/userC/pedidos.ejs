@@ -42,7 +42,7 @@
                                                 <tr>
                                                     <th scope="row"><%= pedido.ID_Orden %></th>
                                                     <td>$ <%= pedido.Monto_Total %></th>
-                                                    <td> <%= pedido.Fecha %></td>
+                                                    <td> <%= pedido.Fecha.toString().substring(0,16) %></td>
                                                     <% if (pedido.Estatus == "Pendiente") { %>
                                                         <td> Tu pedido está por enviarse</td>
                                                     <%} else if (pedido.Estatus == "Enviado") { %>

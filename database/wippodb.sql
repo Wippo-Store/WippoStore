@@ -81,7 +81,7 @@ create table if not exists Carrito(
     Monto_Total int not null,
     primary key(ID_Carrito),
     constraint Referencia_Carrito_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Carrito_Monto_Negativo check (Monto_Total>0)
+    constraint Carrito_Monto_Negativo check (Monto_Total>=0)
 )ENGINE=INNODB;
 
 
@@ -123,14 +123,15 @@ DELIMITER &&
 CREATE PROCEDURE purchaseCart (in ID_Usuario_r int, in ID_Direccion int, in ID_Pago int)  
 BEGIN
     DECLARE ìdCarrito int;
+    DECLARE montoCarrito int;
     DECLARE idVendedor int;
     DECLARE idProducto int;
     DECLARE Total int;
     DECLARE counter INT DEFAULT 1;
     DECLARE lngth INT;
-    SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
+    SELECT `ID_Carrito`, `Monto_Total` INTO ìdCarrito, montoCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
-        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', '1', ID_Usuario_r, ID_Direccion);        
+        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion);        
         SET @idOrden = LAST_INSERT_ID();
         if(@idOrden IS NOT NULL) then
             call countCart(ìdCarrito, lngth);
@@ -225,7 +226,7 @@ create table if not exists Orden(
     primary key(ID_Orden),
     constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Monto_Negaivo check (Monto_Total>0),
+    constraint Monto_Negaivo check (Monto_Total>=0),
     constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
 );
 
