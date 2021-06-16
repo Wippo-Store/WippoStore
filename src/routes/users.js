@@ -159,12 +159,7 @@ router.get('/addDirectionC', isLoggedIn, (req, res) => {
 router.get('/addCardC', isLoggedIn, (req, res) => {
     res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });
 });
-<<<<<<< Updated upstream
-
-router.get('/shoppingCartC', isLoggedIn, async (req, res) => {
-=======
 router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
->>>>>>> Stashed changes
     var ID_Usuario = req.session.user.id;
     // console.log("CALL `getCart`(" + ID_Usuario + ");")
     const carrito = await pool.query("CALL `getCart`(?);", ID_Usuario);
