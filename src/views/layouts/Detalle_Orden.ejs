@@ -1,0 +1,42 @@
+<div class="container-fluid pt-3">
+    <p class="h3">Detalle de la transaccion:
+        <%=Detalle_Orden[0].ID_Orden%>
+    </p>
+    <div style="margin: 0.5cm;">
+        <a href="/users/Historial_Pedidos">Cerrar</a>
+    </div>
+    <ul class="list-group">
+        <% Detalle_Orden.forEach(Producto=> { %>
+            <li class="list-group-item">
+                <div class="d-flex align-items-center">
+                    <div class="p-2 flex-grow-1 ">
+                        <p class="text-break">
+                            <span class="text-muted">
+                                    <%=Producto.Producto%>
+                                </span>
+                        </p>
+                        <p>
+                            Cantidad:
+                            <%=Producto.Cantidad%>
+                        </p>
+                        <p>
+                            Precio Unitario: $
+                            <%=Producto.Precio%>
+                        </p>
+                        <p>
+                            Subtotal: $
+                            <%=Producto.Precio * Producto.Cantidad%>
+                        </p>
+                        <p>Vendido por:
+                            <%=Producto.NombreVendedor%>
+                        </p>
+
+                    </div>
+                    <div class="p-2 ">
+                        <img src="/images/<%=Producto.Imagen %>" style="max-block-size: 3cm;">
+                    </div>
+                </div>
+            </li>
+            <% }); %>
+    </ul>
+</div>
