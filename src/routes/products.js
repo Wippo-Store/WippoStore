@@ -63,11 +63,11 @@ router.post('/purchaseCart', isLoggedIn, async (req, res) => {
             console.log(error)
             req.flash("message_er", "Ha ocurrido un error al generar la Orden");
         } else {
-            console.log('Compra realizada');
+            console.log('Compra realizada con exito');
             req.flash("success", "Compra Realizada");
         }
     });
-    res.redirect("/users/shoppingCartC");
+    res.redirect("/users/pedidosC");
 });
 
 router.post('/addtoCart', isLoggedIn, async (req, res) => {

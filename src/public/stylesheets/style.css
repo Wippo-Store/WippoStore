@@ -26,6 +26,11 @@ a {
 .size {
     font-size: 2rem;
 }
+.hero-box{
+    background-image: url(../images/headers/box.png) !important;
+    background-position: top center !important;
+
+}
 
 .hero {
     background-image: url(../images/hero.png);

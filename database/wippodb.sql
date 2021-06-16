@@ -183,6 +183,15 @@ BEGIN
 END &&  
 DELIMITER ;
 
+drop PROCEDURE if exists getOrders;
+DELIMITER &&  
+CREATE PROCEDURE getOrders (in ID_Usuario_r int, in limit_r int)  
+BEGIN
+    SELECT * FROM orden limit limit_r;
+END &&  
+DELIMITER ;
+
+
 drop PROCEDURE if exists removeFromCart;
 DELIMITER &&  
 CREATE PROCEDURE removeFromCart (in ID_Usuario_r int, in ID_Producto int)  
