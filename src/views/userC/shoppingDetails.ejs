@@ -16,126 +16,137 @@
     </header>
 
     <div class="container p-5">
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Confirmar acción</h5>
-                        <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Confirmar que desea realizar el pago de  $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
-                        Por los productos en el carrito.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-outline-success">Confirmar</button>
+        <form action="/products/purchaseCart" method="POST">
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Confirmar acción</h5>
+                            <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Confirmar que desea realizar el pago de $ <%=total.toFixed(3).toString().replace(
+                                /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                Por los productos en el carrito.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary"
+                                data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-outline-success">Confirmar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <h3>Detalles del Pedido</h3>
-        <div class="row">
-            <main class="col-md-9">
-                <article class="card card-body mb-3">
-                    <div class="row d-flex align-items-center">
-                        <span class="text-muted h4">Dirección</span>
-                        <div class="h6">
-                            <% address_list.forEach(function(address) { %>
-                                <div class="form-check">
-                                    <input class="form-check-input wippo-radio" type="radio" name="exampleRadios"
-                                        id="exampleRadios<%= address.ID_Direccion %>" value="<%= address.id %>" checked>
-                                    <label class="form-check-label" for="exampleRadios<%= address.ID_Direccion %>">
-                                        <span class="text-muted">
-                                            Dirección
-                                        </span>
-                                        <%= address.Nombre_Calle %> #<%= address.Num_ext %> int <%= address.Num_int %>, <%= address.Colonia %>. <%=
-                                                        address.Municipio %>, <%= address.Estado %>. CP <%= address.cp %>.
-                                    </label>
-                                </div>
-                                <% }); %>
-                        </div>
-                        <!-- col.// -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-sm-7"></div>
-                        <div class="col-md-2 col-sm-3">
-                            <button class="btn btn-sm btn-dark">Agregar</button>
-                        </div>
-                    </div>
-                    <!-- row.// -->
-                </article>
 
-                <article class="card card-body mb-3">
-                    <div class="row d-flex align-items-center">
-                        <div class="col">
-                            <span class="text-muted h4">Método de Pago <i class="bi bi-credit-card"></i></span>
+            <h3>Detalles del Pedido</h3>
+            <div class="row">
+                <main class="col-md-9">
+                    <article class="card card-body mb-3">
+                        <div class="row d-flex align-items-center">
+                            <span class="text-muted h4">Dirección</span>
                             <div class="h6">
-                                <% payments_list.forEach(function(payment) { %>
+                                <% address_list.forEach(function(address) { %>
                                     <div class="form-check">
-                                        <input class="form-check-input wippo-radio" type="radio" name="exampleRadios2"
-                                            id="paymentRadios<%= payment.ID_Tarjeta %>" value="option1" checked>
-                                        <label class="form-check-label" for="paymentRadios<%= payment.ID_Tarjeta %>">
-                                            XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
+                                        <input class="form-check-input wippo-radio" type="radio" name="ID_Direccion"
+                                            id="metodoPAgo<%= address.ID_Direccion %>" value="<%= address.ID_Direccion %>"
+                                            checked>
+                                        <label class="form-check-label" for="metodoPAgo<%= address.ID_Direccion %>">
+                                            <span class="text-muted">
+                                                Dirección
+                                            </span>
+                                            <%= address.Nombre_Calle %> #<%= address.Num_ext %> int <%= address.Num_int
+                                                        %>,
+                                                        <%= address.Colonia %>. <%= address.Municipio %>, <%=
+                                                                    address.Estado %>. CP <%= address.cp %>.
                                         </label>
                                     </div>
                                     <% }); %>
                             </div>
                             <!-- col.// -->
                         </div>
-                    </div>
-                    <!-- row.// -->
-                    <div class="row">
-                        <div class="col-md-10 col-sm-7"></div>
-                        <div class="col-md-2 col-sm-3">
-                            <button class="btn btn-sm btn-dark">Agregar</button>
+                        <div class="row">
+                            <div class="col-md-10 col-sm-7"></div>
+                            <div class="col-md-2 col-sm-3">
+                                <button class="btn btn-sm btn-dark">Agregar</button>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                        <!-- row.// -->
+                    </article>
+
+                    <article class="card card-body mb-3">
+                        <div class="row d-flex align-items-center">
+                            <div class="col">
+                                <span class="text-muted h4">Método de Pago <i class="bi bi-credit-card"></i></span>
+                                <div class="h6">
+                                    <% payments_list.forEach(function(payment) { %>
+                                        <div class="form-check">
+                                            <input class="form-check-input wippo-radio" type="radio"
+                                                name="ID_Tarjeta" id="paymentRadios<%= payment.ID_Tarjeta %>"
+                                                value="<%= payment.ID_Tarjeta %>" checked>
+                                            <label class="form-check-label"
+                                                for="paymentRadios<%= payment.ID_Tarjeta %>">
+                                                XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
+                                            </label>
+                                        </div>
+                                        <% }); %>
+                                </div>
+                                <!-- col.// -->
+                            </div>
+                        </div>
+                        <!-- row.// -->
+                        <div class="row">
+                            <div class="col-md-10 col-sm-7"></div>
+                            <div class="col-md-2 col-sm-3">
+                                <button class="btn btn-sm btn-dark">Agregar</button>
+                            </div>
+                        </div>
+                    </article>
 
 
-                <!-- card .// -->
-            </main>
-            <!-- col.// -->
-            <aside class="col-md-3 border-left">
-                <div class="card-body">
-                    <dl class="dlist-align">
-                        <div class="h5">
-                            <dt>Subtotal:</dt>
-                            <dd class="text-right">
-                                $<%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
-                            </dd>
-                        </div>
-                        <div class="h5">
-                            <dt>IVA:</dt>
-                            <dd class="text-right">
-                                $ <%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
-                            </dd>
-                        </div>
-                        <div class="h4">
-                            <dt>Total:</dt>
-                            <dd class="text-right">
-                                $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
-                            </dd>
-                        </div>
-                    </dl>
-                    <hr>
-                    <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModalCenter">
-                        Proceder al Pago
-                    </button>
-                    <!-- <a href="#" class="btn btn-outline-dark">Proceder al pago</a> -->
+                    <!-- card .// -->
+                </main>
+                <!-- col.// -->
+                <aside class="col-md-3 border-left">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <div class="h5">
+                                <dt>Subtotal:</dt>
+                                <dd class="text-right">
+                                    $<%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                </dd>
+                            </div>
+                            <div class="h5">
+                                <dt>IVA:</dt>
+                                <dd class="text-right">
+                                    $ <%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                </dd>
+                            </div>
+                            <div class="h4">
+                                <dt>Total:</dt>
+                                <dd class="text-right">
+                                    $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                </dd>
+                            </div>
+                        </dl>
+                        <hr>
+                        <button type="button" class="btn btn-outline-dark" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            Proceder al Pago
+                        </button>
+                        <!-- <a href="#" class="btn btn-outline-dark">Proceder al pago</a> -->
+                    </div>
+                    <!-- card-body.// -->
+                </aside>
+
+                <div class="row">
+                    <%- include("../layouts/cart.sm.ejs") %>
                 </div>
-                <!-- card-body.// -->
-            </aside>
-
-            <div class="row">
-                <%- include("../layouts/cart.sm.ejs") %>
+                <!-- col.// -->
             </div>
-            <!-- col.// -->
-        </div>
+        </form>
     </div>
 
     <footer class="mt-auto">
