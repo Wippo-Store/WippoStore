@@ -27,7 +27,10 @@ router.get('/', async (req, res) => {
 router.get('/pDetails/:id', async (req, res) => {
     const idU = req.params.id;
     const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [idU]);
-    res.render('product/pDetails', { products, user: req.session.user, titulo: 'WippoStore' });
+    res.render('product/pDetails', {
+        products, user: req.session.user, titulo: 'WippoStore', message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 
 router.post('/updateCart', isLoggedIn, async (req, res) => {
@@ -85,7 +88,36 @@ router.post('/addtoCart', isLoggedIn, async (req, res) => {
     });
     console.log('Agregado al carrito');
     req.flash("success", "Articulo agregado al carrito");
-    res.redirect("/users/shoppingCartC");
+
+    // const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [ID_Producto]);
+
+    // res.render('product/pDetails', {
+    //     products, user: req.session.user, titulo: 'WippoStore',
+    //     message_er: req.flash('message_er'),
+    //     success: req.flash('success')
+    // });
+
+    res.redirect(`/products/pDetails/${ID_Producto}`);
+});
+
+
+router.post('/remove', isLoggedIn, async (req, res) => {
+    const ID_Usuario = req.session.user.id;
+    const ID_Producto = req.body.id_producto;
+    // const Cantidad = req.body.Cantidad;
+    console.log("CALL `removeFromCart`(" + ID_Usuario + ", " +  ID_Producto + ");")
+    const result = await pool.query("CALL `removeFromCart`(?, ?);", [
+        ID_Usuario,
+        ID_Producto
+    ]).catch(error => {
+        console.log("Ocurrio un error al remover el producto:")
+        console.log(error)
+        req.flash("message_er", "Ocurrio un error al remover el producto");
+    });
+    console.log('Producto Correctamente elminado del carrito');
+    req.flash("success", "Producto Correctamente elminado del carrito");
+
+    res.redirect(`/users/shoppingCartC/`);
 });
 
 module.exports = router;

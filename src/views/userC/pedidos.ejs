@@ -53,7 +53,13 @@
                                                         <td> Ha ocurrido un error. Contacte con soporte Tecnico </p>
                                                     <% } %>
                                                     <td>
-                                                        <button class="btn btn-dark btn-sm">Ver</button>
+                                                        <form action="/users/Historial_Pedidos/Detalle" method="GET">
+                                                            <div class="p-2 ">
+                                                                <button name="transaccion" type="submit" class="btn btn-dark btn-sm" value="<%=pedido.ID_Orden%>">
+                                                                    Ver Detalles
+                                                                </button>
+                                                            </div>
+                                                        </form>
                                                     </td>
                                                 </tr>
 
