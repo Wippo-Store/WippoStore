@@ -8,7 +8,7 @@
                         <div class="p-2 flex-grow-1 ">
                             <p class="text-break">
                                 <span class="text-muted">
-                                    Id de transaccion: <%=Orden.ID_Orden %>
+                                    Transaccion con #Folio: <%=Orden.ID_Orden %>
                                 </span>
                             </p>
                             <p>
@@ -17,7 +17,7 @@
                             </p>
                             <p>
                                 Fecha del Pedido:
-                                <%=Orden.Fecha%>
+                                <%=Orden.Fecha.toString().substring(0,16)%>
                             </p>
                             <p>Monto Total: $
                                 <%=Orden.Monto_Total%>
