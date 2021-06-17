@@ -216,31 +216,6 @@ create table if not exists CarritoContiene(
     constraint Carrito_Contenido_Negativo check (Cantidad>0)
 )engine=innodb; 
 
-create table if not exists Orden(
-	ID_Orden int(11) not null AUTO_INCREMENT,
-    Fecha date not null DEFAULT now(),
-    Estatus varchar(20) not null DEFAULT "Pendiente",
-    Monto_Total int not null,
-    ID_Usuario int(11) not null,
-    ID_Direccion int(11) not null,
-    primary key(ID_Orden),
-    constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Monto_Negaivo check (Monto_Total>=0),
-    constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
-);
-
-create table if not exists Contiene(
-	ID_Orden int(11) not null,
-    ID_Producto int(11) not null,
-    ID_Usuario int(11) not null,
-    Cantidad int not null,
-    constraint Referencia_Contiene_Orden foreign key (ID_Orden) references Orden(ID_Orden) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Referencia_Contiene_Producto foreign key (ID_Producto,ID_Usuario) references Producto(ID_Producto,ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
-    primary key (ID_Orden,ID_Producto,ID_Usuario),
-    constraint Contenido_Negativo check (Cantidad>0)
-)engine=innodb; 
-
 drop PROCEDURE if exists getVendedor;
 DELIMITER &&  
 CREATE PROCEDURE getVendedor (in ID_Producto_r int, out ID_Vendedor int)  
@@ -298,3 +273,28 @@ create table if not exists Direccion(
     primary key(ID_Direccion,ID_Usuario),
     constraint Referencia_Direccion_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
 )engine=innodb;
+
+create table if not exists Orden(
+	ID_Orden int(11) not null AUTO_INCREMENT,
+    Fecha date not null DEFAULT now(),
+    Estatus varchar(20) not null DEFAULT "Pendiente",
+    Monto_Total int not null,
+    ID_Usuario int(11) not null,
+    ID_Direccion int(11) not null,
+    primary key(ID_Orden),
+    constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Monto_Negaivo check (Monto_Total>=0),
+    constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
+)engine=innodb;
+
+create table if not exists Contiene(
+	ID_Orden int(11) not null,
+    ID_Producto int(11) not null,
+    ID_Usuario int(11) not null,
+    Cantidad int not null,
+    constraint Referencia_Contiene_Orden foreign key (ID_Orden) references Orden(ID_Orden) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Contiene_Producto foreign key (ID_Producto,ID_Usuario) references Producto(ID_Producto,ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
+    primary key (ID_Orden,ID_Producto,ID_Usuario),
+    constraint Contenido_Negativo check (Cantidad>0)
+)engine=innodb; 
