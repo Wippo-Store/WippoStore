@@ -89,7 +89,7 @@ drop PROCEDURE if exists updateCartTotal;
 DELIMITER &&  
 CREATE PROCEDURE updateCartTotal (in toADD int,in ID_Carrito int)  
 BEGIN
-    DECLARE total int;
+    DECLARE total int default 0;
     SELECT carrito.Monto_Total INTO total FROM carrito WHERE carrito.ID_Carrito = ID_Carrito;
     UPDATE `carrito` SET `Monto_Total` = (total + toADD) WHERE `carrito`.`ID_Carrito` = ID_Carrito;
 END &&  
@@ -97,15 +97,52 @@ DELIMITER ;
 
 drop PROCEDURE if exists updateCart;
 DELIMITER &&  
-CREATE PROCEDURE updateCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+CREATE PROCEDURE updateCart (in ID_Producto_r int, in ID_Usuario_r int, in Cantidad int)  
 BEGIN
     DECLARE ìdCarrito int;
     DECLARE Total int;
+    DECLARE res_checkCantidad int;
+    DECLARE dif int;
     SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
-        REPLACE INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
-        SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
-        call updateCartTotal(Total, ìdCarrito);
+        -- select `Cantidad` into Cantidad_Anterior from CarritoContiene where `ID_Carrito` = ìdCarrito and `ID_Producto` = ID_Producto_r;
+        call checkCantidad(ìdCarrito, ID_Producto_r, Cantidad, res_checkCantidad, dif);
+        if(res_checkCantidad != 0) then
+            -- if(Cantidad_Anterior != Cantidad ) then
+                SELECT (Producto.Precio * dif) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto_r limit 1;
+                REPLACE INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto_r, Cantidad);
+                if(res_checkCantidad = -1) then
+                    call updateCartTotal((Total*-1), ìdCarrito);
+                ELSE
+                    call updateCartTotal(Total, ìdCarrito);
+                end if;
+            -- end if;
+        end if;
+        
+    end if;
+END &&  
+DELIMITER ;  
+
+drop PROCEDURE if exists checkCantidad;
+DELIMITER &&  
+CREATE PROCEDURE checkCantidad (in ID_Carrito_r int,in ID_Producto_r int, in Cantidad_r int, out result int, out dif int)  
+BEGIN
+    DECLARE Cantidad_Anterior int;
+
+    select `Cantidad` into Cantidad_Anterior from CarritoContiene where `ID_Carrito` = ID_Carrito_r and `ID_Producto` = ID_Producto_r;
+
+    if(Cantidad_Anterior IS NOT NULL) then
+            if(Cantidad_r <  Cantidad_Anterior) then
+                select -1 into result;
+                select (Cantidad_Anterior - Cantidad_r) into dif;
+            ELSEIF (Cantidad_r >  Cantidad_Anterior) then
+                select 1 into result;
+                select (Cantidad_r - Cantidad_Anterior) into dif;
+            else
+                select 0 into result;
+                select 0 into dif;
+            end if;
+        -- end if;
     end if;
 END &&  
 DELIMITER ;  
@@ -134,21 +171,20 @@ BEGIN
         INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion);        
         SET @idOrden = LAST_INSERT_ID();
         if(@idOrden IS NOT NULL) then
-            call countCart(ìdCarrito, lngth);
+            START TRANSACTION; -- TRANSACTION NOT WORKING
+                call countCart(ìdCarrito, lngth);
 
-            WHILE counter <= lngth DO
-                select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = ìdCarrito limit 1;
-                CALL `getVendedor`(idProducto, idVendedor); 
-
-                START TRANSACTION; -- TRANSACTION NOT WORKING
-                    INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)
-                    SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor  
-                    FROM `carritocontiene` WHERE ID_Carrito = ìdCarrito;
-                    DELETE FROM `CarritoContiene` WHERE ID_Carrito=ìdCarrito;
-                    
-                COMMIT;
-                SET counter = counter + 1;
-            END WHILE;
+                WHILE counter <= lngth DO
+                    select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = ìdCarrito limit 1;
+                    CALL `getVendedor`(idProducto, idVendedor); 
+                        INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)
+                        SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor  
+                        FROM `carritocontiene` WHERE ID_Carrito = ìdCarrito;
+                        DELETE FROM `CarritoContiene` WHERE ID_Carrito=ìdCarrito;
+                    SET counter = counter + 1;
+                END WHILE;
+            COMMIT;
+            UPDATE `Carrito` SET `Monto_Total` = 0 WHERE ID_Carrito = ìdCarrito limit 1;
 
         END IF;
         
@@ -162,14 +198,14 @@ DELIMITER ;
 
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
-CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad int)  
+CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad_r int)  
 BEGIN
     DECLARE ìdCarrito int;
     DECLARE Total int;
     SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
-        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad);
-        SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
+        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad_r);
+        SELECT (Producto.Precio * Cantidad_r) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
         call updateCartTotal(Total, ìdCarrito);
     end if;
 END &&  
@@ -198,9 +234,13 @@ DELIMITER &&
 CREATE PROCEDURE removeFromCart (in ID_Usuario_r int, in ID_Producto int)  
 BEGIN
     DECLARE idCarrito int;
+    DECLARE Total int;
+
         SELECT `ID_Carrito` INTO idCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
         if(idCarrito IS NOT NULL) then
             DELETE FROM `carritocontiene` WHERE `carritocontiene`.`ID_Carrito` = idCarrito AND `carritocontiene`.`ID_Producto` = ID_Producto;
+            SELECT (Producto.Precio * Cantidad) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
+            call updateCartTotal((Total * -1), ìdCarrito);
     end if;
 
 END &&  
