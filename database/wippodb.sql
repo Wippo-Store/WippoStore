@@ -269,7 +269,7 @@ create table if not exists Solicitar_Devolucion(
 	Producto_ID_Producto int(11) not null,
     Usuario_ID_Usuario int(11) not null,
     Motivo varchar(50),
-    Estatus	varchar(20) not null,
+    Estatus  varchar(20) not null,
     Fecha_Solicitud date not null,
     constraint Referencia_Solicitar_Producto foreign key(Producto_ID_Usuario,Producto_ID_Producto) references  Producto(ID_Usuario,ID_Producto) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Referencia_Solicitar_Usuario foreign key(Usuario_ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -291,7 +291,7 @@ create table if not exists Califica(
 
 
 create table if not exists Tarjeta_Registrada(
-	ID_Tarjeta	varchar(30) not null,
+	ID_Tarjeta  varchar(30) not null,
     No_Tarjeta varchar(16) not null,
     Mes char(2) not null,
     Year char(2)  not null,
@@ -307,7 +307,7 @@ create table if not exists Direccion(
     Num_int int,
     Colonia varchar(20) not null,
     Municipio varchar(20) not null,
-    Estado varchar(15) not null,
+    Estado varchar(20) not null,
     CP char(5) not null,
     ID_Usuario int(11) not null,
     primary key(ID_Direccion,ID_Usuario),

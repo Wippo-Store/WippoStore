@@ -189,7 +189,7 @@ function showErrorN(campo, errorC) {
     return false;
 }
 
-//ADDRESS VALIDATION
+//CP VALIDATION
 const cp = document.getElementById('CP');
 const cpError = document.querySelector('#CP + span.errorCP');
 
@@ -222,6 +222,7 @@ function showErrorCP() {
 
 }
 
+//STATE VALIDATION
 const est = document.getElementById('Estado');
 const estError = document.querySelector('#Estado + span.errorS');
 
