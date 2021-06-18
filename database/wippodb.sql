@@ -166,6 +166,8 @@ BEGIN
     DECLARE Total int;
     DECLARE counter INT DEFAULT 1;
     DECLARE lngth INT;
+    DECLARE cantidad_actual int;
+    DECLARE cantidad_comprada int;
     SELECT `ID_Carrito`, `Monto_Total` INTO ìdCarrito, montoCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
         INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion);        
@@ -176,11 +178,14 @@ BEGIN
 
                 WHILE counter <= lngth DO
                     select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = ìdCarrito limit 1;
+                    select `Cantidad` into cantidad_actual from producto where ID_Producto = idProducto;
+                    SELECT `Cantidad` into cantidad_comprada FROM `carritocontiene` WHERE ID_Carrito = ìdCarrito;
                     CALL `getVendedor`(idProducto, idVendedor); 
                         INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)
                         SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor  
                         FROM `carritocontiene` WHERE ID_Carrito = ìdCarrito;
                         DELETE FROM `CarritoContiene` WHERE ID_Carrito=ìdCarrito;
+                        UPDATE `producto` SET `cantidad` = (cantidad_actual - cantidad_comprada) where `ID_Producto` = idProducto;
                     SET counter = counter + 1;
                 END WHILE;
             COMMIT;
@@ -191,10 +196,7 @@ BEGIN
 
     end if;
 END &&  
-DELIMITER ;  
-
-
-
+DELIMITER ; 
 
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
