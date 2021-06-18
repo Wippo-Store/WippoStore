@@ -26,6 +26,7 @@
                     <div class="col-6 text-center">
 
                         <script>
+                            // DONT USE FORMATTER FOR THE NEXT FUNCTIONS 
                             function reduce<%=products.ID_Producto%>(){
                                 reduceValue =(parseInt($('#cantidad<%=products.ID_Producto%>').val()) - 1).toString();
                                 if(parseInt(reduceValue) > 0){
@@ -54,17 +55,21 @@
                         <form action="/products/updateCart" method="POST">
                             <div class="input-group input-spinner">
                                 <div class=".input-group-text">
-                                    <button onclick="reduce<%=products.ID_Producto%>()" class="btn" type="button" id="button-minus">
+                                    <button onclick="reduce<%=products.ID_Producto%>()" class="btn" type="button"
+                                        id="button-minus">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
                                             fill="currentColor" class="bi bi-dash-lg" viewBox="0 0 16 16">
                                             <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z" />
                                         </svg>
                                     </button>
                                 </div>
-                                <input onkeypress="update<%=products.ID_Producto%>()" onchange="update<%=products.ID_Producto%>()" name="cantidad" id="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
+                                <input onkeypress="update<%=products.ID_Producto%>()"
+                                    onchange="update<%=products.ID_Producto%>()" name="cantidad"
+                                    id="cantidad<%=products.ID_Producto%>" type="text" class="form-control"
                                     value="<%=products.Cantidad%>">
                                 <div class=".input-group-text">
-                                    <button onclick="increase<%=products.ID_Producto%>()" class="btn " type="button" id="button-plus">
+                                    <button onclick="increase<%=products.ID_Producto%>()" class="btn " type="button"
+                                        id="button-plus">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16"
                                             fill="currentColor" class="bi bi-plus-lg" viewBox="0 0 16 16">
                                             <path
@@ -74,16 +79,50 @@
                                 </div>
                             </div>
                             <br>
-                            <button type="submit" name="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-sm">confirmar cambios</button>
+                            <button type="submit" name="ID_Producto" value="<%=products.ID_Producto%>"
+                                class="btn btn-sm">confirmar cambios</button>
                         </form>
-                        <input id="<%=products.ID_Producto%>" name="<%=products.ID_Producto%>" type="text" class="form-control-plaintext text-center" readonly value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
+                        <input id="<%=products.ID_Producto%>" name="<%=products.ID_Producto%>" type="text"
+                            class="form-control-plaintext text-center" readonly
+                            value='$ <%=(products.Precio*products.Cantidad).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "," );%>'>
 
                     </div>
 
                     <!-- input-group.// -->
                     <div class="col flex-grow-0 text-end">
-                        <a href="#" class="btn size"><i class="bi bi-trash-fill"></i></a>
+                        <button  data-toggle="modal" data-target="#exampleModalCenter" class="btn size">
+                            <i class="bi bi-trash-fill"></i></a>
+                        </button>
                     </div>
+
+                    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Confirmar acción</h5>
+                                    <button type="button" class="btn close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Estas seguro que deseas eliminar <%=products.Nombre%>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <form action="/products/remove" method="post">
+                                        <button type="submit" name="id_producto" id="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-outline-danger">
+                                            <i class="bi bi-trash-fill"></i> Confirmar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
                 <!-- col.// -->
 

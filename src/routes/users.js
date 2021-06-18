@@ -23,6 +23,32 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
     });
 });
 
+router.get('/Historial_Pedidos', isLoggedIn, async(req, res) => {
+    console.log(req.session.user.id);
+    const pedidos = await pool.query('SELECT * FROM orden where ID_Usuario = ?', req.session.user.id);
+    console.log(pedidos.length);
+    res.render('userC/Historial', {
+        pedidos,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
+
+router.get('/Historial_Pedidos/Detalle', isLoggedIn, async(req, res) => {
+    console.log(req.query.transaccion);
+    const Detalle_Orden = await pool.query('SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor FROM contiene, producto,usuario where contiene.ID_Orden = ? and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario', req.query.transaccion);
+    console.log(Detalle_Orden);
+    res.render('userC/Historial_Detalle', {
+        Detalle_Orden,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
+
 
 router.post('/addAddress', isLoggedIn, async(req, res) => {
     const ID_Usuario = req.session.user.id
@@ -191,17 +217,6 @@ router.get('/shoppingDetails', async(req, res) => {
     var subtotal = total / (iva + 1);
     var tax = total - subtotal;
 
-    // address_list = [
-    //     { id: 0, name: "Casa", street: "Mar meditarraneo", number: "48", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 },
-    //     { id: 1, name: "Oficina", street: "Mar meditarraneo", number: "50", distrit: "Gustavo A. Madero", city: "Ciudad de Mexico", cp: 554001 }
-    // ]
-
-    // payments_list = [
-    //     { id: 0, name: "Visa", type: "debito", last_numbers: "178" },
-    //     { id: 1, name: "Mastercad", type: "debito", last_numbers: "178" }
-    // ]
-
-
     res.render('userC/shoppingDetails', {
         subtotal,
         total,
@@ -215,6 +230,30 @@ router.get('/shoppingDetails', async(req, res) => {
         user: req.session.user,
         nombre: req.session.username,
         titulo: 'Carrito - WippoStore'
+    });
+});
+
+
+router.get('/pedidosC', isLoggedIn, async (req, res) => {
+    var ID_Usuario = req.session.user.id;
+    var limite = 10;
+    console.log("CALL `getOrders`(" + ID_Usuario + ");")
+    const orders_list = await pool.query("CALL `getOrders`(?,?);", [ID_Usuario, limite]);
+    console.log(orders_list);
+    user = req.session.user;
+    var show_table = false;
+
+    if(orders_list[0].length > 0){
+        show_table = true;
+    }
+
+    res.render('userC/pedidos', {
+        orders_list: orders_list[0], user,
+        message_er: req.flash('message_er'),
+        success: req.flash('success'),
+        titulo: "Tus pedidos",
+        limite,
+        show_table,
     });
 });
 
