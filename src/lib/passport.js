@@ -10,18 +10,23 @@ passport.use('local.loginU', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async(req, username, password, done) => {
-    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre,Correo_Electronico FROM Usuario WHERE Correo_Electronico = ?', [username]);
+    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre,Correo_Electronico,Apellido_Paterno,Apellido_Materno,Tipo_Usuario FROM Usuario WHERE Correo_Electronico = ?', [username]);
+    const user = rows[0];
     if (rows.length > 0) {
-        if (rows[0].Contraseña == password) {
-            const user = rows[0];
-            console.log('Acceso exitoso');
-            req.session.user = user;
-            console.log(user);
-            done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
+        if (user.Tipo_Usuario == 'C') {
+            if (rows[0].Contraseña == password) {
+                console.log('Acceso exitoso');
+                req.session.user = user;
+                console.log(user);
+                done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
 
+            } else {
+                console.log('Contraseñas no coinciden');
+                done(null, false, req.flash('message_er', 'Contraseña incorrecta'));
+            }
         } else {
-            console.log('Contraseñas no coinciden');
-            done(null, false, req.flash('message_er', 'Contraseña incorrecta'));
+            console.log('Usuario vendedor');
+            return done(null, false, req.flash('message_er', 'El usuario no existe'));
         }
     } else {
         console.log('Usuario no exite');

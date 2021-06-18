@@ -15,7 +15,7 @@
                         <h4 class="card-title mb-4">Agregar Dirección</h4>
                     </div>
                 </header>
-                <form action="./addAddress" method="POST" class=" needs-validation" novalidate>
+                <form action="./addAddress" method="POST">
                     <!-- Direccion -->
                     <div class="row g-3">
                         <div class="col-md form-group">
@@ -35,7 +35,8 @@
                         <!-- form-group end.// -->
                         <div class="col-md-3 form-group">
                             <label></label>
-                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="cp">
+                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP" id="CP">
+                            <span class="errorCP" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
@@ -43,21 +44,24 @@
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="munalc">
+                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio" id="MA">
+                            <span class="errorM" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
-                            <input required type="text" class="form-control" placeholder="Estado" name="state">
+                            <input required type="text" class="form-control" placeholder="Estado" name="Estado" id="Estado">
+                            <span class="errorS" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                     </div>
 
                     <div class="form-group pt-5 d-flex justify-content-md-evenly">
                         <a class="btn btn-outline-dark" href="/users/profileC">Cancelar</a>
-                        <button class="btn btn-outline-dark " name="btnR ">Guardar</button>
+                        <button class="btn btn-outline-dark " name="btnR " id="btn">Guardar</button>
                     </div>
                     <!-- form-group// -->
                 </form>
+                <script src="/javascripts/validationAddress.js"></script>
             </article>
             <!-- card-body end .// -->
         </div>

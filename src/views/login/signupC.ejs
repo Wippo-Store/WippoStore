@@ -25,18 +25,20 @@
                         <div class="row g-3">
                             <div class="col-md-4 form-group">
                                 <label>Nombre*</label>
-                                <input required type="text" class="form-control" name="Nombre" autofocus>
-
+                                <input required type="text" class="form-control" name="Nombre" id="Nombre" autofocus>
+                                <span class="errorN" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                             <div class="col-md-4 form-group">
                                 <label>Apellido Paterno*</label>
-                                <input required type="text" class="form-control" name="Apellido_Paterno">
+                                <input required type="text" class="form-control" name="Apellido_Paterno" id="AP">
+                                <span class="errorAP" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                             <div class="col-md-4 form-group">
                                 <label>Apellido Materno*</label>
-                                <input required type="text" class="form-control" name="Apellido_Materno">
+                                <input required type="text" class="form-control" name="Apellido_Materno" id="AM">
+                                <span class="errorAM" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                         </div>
@@ -67,7 +69,8 @@
                             <!-- form-group end.// -->
                             <div class="col-md-3 form-group">
                                 <label></label>
-                                <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP">
+                                <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP" id="CP">
+                                <span class="errorCP" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                             <div class="col-md-4 form-group">
@@ -75,11 +78,13 @@
                             </div>
                             <!-- form-group end.// -->
                             <div class="col-md-4 form-group">
-                                <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio">
+                                <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio" id="MA">
+                                <span class="errorM" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                             <div class="col-md-4 form-group">
-                                <input required type="text" class="form-control" placeholder="Estado" name="Estado">
+                                <input required type="text" class="form-control" placeholder="Estado" name="Estado" id="Estado">
+                                <span class="errorS" aria-live="polite"></span>
                             </div>
                             <!-- form-group end.// -->
                         </div>
@@ -113,6 +118,7 @@
                         </div>
                         <!-- form-group// -->
                     </form>
+                    <script src="/javascripts/validationAddress.js"></script>
                     <script src="/javascripts/validation.js"></script>
                 </article>
                 <!-- card-body end .// -->

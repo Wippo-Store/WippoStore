@@ -127,8 +127,8 @@ router.get('/editProfileC', isLoggedIn, async(req, res) => {
         address_list,
     });
 });
-router.get('/addDirectionC', isLoggedIn, (req, res) => {
-    res.render('userC/addDirectionC', { titulo: 'Agregar Dirección' });
+router.get('/addAddressC', isLoggedIn, (req, res) => {
+    res.render('userC/addAddressC', { titulo: 'Agregar Dirección' });
 });
 router.get('/addCardC', isLoggedIn, (req, res) => {
     res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });

@@ -62,8 +62,13 @@
                                 <!-- Direccion -->
                                 <div class="row g-3">
                                     <div class="col-md-4 form-group">
-                                        <label></label>
-                                        <input name="Cantidad" required type="number" min="1" class="form-control" placeholder="Cantidad">
+                                        <label for="Cantidad" class="h5">Cantidad</label>
+                                        <!-- <input name="Cantidad" value="1" type="number" min="1" class="form-control" placeholder="Cantidad"> -->
+                                        <select class="form-select" name="Cantidad" id="Cantidad">
+                                            <% for(var i=1; i <= products.Cantidad; i++) { %>
+                                                <option value="<%= i %>" id="<%= i %>"><%= i %></option>
+                                                <% } %>
+                                        </select>
                                     </div>
                                     <!-- form-group end.// -->
                                     <div class="col-md-12 form-group ">

@@ -34,6 +34,8 @@
                         <dt class="col-sm-3">Nombre</dt>
                         <dd class="col-sm-9">
                             <%= user.Nombre %>
+                                <%= user.Apellido_Paterno %>
+                                    <%= user.Apellido_Materno %>
                         </dd>
                         <br><br>
                         <p class="h3">Datos de cuenta</p>
@@ -41,7 +43,6 @@
                         <dd class="col-sm-9">
                             <%= user.Correo_Electronico %>
                         </dd>
-
                     </dl>
                     <div class="nav justify-content-end pt-1">
                         <a class="btn btn-outline-dark text-end" href="./editProfileC">Editar datos</a>
@@ -50,7 +51,7 @@
             </div>
             <div class="col">
                 <%- include("./../layouts/address.ejs") %>
-                <%- include("./../layouts/payments.ejs") %>
+                    <%- include("./../layouts/payments.ejs") %>
             </div>
         </div>
     </div>
