@@ -7,59 +7,59 @@
 
 <body>
     <%- include("../layouts/flash") %>
-    <header class="sticky-top ">
-        <%- include("../layouts/header1") %>
-    </header>
+        <header class="sticky-top ">
+            <%- include("../layouts/header1") %>
+        </header>
 
-    <!--Product Details-->
-    <div class="container p-3 ">
-        <div class="card">
-            <% products.forEach(products => { %>
-                <div class="row no-gutters">
-                    <aside class="col-sm-6 border-right">
-                        <article class="gallery-wrap">
-                            <div class="img-big-wrap">
-                                <a href="#"><img src="/images/<%= products.imagen1 %>" class="img-fluid" alt="foto principal"></a>
-                            </div>
-                            <!-- img-big-wrap.// -->
-                            <div class="thumbs-wrap">
-                                <a href="#" class="item-thumb"> <img src="/images/<%= products.imagen2 %>" class="img-fluid" alt="foto secundaria 1"></a>
-                                <a href="#" class="item-thumb"> <img src="/images/<%= products.iamgen3 %>" class="img-fluid" alt="foto secundaria 2"></a>
-                            </div>
-                            <!-- thumbs-wrap.// -->
-                        </article>
-                        <!-- gallery-wrap .end// -->
-                    </aside>
-                    <main class="col-sm-6">
-                        <article class="content-body">
-                            <h2 class="title">
-                                <%=products.Nombre%>
-                            </h2>
+        <!--Product Details-->
+        <div class="container p-3 ">
+            <div class="card">
+                <% products.forEach(products => { %>
+                    <div class="row no-gutters">
+                        <aside class="col-sm-6 border-right">
+                            <article class="gallery-wrap">
+                                <div class="img-big-wrap">
+                                    <a href="#"><img src="/images/<%= products.imagen1 %>" class="img-fluid" alt="foto principal"></a>
+                                </div>
+                                <!-- img-big-wrap.// -->
+                                <div class="thumbs-wrap">
+                                    <a href="#" class="item-thumb"> <img src="/images/<%= products.imagen2 %>" class="img-fluid" alt="foto secundaria 1"></a>
+                                    <a href="#" class="item-thumb"> <img src="/images/<%= products.iamgen3 %>" class="img-fluid" alt="foto secundaria 2"></a>
+                                </div>
+                                <!-- thumbs-wrap.// -->
+                            </article>
+                            <!-- gallery-wrap .end// -->
+                        </aside>
+                        <main class="col-sm-6">
+                            <article class="content-body">
+                                <h2 class="title">
+                                    <%=products.Nombre%>
+                                </h2>
 
-                            <p>
-                                <%=products.Descripcion%>
-                            </p>
-                            <p class="fw-bold">Color: <span class="fw-normal"><%=products.Color%></span></p>
-                            <p class="h5">Acerca de este artículo</p>
-                            <ul class="list-normal cols-two">
-                                <li>
-                                    <%=products.Caracteristica_1%>
-                                </li>
-                                <li>
-                                    <%=products.Caracteristica_2%>
-                                </li>
-                                <li>
-                                    <%=products.Caracteristica_3%>
-                                </li>
-                            </ul>
+                                <p>
+                                    <%=products.Descripcion%>
+                                </p>
+                                <p class="fw-bold">Color: <span class="fw-normal"><%=products.Color%></span></p>
+                                <p class="h5">Acerca de este artículo</p>
+                                <ul class="list-normal cols-two">
+                                    <li>
+                                        <%=products.Caracteristica_1%>
+                                    </li>
+                                    <li>
+                                        <%=products.Caracteristica_2%>
+                                    </li>
+                                    <li>
+                                        <%=products.Caracteristica_3%>
+                                    </li>
+                                </ul>
 
-                            <div class="h3 mb-4">
-                                <var class="price h4">$<%=products.Precio%> </var>
-                                <!-- <label class="text-muted h6"> IVA incluido</label> -->
-                            </div>
-                            <!-- price-wrap.// -->
+                                <div class="h3 mb-4">
+                                    <var class="price h4">$<%=products.Precio%> </var>
+                                    <!-- <label class="text-muted h6"> IVA incluido</label> -->
+                                </div>
+                                <!-- price-wrap.// -->
 
-                            <form method="POST" action="/products/addtoCart" class=" needs-validation" novalidate>
+                                <form id="product_details" class=" needs-validation" novalidate>
                                 <!-- Direccion -->
                                 <div class="row g-3">
                                     <div class="col-md-4 form-group">
@@ -73,35 +73,35 @@
                                     </div>
                                     <!-- form-group end.// -->
                                     <div class="col-md-12 form-group ">
-                                        <button name="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-outline-dark">Comprar Ahora</button>
-                                        <button name="ID_Producto" value="<%=products.ID_Producto%>" type="submit" class="btn btn-outline-dark">
+                                            <button name="ID_Producto" value="<%=products.ID_Producto%>" type="submit" class="btn btn-outline-dark" form="product_details" formmethod="POST" formaction="/products/buynow">Comprar Ahora</button>
+                                            <button name="ID_Producto" value="<%=products.ID_Producto%>" type="submit" class="btn btn-outline-dark" form="product_details" formmethod="POST" formaction="/products/addtoCart">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus" viewBox="0 0 16 16">
                                             <path d="M9 5.5a.5.5 0 0 0-1 0V7H6.5a.5.5 0 0 0 0 1H8v1.5a.5.5 0 0 0 1 0V8h1.5a.5.5 0 0 0 0-1H9V5.5z"></path>
                                             <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"></path>
                                         </svg>
                                         Añadir al carrito
                                       </button>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label for=""></label>
+                                        </div>
+                                        <!-- form-group end.// -->
                                     </div>
-                                    <div class="col-md-6 form-group">
-                                        <label for=""></label>
-                                    </div>
-                                    <!-- form-group end.// -->
-                                </div>
-                                <!-- form-group// -->
-                            </form>
-                        </article>
-                        <!-- product-info-aside .// -->
-                    </main>
-                    <!-- col.// -->
-                </div>
-                <!-- row.// -->
-                <% }); %>
+                                    <!-- form-group// -->
+                                </form>
+                            </article>
+                            <!-- product-info-aside .// -->
+                        </main>
+                        <!-- col.// -->
+                    </div>
+                    <!-- row.// -->
+                    <% }); %>
+            </div>
         </div>
-    </div>
 
-    <footer>
-        <%- include("../layouts/footer") %>
-    </footer>
+        <footer>
+            <%- include("../layouts/footer") %>
+        </footer>
 </body>
 
 </html>

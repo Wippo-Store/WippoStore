@@ -2,15 +2,16 @@ const express = require('express');
 const router = express.Router();
 const { isLoggedIn } = require('../lib/helpers');
 const pool = require('../db');
+const { route } = require('./users');
 
 /* to open windows */
 
-router.get('/category/:Product_Category', async (req, res) => {
+router.get('/category/:Product_Category', async(req, res) => {
     const products = await pool.query('SELECT * FROM producto where Categoria = ?', req.params.Product_Category);
     res.render('product/category', { products, user: req.session.user, titulo: 'WippoStore' });
 });
 
-router.get('/', async (req, res) => {
+router.get('/', async(req, res) => {
     var Buscar = req.query.search;
     var products;
     const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
@@ -24,16 +25,19 @@ router.get('/', async (req, res) => {
     res.render('product/Productos', { products, user: req.session.user, titulo: 'WippoStore' });
 });
 
-router.get('/pDetails/:id', async (req, res) => {
+router.get('/pDetails/:id', async(req, res) => {
     const idU = req.params.id;
     const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [idU]);
     res.render('product/pDetails', {
-        products, user: req.session.user, titulo: 'WippoStore', message_er: req.flash('message_er'),
+        products,
+        user: req.session.user,
+        titulo: 'WippoStore',
+        message_er: req.flash('message_er'),
         success: req.flash('success')
     });
 });
 
-router.post('/updateCart', isLoggedIn, async (req, res) => {
+router.post('/updateCart', isLoggedIn, async(req, res) => {
     const ID_Usuario = req.session.user.id;
     const ID_Producto = req.body.ID_Producto;
     const Cantidad = req.body.cantidad;
@@ -49,7 +53,7 @@ router.post('/updateCart', isLoggedIn, async (req, res) => {
     res.redirect("/users/shoppingCartC");
 })
 
-router.post('/purchaseCart', isLoggedIn, async (req, res) => {
+router.post('/purchaseCart', isLoggedIn, async(req, res) => {
 
 
     const ID_Usuario = req.session.user.id;
@@ -73,7 +77,25 @@ router.post('/purchaseCart', isLoggedIn, async (req, res) => {
     res.redirect("/users/pedidosC");
 });
 
-router.post('/addtoCart', isLoggedIn, async (req, res) => {
+router.post('/buynow', isLoggedIn, async(req, res) => {
+    const ID_Usuario = req.session.user.id;
+    const ID_Producto = req.body.ID_Producto;
+    const Cantidad = req.body.Cantidad;
+    console.log("CALL `addToCart`(" + ID_Producto + ", " + ID_Usuario + ", " + Cantidad + ");")
+    const result = await pool.query("CALL `addToCart`(?, ?, ?);", [
+        ID_Producto,
+        ID_Usuario,
+        Cantidad
+    ]).catch(error => {
+        console.log("Articulo ya existe en carrito")
+    });
+    console.log('Agregado al carrito');
+
+    res.redirect('../users/shoppingDetails');
+
+});
+
+router.post('/addtoCart', isLoggedIn, async(req, res) => {
     const ID_Usuario = req.session.user.id;
     const ID_Producto = req.body.ID_Producto;
     const Cantidad = req.body.Cantidad;
@@ -101,11 +123,11 @@ router.post('/addtoCart', isLoggedIn, async (req, res) => {
 });
 
 
-router.post('/remove', isLoggedIn, async (req, res) => {
+router.post('/remove', isLoggedIn, async(req, res) => {
     const ID_Usuario = req.session.user.id;
     const ID_Producto = req.body.id_producto;
     // const Cantidad = req.body.Cantidad;
-    console.log("CALL `removeFromCart`(" + ID_Usuario + ", " +  ID_Producto + ");")
+    console.log("CALL `removeFromCart`(" + ID_Usuario + ", " + ID_Producto + ");")
     const result = await pool.query("CALL `removeFromCart`(?, ?);", [
         ID_Usuario,
         ID_Producto
