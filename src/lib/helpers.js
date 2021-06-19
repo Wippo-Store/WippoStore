@@ -4,7 +4,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         }
-        return res.redirect('/');
+        return res.redirect('/authentication/loginU');
     },
 
     isNotLoggedIn(req, res, next) {

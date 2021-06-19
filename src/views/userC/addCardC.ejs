@@ -15,16 +15,18 @@
                         <h4 class="card-title mb-4">Agregar Tarjeta</h4>
                     </div>
                 </header>
-                <form method="POST" action="/users/addPayment" class=" needs-validation" novalidate>
+                <form method="POST" action="/users/addPayment">
                     <!-- Direccion -->
                     <div class="row g-3">
                         <div class="col-md-12 form-group">
                             <label>Introduce la información de la tarjeta</label>
-                            <input required type="text" class="form-control" placeholder="Nombre en la tarjeta*" name="street">
+                            <input required type="text" class="form-control" placeholder="Número de la tarjeta" name="ID_Tarjeta" id="ID_Tarjeta" autofocus>
+                            <span class="errorNoT" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-12 form-group">
-                            <input required type="number" min="0" class="form-control" placeholder="Número de tarjeta" name="No_Tarjeta">
+                            <input required type="text" class="form-control" placeholder="Titular de la tarjeta" name="Nom_Tarjeta" id="Nom_Tarjeta">
+                            <span class="errorNomT" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-4 form-group">
@@ -64,18 +66,20 @@
                         </div>
                         <!-- form-group end.// -->
                         <div class="col-md-3 form-group">
-                            <label>CVV</label>
-                            <input required type="number" class="form-control" placeholder="CVV" name="street">
+                            <label for="cvv">CVV</label>
+                            <input required type="text" class="form-control" maxlength="3" placeholder="CVV" name="cvv" id="cvv">
+                            <span class="errorCVV" aria-live="polite"></span>
                         </div>
                         <!-- form-group end.// -->
                     </div>
 
                     <div class="form-group pt-5 d-flex justify-content-md-evenly">
-                        <a class="btn btn-outline-dark" href="/users/profileC" ">Cancelar</a>
-                        <button class="btn btn-outline-dark " name="btnR ">Guardar</button>
+                        <a class="btn btn-outline-dark" href="/users/profileC">Cancelar</a>
+                        <input type="submit" class="btn btn-outline-dark" name="btnR" id="btnR" value="Guardar">
                     </div>
                     <!-- form-group// -->
                 </form>
+                <script src="/javascripts/cardValidation.js "></script>
             </article>
             <!-- card-body end .// -->
         </div>

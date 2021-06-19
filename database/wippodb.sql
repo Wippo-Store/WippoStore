@@ -51,7 +51,6 @@ DELIMITER ;
 
 -- Example: call validateToken("1234", 1);
 
-
 create table if not exists Producto(
 	ID_Producto int(11) not null AUTO_INCREMENT,
     Nombre varchar(30) not null,
@@ -168,7 +167,7 @@ BEGIN
     DECLARE lngth INT;
     SELECT `ID_Carrito`, `Monto_Total` INTO ìdCarrito, montoCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
-        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion);        
+        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`,`ID_Tarjeta`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion,ID_Tarjeta);        
         SET @idOrden = LAST_INSERT_ID();
         if(@idOrden IS NOT NULL) then
             START TRANSACTION; -- TRANSACTION NOT WORKING
@@ -192,9 +191,6 @@ BEGIN
     end if;
 END &&  
 DELIMITER ;  
-
-
-
 
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
@@ -291,12 +287,12 @@ create table if not exists Califica(
 
 
 create table if not exists Tarjeta_Registrada(
-	ID_Tarjeta  varchar(30) not null,
-    No_Tarjeta varchar(16) not null,
+	ID_Tarjeta varchar(16) not null,
+    Nom_Tarjeta  varchar(30) not null,
     Mes char(2) not null,
     Year char(2)  not null,
     ID_Usuario int(11) not null,
-    primary key (No_Tarjeta),
+    primary key (ID_Tarjeta,ID_Usuario),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
 )engine=innodb;
 
@@ -316,14 +312,16 @@ create table if not exists Direccion(
 
 create table if not exists Orden(
 	ID_Orden int(11) not null AUTO_INCREMENT,
-    Fecha date not null DEFAULT now(),
+    Fecha date not null DEFAULT CURRENT_TIMESTAMP,
     Estatus varchar(20) not null DEFAULT "Pendiente",
     Monto_Total int not null,
     ID_Usuario int(11) not null,
     ID_Direccion int(11) not null,
+    ID_Tarjeta varchar(30) not null,
     primary key(ID_Orden),
     constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Orden_Tarjeta foreign key (ID_Tarjeta) references Tarjeta_Registrada(ID_Tarjeta) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Monto_Negaivo check (Monto_Total>=0),
     constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
 )engine=innodb;

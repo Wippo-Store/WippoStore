@@ -10,15 +10,20 @@ passport.use('local.loginU', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, async(req, username, password, done) => {
-    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre,Correo_Electronico,Apellido_Paterno,Apellido_Materno,Tipo_Usuario FROM Usuario WHERE Correo_Electronico = ?', [username]);
+    const rows = await pool.query('SELECT ID_Usuario AS id,Contraseña,Nombre,Correo_Electronico,Apellido_Paterno,Apellido_Materno,Tipo_Usuario,Estatus FROM Usuario WHERE Correo_Electronico = ?', [username]);
     const user = rows[0];
     if (rows.length > 0) {
         if (user.Tipo_Usuario == 'C') {
             if (rows[0].Contraseña == password) {
-                console.log('Acceso exitoso');
-                req.session.user = user;
-                console.log(user);
-                done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
+                if (user.Estatus == 'Activo') {
+                    console.log('Acceso exitoso');
+                    req.session.user = user;
+                    console.log(user);
+                    done(null, user, req.flash('success', 'Bienvenido ' + user.Nombre));
+                } else {
+                    console.log('Email no verificado');
+                    return done(null, false, req.flash('message_er', 'Correo electrónico no verificado'))
+                }
 
             } else {
                 console.log('Contraseñas no coinciden');

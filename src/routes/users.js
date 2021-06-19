@@ -74,13 +74,15 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
 });
 
 router.post('/addPayment', isLoggedIn, async(req, res) => {
-    const No_Tarjeta = req.body.No_Tarjeta;
+    const ID_Tarjeta = req.body.No_Tarjeta;
+    const Nom_Tarjeta = req.body.Nom_Tarjeta;
     const Mes = req.body.Mes;
     const Year = req.body.Year;
     const ID_Usuario = req.session.user.id;
 
-    const result = await pool.query("insert into `tarjeta_registrada` (`No_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?);", [
-        No_Tarjeta,
+    const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?);", [
+        ID_Tarjeta,
+        Nom_Tarjeta,
         Mes,
         Year,
         ID_Usuario
@@ -234,7 +236,7 @@ router.get('/shoppingDetails', async(req, res) => {
 });
 
 
-router.get('/pedidosC', isLoggedIn, async (req, res) => {
+router.get('/pedidosC', isLoggedIn, async(req, res) => {
     var ID_Usuario = req.session.user.id;
     var limite = 10;
     console.log("CALL `getOrders`(" + ID_Usuario + ");")
@@ -243,12 +245,13 @@ router.get('/pedidosC', isLoggedIn, async (req, res) => {
     user = req.session.user;
     var show_table = false;
 
-    if(orders_list[0].length > 0){
+    if (orders_list[0].length > 0) {
         show_table = true;
     }
 
     res.render('userC/pedidos', {
-        orders_list: orders_list[0], user,
+        orders_list: orders_list[0],
+        user,
         message_er: req.flash('message_er'),
         success: req.flash('success'),
         titulo: "Tus pedidos",
