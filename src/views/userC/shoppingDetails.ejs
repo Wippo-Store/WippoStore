@@ -17,8 +17,7 @@
 
     <div class="container p-5">
         <form action="/products/purchaseCart" method="POST">
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -28,13 +27,13 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            Confirmar que desea realizar el pago de $ <%=total.toFixed(3).toString().replace(
+                            Confirmar que desea realizar el pago de $
+                            <%=total.toFixed(3).toString().replace(
                                 /\B(?=(\d{3})+(?!\d))/g, "," );%>
                                 Por los productos en el carrito.
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-secondary"
-                                data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-outline-success">Confirmar</button>
                         </div>
                     </div>
@@ -50,9 +49,7 @@
                             <div class="h6">
                                 <% address_list.forEach(function(address) { %>
                                     <div class="form-check">
-                                        <input class="form-check-input wippo-radio" type="radio" name="ID_Direccion"
-                                            id="metodoPAgo<%= address.ID_Direccion %>" value="<%= address.ID_Direccion %>"
-                                            checked>
+                                        <input class="form-check-input wippo-radio" type="radio" name="ID_Direccion" id="metodoPAgo<%= address.ID_Direccion %>" value="<%= address.ID_Direccion %>" checked>
                                         <label class="form-check-label" for="metodoPAgo<%= address.ID_Direccion %>">
                                             <span class="text-muted">
                                                 Dirección
@@ -70,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-10 col-sm-7"></div>
                             <div class="col-md-2 col-sm-3">
-                                <button class="btn btn-sm btn-dark">Agregar</button>
+                                <a href="./addAddressC" class="btn btn-sm btn-dark">Agregar</a>
                             </div>
                         </div>
                         <!-- row.// -->
@@ -83,12 +80,14 @@
                                 <div class="h6">
                                     <% payments_list.forEach(function(payment) { %>
                                         <div class="form-check">
-                                            <input class="form-check-input wippo-radio" type="radio"
-                                                name="ID_Tarjeta" id="paymentRadios<%= payment.ID_Tarjeta %>"
-                                                value="<%= payment.ID_Tarjeta %>" checked>
-                                            <label class="form-check-label"
-                                                for="paymentRadios<%= payment.ID_Tarjeta %>">
-                                                XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
+                                            <input class="form-check-input wippo-radio" type="radio" name="ID_Tarjeta" id="paymentRadios<%= payment.ID_Tarjeta %>" value="<%= payment.ID_Tarjeta %>" checked>
+                                            <label class="form-check-label" for="paymentRadios<%= payment.ID_Tarjeta %>">
+                                                <%= payment.Nom_Tarjeta %>
+                                                <br> XXXX-
+                                                <%= payment.ID_Tarjeta.substring(12,16) %>
+                                                    <br> Vence el
+                                                    <%= payment.Mes %>/
+                                                        <%= payment.Year %>
                                             </label>
                                         </div>
                                         <% }); %>
@@ -100,7 +99,7 @@
                         <div class="row">
                             <div class="col-md-10 col-sm-7"></div>
                             <div class="col-md-2 col-sm-3">
-                                <button class="btn btn-sm btn-dark">Agregar</button>
+                                <a href="./addCardC" class="btn btn-sm btn-dark">Agregar</button>
                             </div>
                         </div>
                     </article>
@@ -115,43 +114,45 @@
                             <div class="h5">
                                 <dt>Subtotal:</dt>
                                 <dd class="text-right">
-                                    $<%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                    $
+                                    <%=subtotal.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                                 </dd>
                             </div>
                             <div class="h5">
                                 <dt>IVA:</dt>
                                 <dd class="text-right">
-                                    $ <%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                    $
+                                    <%=tax.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                                 </dd>
                             </div>
                             <div class="h4">
                                 <dt>Total:</dt>
                                 <dd class="text-right">
-                                    $ <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
+                                    $
+                                    <%=total.toFixed(3).toString().replace( /\B(?=(\d{3})+(?!\d))/g, "," );%>
                                 </dd>
                             </div>
                         </dl>
                         <hr>
-                        <button type="button" class="btn btn-outline-dark" data-toggle="modal"
-                            data-target="#exampleModalCenter">
+                        <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModalCenter">
                             Proceder al Pago
                         </button>
                         <!-- <a href="#" class="btn btn-outline-dark">Proceder al pago</a> -->
-                    </div>
-                    <!-- card-body.// -->
-                </aside>
+                            </div>
+                            <!-- card-body.// -->
+                            </aside>
 
-                <div class="row">
-                    <%- include("../layouts/cart.sm.ejs") %>
-                </div>
-                <!-- col.// -->
-            </div>
+                            <div class="row">
+                                <%- include("../layouts/cart.sm.ejs") %>
+                            </div>
+                            <!-- col.// -->
+                        </div>
         </form>
-    </div>
+        </div>
 
-    <footer class="mt-auto">
-        <%- include("../layouts/footer") %>
-    </footer>
+        <footer class="mt-auto">
+            <%- include("../layouts/footer") %>
+        </footer>
 
 </body>
 

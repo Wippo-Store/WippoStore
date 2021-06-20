@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../layouts/head") %>
+</head>
+
+<body>
+    <%- include("../layouts/flash") %>
+
+        <header class="sticky-top ">
+            <%- include("../layouts/header1") %>
+        </header>
+        <main class="position-relative overflow-hidden p-3 p-md-5 text-center bg-light hero hero-box">
+            <div class="col-md-6 p-lg-4 mx-auto">
+                <h1 class="display-4 fw-bold text-white pb-3">Mis pedidos</h1>
+            </div>
+        </main>
+        <div class="container pt-1">
+
+            <div class="row">
+                <div class="col">
+                    <div class="m-1">
+                        <div class="h3 pt-3">
+                            Historial de Pedidos
+                        </div>
+
+                        <% if (show_table) { %>
+                            <ul class="list-group ">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#Folio</th>
+                                            <th scope="col">Monto</th>
+                                            <th scope="col">Fecha de Compra</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Opciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% orders_list.forEach(pedido=> { %>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%= pedido.ID_Orden %>
+                                                </th>
+                                                <td>$
+                                                    <%= pedido.Monto_Total %>
+                                                        </th>
+                                                        <td>
+                                                            <%= pedido.Fecha.toString().substring(0,16) %>
+                                                        </td>
+                                                        <% if (pedido.Estatus == "Pendiente") { %>
+                                                            <td> Tu pedido está por enviarse</td>
+                                                            <%} else if (pedido.Estatus == "Enviado") { %>
+                                                                <td> Tu pedido ha sido enviado.</td>
+                                                                <%} else if (pedido.Estatus == "Entregado") { %>
+                                                                    <td> Tu pedido ha sido entregado. </td>
+                                                                    <%} else { %>
+                                                                        <td> Ha ocurrido un error. Contacte con soporte Tecnico </p>
+                                                                            <% } %>
+                                                                                <td>
+                                                                                    <form action="/users/Historial_Pedidos/Detalle" method="GET">
+                                                                                        <div class="p-2 ">
+                                                                                            <button name="transaccion" type="submit" class="btn btn-dark btn-sm" value="<%=pedido.ID_Orden%>">
+                                                                    Ver Detalles
+                                                                </button>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </td>
+                                            </tr>
+
+                                            <% }); %>
+
+                                    </tbody>
+                                </table>
+
+                            </ul>
+                            <div>
+                                Mostrando ultimos x registros. <a href="/users/Historial_Pedidos">Ver Historial Completo</a>
+                            </div>
+                            <%} else { %>
+                                <p class="pt-2"> No has registrado ninguna pedido </p>
+                                <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>

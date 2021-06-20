@@ -8,7 +8,14 @@
                 <li class="list-group-item ">
                     <div class="d-flex align-items-center">
                         <div class="p-2 flex-grow-1 ">
-                            <%= payment.name %> XXXX-<%= payment.No_Tarjeta.substring(12,16) %>
+                            <p>
+                                <%= payment.Nom_Tarjeta %>
+                                    <br> XXXX-
+                                    <%= payment.ID_Tarjeta.substring(12,16) %>
+                                        <br> Vence el
+                                        <%= payment.Mes %>/
+                                            <%= payment.Year %>
+                            </p>
                         </div>
                         <div class="p-2 ">
                             <button type="button" class="btn btn-secondary">
@@ -28,9 +35,9 @@
                 <% }); %>
         </ul>
         <%} else { %>
-        <p> No has registrado ninguna Tarjeta </p>
-    <% } %>
-    <div class="nav justify-content-end pt-1">
-        <a class="btn btn-outline-dark text-end" href="./addCardC">Agregar una tarjeta</a>
-    </div>
+            <p> No has registrado ninguna Tarjeta </p>
+            <% } %>
+                <div class="nav justify-content-end pt-1">
+                    <a class="btn btn-outline-dark text-end" href="./addCardC">Agregar una tarjeta</a>
+                </div>
 </div>

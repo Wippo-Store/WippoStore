@@ -74,20 +74,28 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
 });
 
 router.post('/addPayment', isLoggedIn, async(req, res) => {
-    const ID_Tarjeta = req.body.No_Tarjeta;
+    const ID_Tarjeta = req.body.ID_Tarjeta;
     const Nom_Tarjeta = req.body.Nom_Tarjeta;
     const Mes = req.body.Mes;
     const Year = req.body.Year;
     const ID_Usuario = req.session.user.id;
 
-    const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?);", [
-        ID_Tarjeta,
-        Nom_Tarjeta,
-        Mes,
-        Year,
-        ID_Usuario
-    ]);
-    res.redirect("./profileC");
+    const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
+    if (cards[0].n > 0) {
+        console.log("tarjeta ya existente");
+        req.flash('message_er', 'Error. Tarjeta ya existente');
+        res.redirect('./addCardC');
+    } else {
+        const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?,?);", [
+            ID_Tarjeta,
+            Nom_Tarjeta,
+            Mes,
+            Year,
+            ID_Usuario
+        ]);
+        req.flash('success', 'Tarjeta registrada');
+        res.redirect("./profileC");
+    }
 });
 
 router.get('/profileC', isLoggedIn, async(req, res) => {
@@ -159,7 +167,11 @@ router.get('/addAddressC', isLoggedIn, (req, res) => {
     res.render('userC/addAddressC', { titulo: 'Agregar Dirección' });
 });
 router.get('/addCardC', isLoggedIn, (req, res) => {
-    res.render('userC/addCardC', { titulo: 'Agregar Tarjeta' });
+    res.render('userC/addCardC', {
+        titulo: 'Agregar Tarjeta',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
 });
 router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
     var ID_Usuario = req.session.user.id;
@@ -175,6 +187,12 @@ router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
     var subtotal = total / (iva + 1);
     var tax = total - subtotal;
     user = req.session.user;
+    var flag = false;
+
+    if (carrito[0].length > 0) {
+        flag = true;
+    }
+
     res.render('userC/shoppingCartC', {
         carrito: carrito[0],
         user,
@@ -182,7 +200,8 @@ router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
         subtotal,
         tax,
         message_er: req.flash('message_er'),
-        success: req.flash('success')
+        success: req.flash('success'),
+        flag
     });
 });
 
@@ -207,32 +226,39 @@ router.get('/shoppingDetails', async(req, res) => {
 
     let show_adress = Object.values(address) != 0;
     let show_card = Object.values(payments) != 0;
-    // var ID_Usuario = req.session.user.id;
-    const carrito = await pool.query("CALL `getCart`(?);", req.session.user.id);
-    // console.log(carrito);
-    var total = 0;
-    const iva = getTax();
-    carrito[0].forEach(producto => {
-        total += producto.Precio * producto.Cantidad;
-    });
 
-    var subtotal = total / (iva + 1);
-    var tax = total - subtotal;
+    const prod = await pool.query('SELECT COUNT(*) AS n FROM carrito, carritocontiene WHERE carrito.ID_Usuario = ? AND carritocontiene.ID_Carrito = carrito.ID_Usuario;', [req.session.user.id]);
+    if (prod[0].n < 1) {
+        console.log("no hay articulos en el carrito");
+        req.flash('message_er', 'Error: Carrito vacío');
+        res.redirect('./shoppingCartC');
+    } else {
+        const carrito = await pool.query("CALL `getCart`(?);", req.session.user.id);
+        // console.log(carrito);
+        var total = 0;
+        const iva = getTax();
+        carrito[0].forEach(producto => {
+            total += producto.Precio * producto.Cantidad;
+        });
 
-    res.render('userC/shoppingDetails', {
-        subtotal,
-        total,
-        tax,
-        address_list,
-        payments_list,
-        show_adress,
-        show_card,
-        carrito: carrito[0],
-        price: subtotal,
-        user: req.session.user,
-        nombre: req.session.username,
-        titulo: 'Carrito - WippoStore'
-    });
+        var subtotal = total / (iva + 1);
+        var tax = total - subtotal;
+
+        res.render('userC/shoppingDetails', {
+            subtotal,
+            total,
+            tax,
+            address_list,
+            payments_list,
+            show_adress,
+            show_card,
+            carrito: carrito[0],
+            price: subtotal,
+            user: req.session.user,
+            nombre: req.session.username,
+            titulo: 'Carrito - WippoStore'
+        });
+    }
 });
 
 
@@ -249,12 +275,12 @@ router.get('/pedidosC', isLoggedIn, async(req, res) => {
         show_table = true;
     }
 
-    res.render('userC/pedidos', {
+    res.render('userC/pedidosC', {
         orders_list: orders_list[0],
         user,
         message_er: req.flash('message_er'),
         success: req.flash('success'),
-        titulo: "Tus pedidos",
+        titulo: "Mis pedidos",
         limite,
         show_table,
     });

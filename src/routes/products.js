@@ -54,8 +54,6 @@ router.post('/updateCart', isLoggedIn, async(req, res) => {
 })
 
 router.post('/purchaseCart', isLoggedIn, async(req, res) => {
-
-
     const ID_Usuario = req.session.user.id;
     const ID_Direccion = req.body.ID_Direccion
     const ID_Tarjeta = req.body.ID_Tarjeta

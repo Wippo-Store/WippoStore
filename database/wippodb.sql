@@ -292,10 +292,10 @@ create table if not exists Califica(
 
 
 create table if not exists Tarjeta_Registrada(
-	ID_Tarjeta varchar(16) not null,
+	ID_Tarjeta varchar(19) not null,
     Nom_Tarjeta  varchar(30) not null,
     Mes char(2) not null,
-    Year char(2)  not null,
+    Year char(4)  not null,
     ID_Usuario int(11) not null,
     primary key (ID_Tarjeta,ID_Usuario),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
@@ -317,7 +317,7 @@ create table if not exists Direccion(
 
 create table if not exists Orden(
 	ID_Orden int(11) not null AUTO_INCREMENT,
-    Fecha date not null DEFAULT CURRENT_TIMESTAMP,
+    Fecha date not null DEFAULT now(),
     Estatus varchar(20) not null DEFAULT "Pendiente",
     Monto_Total int not null,
     ID_Usuario int(11) not null,
