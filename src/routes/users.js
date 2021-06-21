@@ -116,6 +116,68 @@ router.get('/profileC', isLoggedIn, async(req, res) => {
         return accum;
     }, {});
 
+    console.log(address_list);
+
+    let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
+    res.render('userC/profileC', {
+        titulo: 'Mi perfil - WippoStore',
+        user: req.session.user,
+        message_er: req.flash('message_er'),
+        success: req.flash('success'),
+        show_adress,
+        show_card,
+        address_list,
+        payments_list: payments_list,
+    });
+});
+
+router.post('/profileC', isLoggedIn, async(req, res) => {
+    if (req.body.ID_Direccion) {
+        /* Eliminacion de la direccion seleccioonada*/
+        console.log('Borra direccion');
+        var ID_User = req.session.user.id;
+        const query_delete_Address = 'Delete FROM direccion where ID_Direccion = ' + req.body.ID_Direccion + ' and ID_Usuario = ' + ID_User;
+        console.log(req.body.ID_Direccion);
+        console.log(ID_User);
+        const query_delete = await pool.query(query_delete_Address);
+        console.log(query_delete);
+    } else if (req.body.ID_Tarjeta) {
+        /* Eliminacion de la tarjeta*/
+        var ID_User = req.session.user.id;
+        const query_delete_Address = 'Delete FROM tarjeta_registrada where ID_Tarjeta = ' + req.body.ID_Tarjeta + ' and ID_Usuario = ' + ID_User;
+        console.log(req.body.ID_Tarjeta);
+        console.log(ID_User);
+        const query_delete = await pool.query(query_delete_Address);
+        console.log(query_delete);
+        console.log('Borrar Tarjeta');
+    } else {
+        console.log('Problemas');
+    }
+
+
+
+
+    /*Responder con la misma interfaz*/
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    console.log(address_list);
+
     let show_adress = Object.values(address) != 0;
     let show_card = Object.values(payments) != 0;
     res.render('userC/profileC', {
