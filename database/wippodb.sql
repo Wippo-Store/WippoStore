@@ -297,7 +297,7 @@ create table if not exists Tarjeta_Registrada(
     Mes char(2) not null,
     Year char(4)  not null,
     ID_Usuario int(11) not null,
-    primary key (ID_Tarjeta,ID_Usuario),
+    primary key (ID_Tarjeta, ID_Usuario),
     constraint Referencia_Tarjeta_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE
 )engine=innodb;
 
@@ -320,13 +320,13 @@ create table if not exists Orden(
     Fecha date not null DEFAULT now(),
     Estatus varchar(20) not null DEFAULT "Pendiente",
     Monto_Total int not null,
-    ID_Usuario int(11) not null,
     ID_Direccion int(11) not null,
-    ID_Tarjeta varchar(30) not null,
+    ID_Tarjeta varchar(19) not null,
+    ID_Usuario int(11) not null,
     primary key(ID_Orden),
     constraint Referencia_Orden_Usuario foreign key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Referencia_Orden_Direccion foreign key (ID_Direccion) references Direccion(ID_Direccion) ON DELETE CASCADE ON UPDATE CASCADE,
-    constraint Referencia_Orden_Tarjeta foreign key (ID_Tarjeta) references Tarjeta_Registrada(ID_Tarjeta) ON DELETE CASCADE ON UPDATE CASCADE,
+    constraint Referencia_Orden_Tarjeta foreign key (ID_Tarjeta, ID_Usuario) references Tarjeta_Registrada(ID_Tarjeta, ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Monto_Negaivo check (Monto_Total>=0),
     constraint Estado_orden check (Estatus="Pendiente" or Estatus="Enviado" or Estatus="Entregado")
 )engine=innodb;
