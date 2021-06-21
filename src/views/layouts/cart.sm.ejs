@@ -4,7 +4,7 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th scope="col">#id</th>
+                <th scope="col">#ID</th>
                 <th scope="col">Nombre Producto</th>
                 <th scope="col">Precio</th>
                 <th scope="col">Cantidad</th>
@@ -21,13 +21,15 @@
                         <%=products.Nombre %>
                     </td>
                     <td>
-                        $<%=products.Precio %>
+                        $
+                        <%=products.Precio %>
                     </td>
                     <td>
                         <%=products.Cantidad %>
                     </td>
                     <td>
-                        $<%=products.Precio*products.Cantidad %>
+                        $
+                        <%=products.Precio*products.Cantidad %>
                     </td>
                 </tr>
                 <% }); %>

@@ -156,7 +156,7 @@ DELIMITER ;
 
 drop PROCEDURE if exists purchaseCart;
 DELIMITER &&  
-CREATE PROCEDURE purchaseCart (in ID_Usuario_r int, in ID_Direccion int, in ID_Pago int)  
+CREATE PROCEDURE purchaseCart (in ID_Usuario_r int, in ID_Direccion int, in ID_Tarjeta varchar, in ID_Pago int)  
 BEGIN
     DECLARE ìdCarrito int;
     DECLARE montoCarrito int;

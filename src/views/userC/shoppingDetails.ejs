@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-md-10 col-sm-7"></div>
                             <div class="col-md-2 col-sm-3">
-                                <a href="./addAddressC" class="btn btn-sm btn-dark">Agregar</a>
+                                <button class="btn btn-sm btn-dark">Agregar</button>
                             </div>
                         </div>
                         <!-- row.// -->
@@ -83,11 +83,10 @@
                                             <input class="form-check-input wippo-radio" type="radio" name="ID_Tarjeta" id="paymentRadios<%= payment.ID_Tarjeta %>" value="<%= payment.ID_Tarjeta %>" checked>
                                             <label class="form-check-label" for="paymentRadios<%= payment.ID_Tarjeta %>">
                                                 <%= payment.Nom_Tarjeta %>
-                                                <br> XXXX-
-                                                <%= payment.ID_Tarjeta.substring(12,16) %>
-                                                    <br> Vence el
-                                                    <%= payment.Mes %>/
-                                                        <%= payment.Year %>
+                                                <br>
+                                                XXXX-<%= payment.ID_Tarjeta.substring(12,16) %>
+                                                <br>
+                                                Vence el <%= payment.Mes %>/<%= payment.Year %>
                                             </label>
                                         </div>
                                         <% }); %>
@@ -99,7 +98,7 @@
                         <div class="row">
                             <div class="col-md-10 col-sm-7"></div>
                             <div class="col-md-2 col-sm-3">
-                                <a href="./addCardC" class="btn btn-sm btn-dark">Agregar</button>
+                                <button class="btn btn-sm btn-dark">Agregar</button>
                             </div>
                         </div>
                     </article>
@@ -138,21 +137,21 @@
                             Proceder al Pago
                         </button>
                         <!-- <a href="#" class="btn btn-outline-dark">Proceder al pago</a> -->
-                            </div>
-                            <!-- card-body.// -->
-                            </aside>
+                    </div>
+                    <!-- card-body.// -->
+                </aside>
 
-                            <div class="row">
-                                <%- include("../layouts/cart.sm.ejs") %>
-                            </div>
-                            <!-- col.// -->
-                        </div>
+                <div class="row">
+                    <%- include("../layouts/cart.sm.ejs") %>
+                </div>
+                <!-- col.// -->
+            </div>
         </form>
-        </div>
+    </div>
 
-        <footer class="mt-auto">
-            <%- include("../layouts/footer") %>
-        </footer>
+    <footer class="mt-auto">
+        <%- include("../layouts/footer") %>
+    </footer>
 
 </body>
 
