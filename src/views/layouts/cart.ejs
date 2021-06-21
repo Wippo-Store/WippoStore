@@ -28,25 +28,25 @@
 
                             <script>
                                 // DONT USE FORMATTER FOR THE NEXT FUNCTIONS 
-                                function reduce <%=products.ID_Producto%> () {
+                                function reduce<%=products.ID_Producto%>() {
                                     reduceValue = (parseInt($('#cantidad<%=products.ID_Producto%>').val()) - 1).toString();
                                     if (parseInt(reduceValue) > 0) {
                                         $('#cantidad<%=products.ID_Producto%>').val(reduceValue)
-                                        update <%=products.ID_Producto%> ()
+                                        update<%=products.ID_Producto%>()
                                     } else {
                                         alert('Haz click en el boton para eliminar')
                                     }
                                     // alert(reduceValue)
                                 }
 
-                                function increase <%=products.ID_Producto%> () {
+                                function increase<%=products.ID_Producto%>() {
                                     increaseValue = (parseInt($('#cantidad<%=products.ID_Producto%>').val()) + 1).toString();
                                     // alert(increaseValue)
                                     $('#cantidad<%=products.ID_Producto%>').val(increaseValue)
-                                    update <%=products.ID_Producto%> ()
+                                    update<%=products.ID_Producto%>()
                                 }
 
-                                function update <%=products.ID_Producto%> () {
+                                function update<%=products.ID_Producto%>() {
                                     // alert( $('input[name="cantidad"]').val())
                                     x = $('#cantidad<%=products.ID_Producto%>').val()
                                     newValue = '$' + (x * <%=products.Precio%>).toFixed(3).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
