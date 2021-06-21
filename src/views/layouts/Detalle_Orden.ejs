@@ -1,34 +1,30 @@
-<div class="container-fluid pt-3">
+<div class="container pt-3">
     <p class="h3">Detalle de la transaccion:
         <%=Detalle_Orden[0].ID_Orden%>
     </p>
-    <div style="margin: 0.5cm;">
-        <a href="/users/Historial_Pedidos">Cerrar</a>
+    <div class="d-flex justify-content-end p-2">
+        <a class="btn btn-outline-secondary" href="/users/Historial_Pedidos ">Cerrar</a>
     </div>
-    <ul class="list-group">
+    <ul class="list-group ">
         <% Detalle_Orden.forEach(Producto=> { %>
-            <li class="list-group-item">
-                <div class="d-flex align-items-center">
+            <li class="list-group-item ">
+                <div class="d-flex align-items-center ">
                     <div class="p-2 flex-grow-1 ">
-                        <p class="text-break">
-                            <span class="text-muted">
+                        <p class="text-break ">
+                            <span class="text-muted ">
                                     <%=Producto.Producto%>
                                 </span>
                         </p>
                         <p>
                             Cantidad:
                             <%=Producto.Cantidad%>
-                        </p>
-                        <p>
-                            Precio Unitario: $
-                            <%=Producto.Precio%>
-                        </p>
-                        <p>
-                            Subtotal: $
-                            <%=Producto.Precio * Producto.Cantidad%>
-                        </p>
-                        <p>Vendido por:
-                            <%=Producto.NombreVendedor%>
+                                <br> Precio Unitario: $
+                                <%=Producto.Precio%>
+                                    <br> Subtotal: $
+                                    <%=Producto.Precio * Producto.Cantidad%>
+                                        <br> Vendido por:
+                                        <%=Producto.NombreVendedor%>
+                                            <%=Producto.ApellidoVendedor%>
                         </p>
 
                     </div>

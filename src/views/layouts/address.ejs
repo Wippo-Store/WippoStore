@@ -13,12 +13,16 @@
                                     Casa
                                 </span>
                                 <%= address.Nombre_Calle %> #
-                                    <%= address.Num_ext %> int
-                                        <%= address.Num_int %>,
-                                            <%=
-                                                address.Colonia %>.
-                                                <%= address.Estado %>. CP
-                                                    <%= address.CP %>,
+                                    <%= address.Num_ext %>
+                                        <% if(address.Num_int != 0) { %>
+                                            INT
+                                            <%= address.Num_int %>,
+                                                <%} else { %>
+
+                                                    <% } %>
+                                                        <%= address.Colonia %>.
+                                                            <%= address.Estado %>. CP
+                                                                <%= address.CP %>
                             </p>
                         </div>
                         <div class="p-2 ">

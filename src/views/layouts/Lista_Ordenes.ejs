@@ -1,4 +1,4 @@
-<div class="container-fluid pt-3">
+<div class="container pt-3">
     <p class="h3">Historial de Pedidos</p>
     <% if (pedidos.length > 0) { %>
         <ul class="list-group">
@@ -8,25 +8,22 @@
                         <div class="p-2 flex-grow-1 ">
                             <p class="text-break">
                                 <span class="text-muted">
-                                    Transaccion con #Folio: <%=Orden.ID_Orden %>
+                                    Transaccion con Folio: #<%=Orden.ID_Orden %>
                                 </span>
                             </p>
                             <p>
                                 Estatus del pedido:
                                 <%=Orden.Estatus %>
-                            </p>
-                            <p>
-                                Fecha del Pedido:
-                                <%=Orden.Fecha.toString().substring(0,16)%>
-                            </p>
-                            <p>Monto Total: $
-                                <%=Orden.Monto_Total%>
+                                    <br> Fecha del Pedido:
+                                    <%=Orden.Fecha.toString().substring(0,16)%>
+                                        <br> Monto Total: $
+                                        <%=Orden.Monto_Total%>
                             </p>
 
                         </div>
                         <form action="/users/Historial_Pedidos/Detalle" method="GET">
                             <div class="p-2 ">
-                                <button name="transaccion" type="submit" class="btn btn-default" value="<%=Orden.ID_Orden%>">
+                                <button name="transaccion" type="submit" class="btn btn-info" value="<%=Orden.ID_Orden%>">
                                     Detalles
                                 </button>
                             </div>

@@ -38,7 +38,7 @@ router.get('/Historial_Pedidos', isLoggedIn, async(req, res) => {
 
 router.get('/Historial_Pedidos/Detalle', isLoggedIn, async(req, res) => {
     console.log(req.query.transaccion);
-    const Detalle_Orden = await pool.query('SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor FROM contiene, producto,usuario where contiene.ID_Orden = ? and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario', req.query.transaccion);
+    const Detalle_Orden = await pool.query('SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor, usuario.Apellido_Paterno as ApellidoVendedor FROM contiene, producto,usuario where contiene.ID_Orden = ? and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario', req.query.transaccion);
     console.log(Detalle_Orden);
     res.render('userC/Historial_Detalle', {
         Detalle_Orden,
@@ -56,9 +56,9 @@ router.post('/addAddress', isLoggedIn, async(req, res) => {
     const Num_ext = req.body.noext;
     const Num_int = req.body.noint;
     const Colonia = req.body.col;
-    const Municipio = req.body.munalc;
-    const Estado = req.body.state;
-    const CP = req.body.cp;
+    const Municipio = req.body.Municipio;
+    const Estado = req.body.Estado;
+    const CP = req.body.CP;
 
     const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
         ID_Usuario,
