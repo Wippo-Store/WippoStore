@@ -206,7 +206,7 @@ BEGIN
         call updateCartTotal((precioProducto*Cantidad_r), ìdCarrito);
     end if;
 END &&  
-DELIMITER ;  CALL `addToCart`(7, 5, 1);
+DELIMITER ;
 drop PROCEDURE if exists getCart;
 DELIMITER &&  
 CREATE PROCEDURE getCart (in ID_Usuario_r int)  
