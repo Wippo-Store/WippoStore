@@ -7,14 +7,14 @@ const { route } = require('./users');
 /* to open windows */
 
 router.get('/category/:Product_Category', async(req, res) => {
-    const products = await pool.query('SELECT * FROM producto where Categoria = ?', req.params.Product_Category);
+    const products = await pool.query('SELECT * FROM producto where Categoria = ? AND cantidad > 0', req.params.Product_Category);
     res.render('product/category', { products, user: req.session.user, titulo: 'WippoStore' });
 });
 
 router.get('/', async(req, res) => {
     var Buscar = req.query.search;
     var products;
-    const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%'";
+    const query_busqueda = "SELECT * FROM producto WHERE Nombre LIKE" + "'%" + Buscar + "%' AND cantidad > 0";
     if (req.query.search == '' || Buscar == undefined) {
         products = await pool.query('SELECT * FROM producto');
         console.log("Vacio");
@@ -27,7 +27,7 @@ router.get('/', async(req, res) => {
 
 router.get('/pDetails/:id', async(req, res) => {
     const idU = req.params.id;
-    const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [idU]);
+    const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ? AND cantidad > 0', [idU]);
     res.render('product/pDetails', {
         products,
         user: req.session.user,
@@ -64,8 +64,8 @@ router.post('/purchaseCart', isLoggedIn, async(req, res) => {
         ID_Tarjeta
     ]).catch(error => {
         if (error) {
-            console.log("Ha ocurrido un error al generar la Orden")
-            console.log(error)
+            console.log("Ha ocurrido un error al generar la Orden");
+            console.log(error);
             req.flash("message_er", "Ha ocurrido un error al generar la Orden");
         } else {
             console.log('Compra realizada con exito');

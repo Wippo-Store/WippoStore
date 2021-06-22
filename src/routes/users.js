@@ -8,12 +8,12 @@ const { isNotLoggedIn } = require('../lib/helpers');
 
 /* GET users listing. BUYER USER */
 router.get('/principalUU', isNotLoggedIn, async(req, res) => { /*UNREGISTERED USER*/
-    const products = await pool.query('SELECT * FROM producto');
+    const products = await pool.query('SELECT * FROM producto WHERE cantidad > 0');
     res.render('principalUU', { titulo: 'WippoStore', user: req.params.user, products });
 });
 
 router.get('/principalC', isLoggedIn, async(req, res) => {
-    const products = await pool.query('SELECT * FROM producto');
+    const products = await pool.query('SELECT * FROM producto WHERE cantidad > 0');
     res.render('userC/principalC', {
         products,
         user: req.session.user,
