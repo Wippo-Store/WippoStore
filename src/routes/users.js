@@ -227,8 +227,9 @@ router.get('/shoppingDetails', async(req, res) => {
     let show_adress = Object.values(address) != 0;
     let show_card = Object.values(payments) != 0;
 
-    const prod = await pool.query('SELECT COUNT(*) AS n FROM carrito, carritocontiene WHERE carrito.ID_Usuario = ? AND carritocontiene.ID_Carrito = carrito.ID_Usuario;', [req.session.user.id]);
+    const prod = await pool.query('SELECT COUNT(*) AS n FROM carrito, carritocontiene WHERE carrito.ID_Usuario = ? AND carritocontiene.ID_Carrito = carrito.ID_Carrito;', [req.session.user.id]);
     if (prod[0].n < 1) {
+        console.log(prod)
         console.log("no hay articulos en el carrito");
         req.flash('message_er', 'Error: Carrito vacío');
         res.redirect('./shoppingCartC');
