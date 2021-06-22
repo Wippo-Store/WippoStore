@@ -71,7 +71,7 @@ create table if not exists Producto(
     Primary Key (ID_Producto, ID_Usuario),
     constraint Referencia_Producto_Usuario Foreign Key (ID_Usuario) references Usuario(ID_Usuario) ON DELETE CASCADE ON UPDATE CASCADE,
     constraint Precio_Negativo check (Precio>0),
-    constraint Cantidad_Negatvo check (Cantidad>0)
+    constraint Cantidad_Negatvo check (Cantidad>=0)
 )ENGINE=INNODB;
 
 create table if not exists Carrito(
@@ -89,7 +89,7 @@ DELIMITER &&
 CREATE PROCEDURE updateCartTotal (in toADD int,in ID_Carrito int)  
 BEGIN
     DECLARE total int default 0;
-    SELECT carrito.Monto_Total INTO total FROM carrito WHERE carrito.ID_Carrito = ID_Carrito;
+    SELECT `carrito`.`Monto_Total` INTO total FROM carrito WHERE `carrito`.`ID_Carrito` = ID_Carrito;
     UPDATE `carrito` SET `Monto_Total` = (total + toADD) WHERE `carrito`.`ID_Carrito` = ID_Carrito;
 END &&  
 DELIMITER ;
@@ -169,49 +169,44 @@ BEGIN
     DECLARE cantidad_comprada int;
     SELECT `ID_Carrito`, `Monto_Total` INTO idCarrito, montoCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(idCarrito IS NOT NULL) then
-        INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`,`ID_Tarjeta`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion,ID_Tarjeta);        
-        SET @idOrden = LAST_INSERT_ID();
-        if(@idOrden IS NOT NULL) then
-            START TRANSACTION; -- TRANSACTION NOT WORKING
-                call countCart(idCarrito, lngth);
+        -- START TRANSACTION; -- TRANSACTION WORKING
+            INSERT INTO `orden` (`Estatus`, `Monto_Total`, `ID_Usuario`, `ID_Direccion`,`ID_Tarjeta`)  VALUES ('Pendiente', montoCarrito, ID_Usuario_r, ID_Direccion,ID_Tarjeta);        
+            SET @idOrden = LAST_INSERT_ID();
+            if(@idOrden IS NOT NULL) then
+                    call countCart(idCarrito, lngth);
 
-                WHILE counter <= lngth DO
-                    select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = idCarrito limit 1;
-                    select `Cantidad` into cantidad_actual from producto where ID_Producto = idProducto;
-                    SELECT `Cantidad` into cantidad_comprada FROM `carritocontiene` WHERE ID_Carrito = idCarrito;
-                    CALL `getVendedor`(idProducto, idVendedor); 
-                        INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)
-                        SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor  
-                        FROM `carritocontiene` WHERE ID_Carrito = idCarrito;
-                        DELETE FROM `CarritoContiene` WHERE ID_Carrito=idCarrito;
+                    WHILE counter <= lngth DO
+                        select `ID_Producto`  into idProducto from carritocontiene where ID_Carrito = idCarrito limit 1;
+                        select `Cantidad` into cantidad_actual from producto where ID_Producto = idProducto limit 1;
+                        SELECT `Cantidad` into cantidad_comprada FROM `carritocontiene` WHERE ID_Carrito = idCarrito limit 1;
+                        CALL `getVendedor`(idProducto, idVendedor); 
+                        INSERT INTO `contiene` (ID_Orden, ID_Producto,Cantidad, ID_Usuario)  SELECT @idOrden, `ID_Producto`,`Cantidad`,idVendedor FROM `carritocontiene` WHERE ID_Producto = idProducto;
+                        DELETE FROM `CarritoContiene` WHERE ID_Carrito=idCarrito and ID_Producto = idProducto;
                         UPDATE `producto` SET `cantidad` = (cantidad_actual - cantidad_comprada) where `ID_Producto` = idProducto;
-                    SET counter = counter + 1;
-                END WHILE;
-            COMMIT;
-            UPDATE `Carrito` SET `Monto_Total` = 0 WHERE ID_Carrito = idCarrito limit 1;
+                        SET counter = counter + 1;
+                    END WHILE;
+                UPDATE `Carrito` SET `Monto_Total` = 0 WHERE ID_Carrito = idCarrito limit 1;
 
-        END IF;
-        
-
+            END IF;
+        -- COMMIT;
     end if;
 END &&  
 DELIMITER ; 
 
 drop PROCEDURE if exists addToCart;
 DELIMITER &&  
-CREATE PROCEDURE addToCart (in ID_Producto int, in ID_Usuario_r int, in Cantidad_r int)  
+CREATE PROCEDURE addToCart (in ID_Producto_r int, in ID_Usuario_r int, in Cantidad_r int)  
 BEGIN
     DECLARE ìdCarrito int;
-    DECLARE Total int;
+    DECLARE precioProducto int;
     SELECT `ID_Carrito` INTO ìdCarrito FROM `Carrito` WHERE `ID_Usuario` = ID_Usuario_r limit 1;
     if(ìdCarrito IS NOT NULL) then
-        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto, Cantidad_r);
-        SELECT (Producto.Precio * Cantidad_r) INTO Total FROM `Producto` WHERE `ID_Producto` = ID_Producto limit 1;
-        call updateCartTotal(Total, ìdCarrito);
+        INSERT INTO `CarritoContiene` (`ID_Carrito`, `ID_Producto`, `Cantidad`) VALUES (ìdCarrito, ID_Producto_r, Cantidad_r);
+        SELECT `Producto`.`Precio` INTO precioProducto FROM `Producto` WHERE `ID_Producto` = ID_Producto_r limit 1;
+        call updateCartTotal((precioProducto*Cantidad_r), ìdCarrito);
     end if;
 END &&  
-DELIMITER ;  
-
+DELIMITER ;  CALL `addToCart`(7, 5, 1);
 drop PROCEDURE if exists getCart;
 DELIMITER &&  
 CREATE PROCEDURE getCart (in ID_Usuario_r int)  
@@ -341,3 +336,41 @@ create table if not exists Contiene(
     primary key (ID_Orden,ID_Producto,ID_Usuario),
     constraint Contenido_Negativo check (Cantidad>0)
 )engine=innodb; 
+
+
+INSERT INTO `usuario` (`ID_Usuario`, `Correo_Electronico`, `Contraseña`, `Nombre`, `Apellido_Paterno`, `Apellido_Materno`, `Telefono`, `Tipo_Usuario`, `RFC`) VALUES
+(1, 'chavo0022009@gmail.com', '123', 'Roy', 'Rubio', 'Haro', NULL, 'C', NULL),
+(2, 'laura@gmail.com', '123', 'Laura', 'Martínez', 'Sánchez', NULL, 'V', 'MASL900101S1');
+
+
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Sony WH1000XM4/B', '5803.60', '4', 'Electrónicos', 'Negro', 'Audífonos inalámbricos con Noise Cancelling, Negro, Grande.', 'Cancelación de ruido dual te permiten escuchar sin distracciones.', 'Optimizador personal de noise cancelling y optimización de la presión atmosférica.', 'Libertad inalámbrica con tecnología Bluetooth.', NULL, NULL, 'audifonos1.jpg', 'audifonos2.jpg', 'audifonos3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'SAMSUNG Galaxy A51', '5999.00', '4', 'Electrónicos', 'Negro', '128GB Dual Sim 4GB RAM Negro Desbloqueado. Procesador Octa-core 2.3 GHz', 'Pantalla 6.5 pulgadas', 'Cámara Trasera 48+12+5+5MP', 'Cámara Frontal 32MP', NULL, NULL, 'cel1.jpg', 'cel1_2.jpg', 'cel1_3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Realme - 7', '7999.00', '4', 'Electrónicos', 'Verde', 'Smartphone de 6.5\", 8GB RAM + 128GB ROM, Pantalla 120Hz LCD FHD+.', 'Cuádruple cámara AI 48MP Sony + 16MP cámara Frontal. ', 'Dual SIM + 1 Micro SD, 5000 mAh 30W Dart Charge.', 'Procesador Dimensity 800U 7nm.', NULL, NULL, 'cel11.jpg', 'cel22.jpg', 'cel33.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Playera HTML5', '250', '10', 'Ropa', 'Gris', 'Playera gris con el logo de HTML5.', '100% algodón.', 'Talla: Unitalla', 'Suave.', NULL, NULL, 'tshirt2.jpg', 'tshirt2.jpg', 'tshirt2.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Playera NodeJS', '250', '10', 'Ropa', 'Gris', 'Playera gris con el logo de NodeJS.', '100% algodón.', 'Talla: Unitalla', 'Suave.', NULL, NULL, 'tshirt1.jpg', 'tshirt1.jpg', 'tshirt1.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Playera JS', '250.00', '10', 'Ropa', 'Amarilla', 'Playera amarilla con el logo de JavaScript.', '100% Algodón', 'Suave', 'Talla: Unitalla', NULL, NULL, 'tshirt4.jpg', 'tshirt4.jpg', 'tshirt4.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Playera GitHub', '250', '10', 'Ropa', 'Morada', 'Playera morada con el logo de GitHub.', '100% algodón.', 'Talla: Unitalla', 'Suave.', NULL, NULL, 'tshirt3.jpg', 'tshirt3.jpg', 'tshirt3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Echo Dot', '1099.00', '7', 'Electrónicos', 'Negro', 'Nuevo Echo Dot (4ta Gen) - Bocina inteligente con Alexa', 'Diseño elegante y compacto ofrece voces nítidas y bajos equilibrados, para un sonido completo.', 'Controla por voz tu entretenimiento', 'Controla tu Casa Inteligente', NULL, NULL, 'b1.jpg', 'b2.jpg', 'b3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Apple Nuevo Watch SE GPS', '7499.00', '6', 'Electrónicos', 'Arena Rosa', 'Caja de Aluminio Color Oro de 40 mm. Correa Deportiva Color Arena Rosa - Estándar', 'Modelo GPS para recibir llamadas y responder mensajes desde tu muñeca', 'Procesador hasta 2 veces más rápido que el del Apple Watch Series 3', 'Mide entrenamientos como correr, caminar, bailar, nadar, hacer yoga o andar en bicicleta', NULL, NULL, 'aw1.jpg', 'aw2.jpg', 'aw3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'THE COMFY', '750.00', '5', 'Ropa', 'Blush', 'Manta original, te mantiene caliente y acogedor mientras descansas en casa.', 'Talla única: ajusta perfecto para la mayoría de todas las formas y tamaños.', 'Lavarlo en frío y luego secar en secadora por separado a baja temperatura, sale como nuevo', 'Comodidad extrema y material de lujo', NULL, NULL, 's1.jpg', 's2.jpg', 's3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Cobija de Tortilla', '599.00', '3', 'Ropa', 'Beige', 'Cobija Doble Cara tiene 1.80cm de diámetro con un acogedor diseño.', 'La tela de franela utiliza tintes ecológicos que brindan calidad a la decoloración.', 'Se puede lavar a máquina con agua fría y un ciclo suave.', 'Comodidad extrema y material de lujo', NULL, NULL, 't1.jpg', 't2.jpg', 't3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'The Child Peluche', '1799.00', '2', 'Juguetes', 'Beige', 'Radio Control para niños de 3 años en adelante', '¡Este juguete de peluche de 28 centímetros de The Child encantará a los fans de Star Wars!', 'La adorable figura con piel verde, grandes orejas y enormes ojos se asemeja a “The Child”.', 'El juguete de peluche tiene un cuerpo suave, además de una base resistente rellena con microesferas', NULL, NULL, 'by1.jpg', 'by2.jpg', 'by3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Peluche Pulpo Reversible', '139.00', '8', 'Juguetes', 'Rosa/Azul', 'Ultra Suave - Rosa y Azul Cielo -', 'Peluche Pulpo reversible como el que viste en redes sociales!', 'Material: Microfibra Ultra Suave de Alta Calidad', 'Medidas: 10cmx10cmx10cm', NULL, NULL, 'pr1.jpg', 'pr2.jpg', 'pr2.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Casa de campaña de Castillo', '369.99', '5', 'Juguetes', 'Azul', 'Tienda de campaña transpirable para guardar juguetes, uso interior y exterior', '2 ventanas de malla transpirables y una puerta plegable, gran carpa para que los niños se diviertan.', 'Hecha de tela de poliéster suave y cableado de acero grueso, es duradera y fácil de limpiar. ', 'Medidas del producto ensamblado: 105 x 135 cm.Lo suficientemente grande para 2-3 niños para jugar.', NULL, NULL, 'tc1.jpg', 'tc2.jpg', 'tc3.jpg', '2');
+
+INSERT INTO `producto` (`ID_Producto`, `Nombre`, `Precio`, `Cantidad`, `Categoria`, `Color`, `Descripcion`, `Caracteristica_1`, `Caracteristica_2`, `Caracteristica_3`, `Caracteristica_4`, `Caracteristica_5`, `imagen1`, `imagen2`, `iamgen3`, `ID_Usuario`) VALUES (NULL, 'Melissa & Doug Piano', '1589.62', '3', 'Juguetes', 'Brillante', '5 Teclas y 2 Octavas Completas, Instrumentos Musicales, Construcción de Madera Sólida', 'Este piano es un gran regalo para niños de 3 a 5 años.', 'Materiales de alta calidad y su construcción superior garantizan seguridad y durabilidad.', '29.21 cm alto x 24.13 cm ancho x 40.64 cm largo', NULL, NULL, 'tec1.jpg', 'tec2.jpg', 'tec3.jpg', '2');
+
