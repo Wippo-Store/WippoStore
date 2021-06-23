@@ -15,5 +15,19 @@ module.exports = {
                 ${link}
             `, // html body
         });
+    },
+
+    sendPurchase(folio, monto, contact) {
+
+        mailSender.sendMail({
+            to: contact, // list of receivers
+            subject: "Wippo, Estamos preparando tu compra 👋", // Subject line
+            text: "Hello world?", // plain text body
+            html: `
+                <b>Hemos recibido tu pedido y proximamente estará en envió 😃</b>
+                <p> Compra con el folio ${folio}. Monto: $ ${monto}.</p>
+                <a>Para ver más detalles por favor accede a la plataforma</a>
+            `, // html body
+        });
     }
 }

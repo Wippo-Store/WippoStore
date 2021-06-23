@@ -2,6 +2,8 @@ const form = document.getElementsByTagName('form');
 const btn = document.getElementById('btnR');
 
 var regexNoT = /^[0-9]{15,16}|(([0-9]{4}\s){3}[0-9]{3,4})$/; // 16 digitos o de 4 en 4 separados por espacios.
+var regexNoT = /^(?:\d{15,16}|\d{4}(?:(?:\s+\d{4}){3}|\s+\d{6}\s\d{5}))$/; // 16 digitos o de 4 en 4 separados por espacios.
+
 var regexName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){},.\-\´|~<>;:[\]]{3,}$/;
 
 

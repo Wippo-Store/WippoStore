@@ -34,7 +34,7 @@ async function main(mailConfig) {
         html: mailConfig.html
     }
 
-    console.log(mailOptions)
+    // console.log(mailOptions)
 
     // send mail with defined transport object
     let info = await transporter.sendMail(mailOptions);

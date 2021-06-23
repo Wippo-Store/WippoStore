@@ -328,9 +328,9 @@ router.get('/shoppingDetails', async(req, res) => {
 router.get('/pedidosC', isLoggedIn, async(req, res) => {
     var ID_Usuario = req.session.user.id;
     var limite = 10;
-    console.log("CALL `getOrders`(" + ID_Usuario + ");")
+    // console.log("CALL `getOrders`(" + ID_Usuario + ");")
     const orders_list = await pool.query("CALL `getOrders`(?,?);", [ID_Usuario, limite]);
-    console.log(orders_list);
+    // console.log(orders_list);
     user = req.session.user;
     var show_table = false;
 
