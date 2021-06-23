@@ -1,7 +1,7 @@
 const form = document.getElementsByTagName('form');
 const btn = document.getElementById('btnR');
 
-var regexNoT = /^[0-9]{15,16}|(([0-9]{4}\s){3}[0-9]{3,4})$/; // 16 digitos o de 4 en 4 separados por espacios.
+var regexNoT = /^(?:\d{15,16}|\d{4}(?:(?:\s+\d{4}){3}|\s+\d{6}\s\d{5}))$/; // 16 digitos o de 4 en 4 separados por espacios.
 var regexName = /^[\w'\-,.][^0-9_!¡?÷?¿/\\+=@#$%ˆ&*(){},.\-\´|~<>;:[\]]{3,}$/;
 
 
@@ -27,6 +27,11 @@ cn.addEventListener('input', function(event) {
 });
 
 function showErrorCN() {
+    if (cn.value.length === 0) {
+        cnError.textContent = 'Campo requerido';
+        cnError.className = 'error active';
+        return true;
+    }
     if (!regexNoT.test(cn.value)) {
         cnError.textContent = 'Número de tarjeta incorrecto';
         cnError.className = 'error active';
@@ -57,6 +62,11 @@ cna.addEventListener('input', function(event) {
 });
 
 function showErrorCNA() {
+    if (cna.value.length === 0) {
+        cnaError.textContent = 'Campo requerido';
+        cnaError.className = 'error active';
+        return true;
+    }
     if (!regexName.test(cna.value)) {
         cnaError.textContent = 'Formato inválido';
         cnaError.className = 'error active';
@@ -89,6 +99,11 @@ cvv.addEventListener('input', function(event) {
 });
 
 function showErrorCVV() {
+    if (cvv.value.length === 0) {
+        cvvError.textContent = 'Campo requerido';
+        cvvError.className = 'error active';
+        return true;
+    }
     if (!regexCVV.test(cvv.value)) {
         cvvError.textContent = 'Formato inválido';
         cvvError.className = 'error active';

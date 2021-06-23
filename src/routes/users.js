@@ -49,116 +49,7 @@ router.get('/Historial_Pedidos/Detalle', isLoggedIn, async(req, res) => {
     });
 });
 
-
-router.post('/addAddress', isLoggedIn, async(req, res) => {
-    const ID_Usuario = req.session.user.id
-    const Nombre_Calle = req.body.street;
-    const Num_ext = req.body.noext;
-    const Num_int = req.body.noint;
-    const Colonia = req.body.col;
-    const Municipio = req.body.Municipio;
-    const Estado = req.body.Estado;
-    const CP = req.body.CP;
-
-    const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
-        ID_Usuario,
-        Nombre_Calle,
-        Num_ext,
-        Num_int,
-        Colonia,
-        Municipio,
-        Estado,
-        CP
-    ]);
-    res.redirect("./profileC");
-});
-
-router.post('/addPayment', isLoggedIn, async(req, res) => {
-    const ID_Tarjeta = req.body.ID_Tarjeta;
-    const Nom_Tarjeta = req.body.Nom_Tarjeta;
-    const Mes = req.body.Mes;
-    const Year = req.body.Year;
-    const ID_Usuario = req.session.user.id;
-
-    const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
-    if (cards[0].n > 0) {
-        console.log("tarjeta ya existente");
-        req.flash('message_er', 'Error. Tarjeta ya existente');
-        res.redirect('./addCardC');
-    } else {
-        const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?,?);", [
-            ID_Tarjeta,
-            Nom_Tarjeta,
-            Mes,
-            Year,
-            ID_Usuario
-        ]);
-        req.flash('success', 'Tarjeta registrada');
-        res.redirect("./profileC");
-    }
-});
-
 router.get('/profileC', isLoggedIn, async(req, res) => {
-    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
-    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
-
-    let address = address_list.reduce((accum, row) => {
-        let { ID_Usuario: id } = row;
-        accum[id] = accum[id] || { id, total: 0 };
-        accum[id].total++;
-        return accum;
-    }, {});
-
-    let payments = payments_list.reduce((accum, row) => {
-        let { ID_Usuario: id } = row;
-        accum[id] = accum[id] || { id, total: 0 };
-        accum[id].total++;
-        return accum;
-    }, {});
-
-    console.log(address_list);
-
-    let show_adress = Object.values(address) != 0;
-    let show_card = Object.values(payments) != 0;
-    res.render('userC/profileC', {
-        titulo: 'Mi perfil - WippoStore',
-        user: req.session.user,
-        message_er: req.flash('message_er'),
-        success: req.flash('success'),
-        show_adress,
-        show_card,
-        address_list,
-        payments_list: payments_list,
-    });
-});
-
-router.post('/profileC', isLoggedIn, async(req, res) => {
-    if (req.body.ID_Direccion) {
-        /* Eliminacion de la direccion seleccioonada*/
-        console.log('Borra direccion');
-        var ID_User = req.session.user.id;
-        const query_delete_Address = 'Delete FROM direccion where ID_Direccion = ' + req.body.ID_Direccion + ' and ID_Usuario = ' + ID_User;
-        console.log(req.body.ID_Direccion);
-        console.log(ID_User);
-        const query_delete = await pool.query(query_delete_Address);
-        console.log(query_delete);
-    } else if (req.body.ID_Tarjeta) {
-        /* Eliminacion de la tarjeta*/
-        var ID_User = req.session.user.id;
-        const query_delete_Address = 'Delete FROM tarjeta_registrada where ID_Tarjeta = ' + req.body.ID_Tarjeta + ' and ID_Usuario = ' + ID_User;
-        console.log(req.body.ID_Tarjeta);
-        console.log(ID_User);
-        const query_delete = await pool.query(query_delete_Address);
-        console.log(query_delete);
-        console.log('Borrar Tarjeta');
-    } else {
-        console.log('Problemas');
-    }
-
-
-
-
-    /*Responder con la misma interfaz*/
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
     const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
 
@@ -225,9 +116,15 @@ router.get('/editProfileC', isLoggedIn, async(req, res) => {
         address_list,
     });
 });
+
 router.get('/addAddressC', isLoggedIn, (req, res) => {
     res.render('userC/addAddressC', { titulo: 'Agregar Dirección' });
 });
+
+router.get('/addAddressP', isLoggedIn, (req, res) => {
+    res.render('userC/addAddressP', { titulo: 'Agregar Dirección' });
+});
+
 router.get('/addCardC', isLoggedIn, (req, res) => {
     res.render('userC/addCardC', {
         titulo: 'Agregar Tarjeta',
@@ -235,6 +132,15 @@ router.get('/addCardC', isLoggedIn, (req, res) => {
         success: req.flash('success')
     });
 });
+
+router.get('/addCardP', isLoggedIn, (req, res) => {
+    res.render('userC/addCardP', {
+        titulo: 'Agregar Tarjeta',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
+
 router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
     var ID_Usuario = req.session.user.id;
     // console.log("CALL `getCart`(" + ID_Usuario + ");")
@@ -266,7 +172,6 @@ router.get('/shoppingCartC', isLoggedIn, async(req, res) => {
         flag
     });
 });
-
 
 router.get('/shoppingDetails', async(req, res) => {
     const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
@@ -319,7 +224,9 @@ router.get('/shoppingDetails', async(req, res) => {
             price: subtotal,
             user: req.session.user,
             nombre: req.session.username,
-            titulo: 'Carrito - WippoStore'
+            titulo: 'Carrito - WippoStore',
+            message_er: req.flash('message_er'),
+            success: req.flash('success')
         });
     }
 });
@@ -368,4 +275,158 @@ router.get('/profileV', (req, res) => {
         user: user
     });
 });
+
+router.post('/addAddress', isLoggedIn, async(req, res) => {
+    const ID_Usuario = req.session.user.id
+    const Nombre_Calle = req.body.street;
+    const Num_ext = req.body.noext;
+    const Num_int = req.body.noint;
+    const Colonia = req.body.col;
+    const Municipio = req.body.Municipio;
+    const Estado = req.body.Estado;
+    const CP = req.body.CP;
+
+    const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
+        ID_Usuario,
+        Nombre_Calle,
+        Num_ext,
+        Num_int,
+        Colonia,
+        Municipio,
+        Estado,
+        CP
+    ]);
+    res.redirect("./profileC");
+});
+
+router.post('/addAddressP', isLoggedIn, async(req, res) => {
+    const ID_Usuario = req.session.user.id
+    const Nombre_Calle = req.body.street;
+    const Num_ext = req.body.noext;
+    const Num_int = req.body.noint;
+    const Colonia = req.body.col;
+    const Municipio = req.body.Municipio;
+    const Estado = req.body.Estado;
+    const CP = req.body.CP;
+
+    const result = await pool.query("insert into `direccion` (`ID_Direccion`,`ID_Usuario`,`Nombre_Calle`,`Num_ext`,`Num_int`,`Colonia`,`Municipio`,`Estado`,`CP`) values(NULL,?,?,?,?,?,?,?,?);", [
+        ID_Usuario,
+        Nombre_Calle,
+        Num_ext,
+        Num_int,
+        Colonia,
+        Municipio,
+        Estado,
+        CP
+    ]);
+    res.redirect("./shoppingDetails");
+});
+
+router.post('/addPayment', isLoggedIn, async(req, res) => {
+    const ID_Tarjeta = req.body.ID_Tarjeta;
+    const Nom_Tarjeta = req.body.Nom_Tarjeta;
+    const Mes = req.body.Mes;
+    const Year = req.body.Year;
+    const ID_Usuario = req.session.user.id;
+
+    const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
+    if (cards[0].n > 0) {
+        console.log("tarjeta ya existente");
+        req.flash('message_er', 'Tarjeta repetida');
+        res.redirect('./addCardC');
+    } else {
+        const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?,?);", [
+            ID_Tarjeta,
+            Nom_Tarjeta,
+            Mes,
+            Year,
+            ID_Usuario
+        ]);
+        req.flash('success', 'Tarjeta registrada');
+        res.redirect("./profileC");
+    }
+});
+
+router.post('/addPaymentP', isLoggedIn, async(req, res) => {
+    const ID_Tarjeta = req.body.ID_Tarjeta;
+    const Nom_Tarjeta = req.body.Nom_Tarjeta;
+    const Mes = req.body.Mes;
+    const Year = req.body.Year;
+    const ID_Usuario = req.session.user.id;
+
+    const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
+    if (cards[0].n > 0) {
+        console.log("tarjeta ya existente");
+        req.flash('message_er', 'Tarejta repetida');
+        res.redirect('./addCardP');
+    } else {
+        const result = await pool.query("insert into Tarjeta_Registrada (`ID_Tarjeta`,`Nom_Tarjeta`,`Mes`,`Year`,`ID_Usuario`) values(?,?,?,?,?);", [
+            ID_Tarjeta,
+            Nom_Tarjeta,
+            Mes,
+            Year,
+            ID_Usuario
+        ]);
+        req.flash('success', 'Tarjeta registrada');
+        res.redirect("./shoppingDetails");
+    }
+});
+
+router.post('/profileC', isLoggedIn, async(req, res) => {
+    if (req.body.ID_Direccion) {
+        /* Eliminacion de la direccion seleccioonada*/
+        console.log('Borra direccion');
+        var ID_User = req.session.user.id;
+        const query_delete_Address = 'Delete FROM direccion where ID_Direccion = ' + req.body.ID_Direccion + ' and ID_Usuario = ' + ID_User;
+        console.log(req.body.ID_Direccion);
+        console.log(ID_User);
+        const query_delete = await pool.query(query_delete_Address);
+        console.log(query_delete);
+    } else if (req.body.ID_Tarjeta) {
+        /* Eliminacion de la tarjeta*/
+        var ID_User = req.session.user.id;
+        const query_delete_Address = 'Delete FROM tarjeta_registrada where ID_Tarjeta = ' + req.body.ID_Tarjeta + ' and ID_Usuario = ' + ID_User;
+        console.log(req.body.ID_Tarjeta);
+        console.log(ID_User);
+        const query_delete = await pool.query(query_delete_Address);
+        console.log(query_delete);
+        console.log('Borrar Tarjeta');
+    } else {
+        console.log('Problemas');
+    }
+
+    /*Responder con la misma interfaz*/
+    const address_list = await pool.query(`SELECT * FROM Direccion where ID_Usuario = ${req.session.user.id}`);
+    const payments_list = await pool.query(`SELECT * FROM Tarjeta_Registrada where ID_Usuario = ${req.session.user.id}`);
+
+    let address = address_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    let payments = payments_list.reduce((accum, row) => {
+        let { ID_Usuario: id } = row;
+        accum[id] = accum[id] || { id, total: 0 };
+        accum[id].total++;
+        return accum;
+    }, {});
+
+    console.log(address_list);
+
+    let show_adress = Object.values(address) != 0;
+    let show_card = Object.values(payments) != 0;
+    res.render('userC/profileC', {
+        titulo: 'Mi perfil - WippoStore',
+        user: req.session.user,
+        message_er: req.flash('message_er'),
+        success: req.flash('success'),
+        show_adress,
+        show_card,
+        address_list,
+        payments_list: payments_list,
+    });
+});
+
 module.exports = router;
