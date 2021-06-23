@@ -24,9 +24,9 @@ router.get('/principalC', isLoggedIn, async(req, res) => {
 });
 
 router.get('/Historial_Pedidos', isLoggedIn, async(req, res) => {
-    console.log(req.session.user.id);
+    //console.log(req.session.user.id);
     const pedidos = await pool.query('SELECT * FROM orden where ID_Usuario = ?', req.session.user.id);
-    console.log(pedidos.length);
+    //console.log(pedidos.length);
     res.render('userC/Historial', {
         pedidos,
         user: req.session.user,
@@ -68,7 +68,7 @@ router.get('/profileC', isLoggedIn, async(req, res) => {
         return accum;
     }, {});
 
-    console.log(address_list);
+    //console.log(address_list);
 
     let show_adress = Object.values(address) != 0;
     let show_card = Object.values(payments) != 0;
@@ -197,8 +197,8 @@ router.get('/shoppingDetails', async(req, res) => {
 
     const prod = await pool.query('SELECT COUNT(*) AS n FROM carrito, carritocontiene WHERE carrito.ID_Usuario = ? AND carritocontiene.ID_Carrito = carrito.ID_Carrito;', [req.session.user.id]);
     if (prod[0].n < 1) {
-        console.log(prod)
-        console.log("no hay articulos en el carrito");
+        // console.log(prod)
+        // console.log("no hay articulos en el carrito");
         req.flash('message_er', 'Error: Carrito vacío');
         res.redirect('./shoppingCartC');
     } else {
@@ -236,9 +236,9 @@ router.get('/shoppingDetails', async(req, res) => {
 router.get('/pedidosC', isLoggedIn, async(req, res) => {
     var ID_Usuario = req.session.user.id;
     var limite = 10;
-    console.log("CALL `getOrders`(" + ID_Usuario + ");")
+    //console.log("CALL `getOrders`(" + ID_Usuario + ");")
     const orders_list = await pool.query("CALL `getOrders`(?,?);", [ID_Usuario, limite]);
-    console.log(orders_list);
+    // console.log(orders_list);
     user = req.session.user;
     var show_table = false;
 
@@ -332,7 +332,7 @@ router.post('/addPayment', isLoggedIn, async(req, res) => {
 
     const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
     if (cards[0].n > 0) {
-        console.log("tarjeta ya existente");
+        //console.log("tarjeta ya existente");
         req.flash('message_er', 'Tarjeta repetida');
         res.redirect('./addCardC');
     } else {
@@ -357,7 +357,7 @@ router.post('/addPaymentP', isLoggedIn, async(req, res) => {
 
     const cards = await pool.query('SELECT COUNT(*) AS n FROM Tarjeta_Registrada WHERE ID_Tarjeta = ? AND ID_Usuario = ?', [ID_Tarjeta, ID_Usuario]);
     if (cards[0].n > 0) {
-        console.log("tarjeta ya existente");
+        // console.log("tarjeta ya existente");
         req.flash('message_er', 'Tarejta repetida');
         res.redirect('./addCardP');
     } else {
@@ -376,24 +376,24 @@ router.post('/addPaymentP', isLoggedIn, async(req, res) => {
 router.post('/profileC', isLoggedIn, async(req, res) => {
     if (req.body.ID_Direccion) {
         /* Eliminacion de la direccion seleccioonada*/
-        console.log('Borra direccion');
+        //console.log('Borra direccion');
         var ID_User = req.session.user.id;
         const query_delete_Address = 'Delete FROM direccion where ID_Direccion = ' + req.body.ID_Direccion + ' and ID_Usuario = ' + ID_User;
-        console.log(req.body.ID_Direccion);
-        console.log(ID_User);
+        //console.log(req.body.ID_Direccion);
+        //console.log(ID_User);
         const query_delete = await pool.query(query_delete_Address);
-        console.log(query_delete);
+        //console.log(query_delete);
     } else if (req.body.ID_Tarjeta) {
         /* Eliminacion de la tarjeta*/
         var ID_User = req.session.user.id;
         const query_delete_Address = 'Delete FROM tarjeta_registrada where ID_Tarjeta = ' + req.body.ID_Tarjeta + ' and ID_Usuario = ' + ID_User;
-        console.log(req.body.ID_Tarjeta);
-        console.log(ID_User);
+        //console.log(req.body.ID_Tarjeta);
+        //console.log(ID_User);
         const query_delete = await pool.query(query_delete_Address);
-        console.log(query_delete);
-        console.log('Borrar Tarjeta');
+        //console.log(query_delete);
+        //console.log('Borrar Tarjeta');
     } else {
-        console.log('Problemas');
+        //console.log('Problemas');
     }
 
     /*Responder con la misma interfaz*/
@@ -414,7 +414,7 @@ router.post('/profileC', isLoggedIn, async(req, res) => {
         return accum;
     }, {});
 
-    console.log(address_list);
+    //console.log(address_list);
 
     let show_adress = Object.values(address) != 0;
     let show_card = Object.values(payments) != 0;
