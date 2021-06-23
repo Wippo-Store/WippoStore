@@ -64,7 +64,7 @@ router.get('/send', (req, res) => {
     res.redirect("./loginU");
 })
 
-router.get('/verify', function (req, res) {
+router.get('/verify', function(req, res) {
     Host = "localhost:3000";
     console.log(req.protocol + ":/" + req.get('Host'));
     const { token } = req.query;
@@ -127,9 +127,9 @@ router.post('/signupC', isNotLoggedIn, async(req, res) => {
 
     /*Verificamos que no se repita el correo */
     const email = await pool.query('SELECT COUNT(*) AS n FROM Usuario WHERE Correo_Electronico = ? ', [Correo_Electronico]);
-    console.log(email[0].n);
+    //console.log(email[0].n);
     if (email[0].n > 0) {
-        console.log("usuario ya existente");
+        //console.log("usuario ya existente");
         req.flash('message_er', 'Usuario ya existente');
         res.redirect('./signupC');
     } else {
