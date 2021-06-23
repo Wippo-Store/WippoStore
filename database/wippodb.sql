@@ -49,6 +49,20 @@ BEGIN
 END &&  
 DELIMITER ;  
 
+drop PROCEDURE if exists validatePasswordToken;
+DELIMITER &&  
+CREATE PROCEDURE validatePasswordToken (in user_token VARCHAR(40), in ID_Usuario_r int)  
+BEGIN
+    DECLARE tk Varchar(40);
+    SELECT `token` INTO tk FROM `TokensCorreo` WHERE ID_Usuario = ID_Usuario_r limit 1;
+    if(tk = user_token) then
+        DELETE FROM `TokensCorreo` WHERE ID_Usuario = ID_Usuario_r;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid Token';
+    end if;
+END &&  
+DELIMITER ;  
+
 -- Example: call validateToken("1234", 1);
 
 create table if not exists Producto(

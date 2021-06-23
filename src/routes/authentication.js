@@ -62,9 +62,71 @@ router.get('/send', (req, res) => {
         }
     });
     res.redirect("./loginU");
+});
+
+router.get('/changePassword', isNotLoggedIn, (req, res) => {
+    res.render('login/recoverPassword', {
+        titulo: 'Recuperar Contraseña',
+        message_er: req.flash('message_er'),
+        success: req.flash('success')
+    });
+});
+
+
+router.get('/sendPassword', async (req, res) => {
+    token = 'wippo_token_password' + Math.random().toString(36).substr(2, 9);
+    const { Correo_Electronico } = req.query;
+    const resultado_query2 = await pool.query("select ID_Usuario from Usuario where Correo_Electronico = ? limit 1; ", Correo_Electronico);
+    const { ID_Usuario } = resultado_query2[0];
+    // console.log("EMAIL:" + Correo_Electronico + "ID USEEEEEEEEEEEEEEEER:" + resultado_query2)
+    link = "http://" + req.get('Host') + "/authentication/recoverPassword?token=" + token + "&ID_Usuario=" + ID_Usuario;
+    console.log("Sending email:");
+    mails.sendValidation(link, Correo_Electronico);
+    pool.query("CALL `addToken`(?, ?);", [token, ID_Usuario], (err, res) => {
+        if (err) throw err;
+        else {
+            console.log('Last insert ID:', res.insertId);
+            console.log("token addded");
+            req.flash('success', 'Enviamos la recuperación a tu correo');
+        }
+    });
+    res.redirect("./loginU");
 })
 
-router.get('/verify', function(req, res) {
+router.get('/recoverPassword', function (req, res) {
+    Host = "localhost:3000";
+    console.log(req.protocol + ":/" + req.get('Host'));
+    const { token } = req.query;
+    // console.log("token:" + token);
+    const { ID_Usuario } = req.query;
+    // console.log("ID_Usuario:" + ID_Usuario);
+    if ((req.protocol + "://" + req.get('Host')) == ("http://" + Host)) {
+        console.log("Domain is matched. Information is from Authentic email");
+        // console.log("Generating query: CALL `validateToken`(?, ?);" + [token, ID_Usuario]);
+        console.log(`CALL validatePasswordToken(${[token, ID_Usuario]})`);
+        pool.query("CALL `validatePasswordToken`(?, ?);", [token, ID_Usuario], (err) => {
+            if (err) {
+                console.log("token is not verified");
+                req.flash('message_er', 'Invalid or Used Token');
+                setTimeout(function () {
+                    res.redirect("/authentication/loginU");
+                }, 2000);
+            } else {
+                console.log("token is verified");
+                // res.send("<h1>Email is been Successfully verified");
+                req.flash('success', 'El token de usuario es valido! Puedes cambiar tu contraseña');
+                res.render('login/recoverPassword', {
+                    titulo: 'Recuperar Contraseña',
+                    message_er: req.flash('message_er'),
+                    success: req.flash('success')
+                });
+            }
+        });
+    } else
+        res.end(`<h1>Request is from unknown source: ${req.protocol}://${req.get('Host')} == http://${Host}}`);
+});
+
+router.get('/verify', function (req, res) {
     Host = "localhost:3000";
     console.log(req.protocol + ":/" + req.get('Host'));
     const { token } = req.query;
@@ -99,7 +161,7 @@ router.post('/loginU', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post('/signupC', isNotLoggedIn, async(req, res) => {
+router.post('/signupC', isNotLoggedIn, async (req, res) => {
     const { Correo_Electronico } = req.body;
     const { Contraseña } = req.body;
     const { Nombre } = req.body;

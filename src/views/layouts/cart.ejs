@@ -83,12 +83,12 @@
 
                         <!-- input-group.// -->
                         <div class="col flex-grow-0 text-end">
-                            <button data-toggle="modal" data-target="#exampleModalCenter" class="btn size">
+                            <button data-toggle="modal" data-target="#modalProducto<%=products.ID_Producto%>" class="btn size">
                             <i class="bi bi-trash-fill"></i></a>
                         </button>
                         </div>
 
-                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                        <div class="modal fade" id="modalProducto<%=products.ID_Producto%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -105,7 +105,7 @@
 
                                         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Cancelar</button>
                                         <form action="/products/remove" method="post">
-                                            <button type="submit" name="id_producto" id="ID_Producto" value="<%=products.ID_Producto%>" class="btn btn-outline-danger">
+                                            <button type="submit" name="id_producto" id="ID_Producto<%=products.ID_Producto%>" value="<%=products.ID_Producto%>" class="btn btn-outline-danger">
                                             <i class="bi bi-trash-fill"></i> Confirmar
                                         </button>
                                         </form>
