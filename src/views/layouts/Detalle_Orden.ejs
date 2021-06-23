@@ -1,4 +1,4 @@
-<div class="container pt-3">
+<div class="container pt-5">
     <p class="h3">Detalle de la transaccion:
         <%=Detalle_Orden[0].ID_Orden%>
     </p>
@@ -12,7 +12,7 @@
                     <div class="p-2 flex-grow-1 ">
                         <p class="text-break ">
                             <span class="text-muted ">
-                                    <%=Producto.Producto%>
+                                    <%=Producto.Producto%> 
                                 </span>
                         </p>
                         <p>
@@ -26,7 +26,6 @@
                                         <%=Producto.NombreVendedor%>
                                             <%=Producto.ApellidoVendedor%>
                         </p>
-
                     </div>
                     <div class="p-2 ">
                         <img src="/images/<%=Producto.Imagen %>" style="max-block-size: 3cm;">
@@ -35,4 +34,48 @@
             </li>
             <% }); %>
     </ul>
+</div>
+
+<div class="container pb-5">
+    <div class="row g-0">
+        <div class="col-sm-6 pt-1 pe-1">
+            <div class="card h-100 p-2">
+                <div class="card-body ">
+                    <h5 class="card-title">Método de pago</h5>
+                    <p class="card-text">
+                        <%= Detalle_Orden[0].Nom_Tarjeta %>
+                            <br> XXXX-
+                            <%= Detalle_Orden[0].ID_Tarjeta.substring(12,16) %>
+                                <br> Vence el
+                                <%= Detalle_Orden[0].Mes %>/
+                                    <%= Detalle_Orden[0].Year %>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 pt-1 ps-1">
+            <div class="card h-100 p-2">
+                <div class="card-body">
+                    <h5 class="card-title">Dirección de envío</h5>
+                    <p class="card-text">
+                        <span class="text-muted">
+                            Casa
+                        </span>
+                        <%= Detalle_Orden[0].Nombre_Calle %> #
+                            <%= Detalle_Orden[0].Num_ext %>
+                                <% if(Detalle_Orden[0].Num_int != 0) { %>
+                                    INT
+                                    <%= Detalle_Orden[0].Num_int %>,
+                                        <%} else { %>
+
+                                            <% } %>
+                                                <%= Detalle_Orden[0].Colonia %>.
+                                                    <%= Detalle_Orden[0].Estado %>. CP
+                                                        <%= Detalle_Orden[0].CP %>
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

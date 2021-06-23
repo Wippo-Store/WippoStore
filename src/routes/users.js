@@ -37,9 +37,10 @@ router.get('/Historial_Pedidos', isLoggedIn, async(req, res) => {
 });
 
 router.get('/Historial_Pedidos/Detalle', isLoggedIn, async(req, res) => {
-    console.log(req.query.transaccion);
-    const Detalle_Orden = await pool.query('SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor, usuario.Apellido_Paterno as ApellidoVendedor FROM contiene, producto,usuario where contiene.ID_Orden = ? and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario', req.query.transaccion);
-    console.log(Detalle_Orden);
+    //console.log(req.query.transaccion);
+    const Detalle_Orden = await pool.query(`SELECT contiene.Cantidad, contiene.ID_Orden, producto.Nombre as Producto, producto.imagen1 as Imagen, producto.Precio, usuario.Nombre as NombreVendedor, usuario.Apellido_Paterno as ApellidoVendedor, tarjeta_registrada.ID_Tarjeta, tarjeta_registrada.Nom_Tarjeta, tarjeta_registrada.Mes, tarjeta_registrada.Year, direccion.Nombre_Calle, direccion.Num_ext, direccion.Num_int, direccion.Colonia, direccion.Municipio, direccion.Estado, direccion.CP FROM contiene, producto,usuario,tarjeta_registrada,orden,direccion where contiene.ID_Orden = ${req.query.transaccion} and orden.ID_Orden= ${req.query.transaccion} and producto.ID_Producto = contiene.ID_Producto and usuario.ID_Usuario = contiene.ID_Usuario and tarjeta_registrada.ID_Tarjeta = orden.ID_Tarjeta and direccion.ID_Direccion = orden.ID_Direccion`);
+
+    //console.log(Detalle_Orden);
     res.render('userC/Historial_Detalle', {
         Detalle_Orden,
         user: req.session.user,
