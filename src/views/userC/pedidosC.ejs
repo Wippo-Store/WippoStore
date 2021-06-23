@@ -27,7 +27,7 @@
 
                         <% if (show_table) { %>
                             <ul class="list-group ">
-                                <table class="table table-hover">
+                                <table class="table table-hover table-striped">
                                     <thead>
                                         <tr>
                                             <th scope="col">#Folio</th>
@@ -75,8 +75,8 @@
                                 </table>
 
                             </ul>
-                            <div>
-                                Mostrando ultimos x registros. <a href="/users/Historial_Pedidos">Ver Historial Completo</a>
+                            <div class="pb-3 d-flex justify-content-end">
+                                <a href="/users/Historial_Pedidos">Ver Historial Completo</a>
                             </div>
                             <%} else { %>
                                 <p class="pt-2"> No has registrado ninguna pedido </p>
