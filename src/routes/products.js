@@ -76,7 +76,8 @@ router.post('/purchaseCart', isLoggedIn, async (req, res) => {
         const resultado_query2 = await pool.query("select ID_Orden, Monto_Total from Orden where ID_Usuario = ? order by ID_Orden DESC limit 1; ", {ID_Usuario})
         const { ID_Orden } = resultado_query2[0];
         const { Monto_Total } = resultado_query2[0];
-        mails.sendPurchase(ID_Orden, Monto_Total, Correo_Electronico);
+        const linkPlataforma = "http://" + req.get('Host') + "/";
+        mails.sendPurchase(ID_Orden, Monto_Total, Correo_Electronico, linkPlataforma);
         console.log('Compra realizada con exito');
         req.flash("success", "Compra Realizada");
     });
@@ -116,15 +117,6 @@ router.post('/addtoCart', isLoggedIn, async (req, res) => {
     });
     console.log('Agregado al carrito');
     req.flash("success", "Articulo agregado al carrito");
-
-    // const products = await pool.query('SELECT * FROM producto WHERE ID_Producto = ?', [ID_Producto]);
-
-    // res.render('product/pDetails', {
-    //     products, user: req.session.user, titulo: 'WippoStore',
-    //     message_er: req.flash('message_er'),
-    //     success: req.flash('success')
-    // });
-
     res.redirect(`/products/pDetails/${ID_Producto}`);
 });
 
