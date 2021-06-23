@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../layouts/head") %>
+</head>
+
+<body>
+    <div class="m-5 pt-5 mx-auto border-light" style="width: 50%;">
+        <div class="card">
+            <article class="card-body">
+                <header class="mb-2">
+                    <div class="d-flex justify-content-center"><img src="/images/logo1.png " width="140" height="100" alt=""></div>
+                    <div class="d-flex justify-content-center">
+                        <h4 class="card-title mb-4">Agregar Dirección</h4>
+                    </div>
+                </header>
+                <form action="./addAddressP" method="POST">
+                    <!-- Direccion -->
+                    <div class="row g-3">
+                        <div class="col-md form-group">
+                            <label>Direccion</label>
+                            <input required type="text" class="form-control" placeholder="Calle" name="street">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-2 form-group">
+                            <label></label>
+                            <input required type="number" min="0" class="form-control" placeholder="No. Ext" name="noext">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-2 form-group">
+                            <label></label>
+                            <input required type="number" min="0" class="form-control" placeholder="No. Int" name="noint">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-3 form-group">
+                            <label></label>
+                            <input required type="text" maxlength="5" class="form-control" placeholder="CP" name="CP" id="CP">
+                            <span class="errorCP" aria-live="polite"></span>
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input required type="text" class="form-control" placeholder="Colonia" name="col">
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input required type="text" class="form-control" placeholder="Municipio/Alcaldía" name="Municipio" id="MA">
+                            <span class="errorM" aria-live="polite"></span>
+                        </div>
+                        <!-- form-group end.// -->
+                        <div class="col-md-4 form-group">
+                            <input required type="text" class="form-control" placeholder="Estado" name="Estado" id="Estado">
+                            <span class="errorS" aria-live="polite"></span>
+                        </div>
+                        <!-- form-group end.// -->
+                    </div>
+
+                    <div class="form-group pt-5 d-flex justify-content-md-evenly">
+                        <a class="btn btn-outline-dark" href="/users/shoppingDetails">Cancelar</a>
+                        <button class="btn btn-outline-dark " name="btnR " id="btn">Guardar</button>
+                    </div>
+                    <!-- form-group// -->
+                </form>
+                <script src="/javascripts/addressValidation.js"></script>
+            </article>
+            <!-- card-body end .// -->
+        </div>
+        <div class="d-flex justify-content-center ">
+            <p class="mt-4 mb-3 text-muted ">© Wippo 2021</p>
+        </div>
+    </div>
+
+</body>
+
+</html>

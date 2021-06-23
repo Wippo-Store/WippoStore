@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include("../layouts/head") %>
+</head>
+
+<body>
+    <%- include("../layouts/flash") %>
+        <div class="m-5 pt-5 mx-auto border-light" style="width: 50%;">
+            <div class="card">
+                <article class="card-body">
+                    <header class="mb-2">
+                        <div class="d-flex justify-content-center"><img src="/images/logo1.png " width="140" height="100" alt=""></div>
+                        <div class="d-flex justify-content-center">
+                            <h4 class="card-title mb-4">Agregar Tarjeta</h4>
+                        </div>
+                    </header>
+                    <form method="POST" action="./addPaymentP">
+                        <!-- Direccion -->
+                        <div class="row g-3">
+                            <div class="col-md-12 form-group">
+                                <label>Introduce la información de la tarjeta</label>
+                                <input required type="text" class="form-control" placeholder="Número de la tarjeta" name="ID_Tarjeta" id="ID_Tarjeta" autofocus>
+                                <span class="errorNoT" aria-live="polite"></span>
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-12 form-group">
+                                <input required type="text" class="form-control" placeholder="Titular de la tarjeta" name="Nom_Tarjeta" id="Nom_Tarjeta">
+                                <span class="errorNomT" aria-live="polite"></span>
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <label for="">Fecha de vencimiento</label>
+                                <select name="Mes" required class="form-select" aria-label="Default select example">
+                                <option selected>01</option>
+                                <option value="02">02</option>
+                                <option value="03">03</option>
+                                <option value="04">04</option>
+                                <option value="05">05</option>
+                                <option value="06">06</option>
+                                <option value="07">07</option>
+                                <option value="08">08</option>
+                                <option value="09">09</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </select>
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-4 form-group">
+                                <label for=""></label>
+                                <select name="Year" required class="form-select" aria-label="Default select example">
+                                <option value="2021" selected>2021</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                                <option value="2031">2031</option>
+                                <option value="2032">2032</option>
+                            </select>
+                            </div>
+                            <!-- form-group end.// -->
+                            <div class="col-md-3 form-group">
+                                <label for="cvv">CVV</label>
+                                <input required type="text" class="form-control" maxlength="3" placeholder="CVV" name="cvv" id="cvv">
+                                <span class="errorCVV" aria-live="polite"></span>
+                            </div>
+                            <!-- form-group end.// -->
+                        </div>
+
+                        <div class="form-group pt-5 d-flex justify-content-md-evenly">
+                            <a class="btn btn-outline-dark" href="/users/shoppingDetails">Cancelar</a>
+                            <input type="submit" class="btn btn-outline-dark" name="btnR" id="btnR" value="Guardar">
+                        </div>
+                        <!-- form-group// -->
+                    </form>
+                    <script src="/javascripts/cardValidation.js "></script>
+                </article>
+                <!-- card-body end .// -->
+            </div>
+            <div class="d-flex justify-content-center ">
+                <p class="mt-4 mb-3 text-muted ">© Wippo 2021</p>
+            </div>
+        </div>
+
+</body>
+
+</html>
