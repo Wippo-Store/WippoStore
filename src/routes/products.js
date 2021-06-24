@@ -137,7 +137,7 @@ router.post('/remove', isLoggedIn, async (req, res) => {
     console.log('Producto Correctamente elminado del carrito');
     req.flash("success", "Producto Correctamente elminado del carrito");
 
-    res.redirect(`/users/shoppingCartC/`);
+    res.redirect(`/users/shoppingCartC`);
 });
 
 module.exports = router;
