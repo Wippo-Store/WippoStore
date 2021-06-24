@@ -81,7 +81,7 @@ router.get('/sendPassword', async (req, res) => {
     // console.log("EMAIL:" + Correo_Electronico + "ID USEEEEEEEEEEEEEEEER:" + resultado_query2)
     link = "http://" + req.get('Host') + "/authentication/recoverPassword?token=" + token + "&ID_Usuario=" + ID_Usuario;
     console.log("Sending email:");
-    mails.sendValidation(link, Correo_Electronico);
+    mails.sendPassword(link, Correo_Electronico);
     pool.query("CALL `addToken`(?, ?);", [token, ID_Usuario], (err, res) => {
         if (err) throw err;
         else {
